@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<script>
+		var coinList = ['BTCUSDT', 'ETHUSDT'];
+		var masterSet = [];
+		
+		function coinData(name, candleList) {
+			this.name = name;
+			this.candleList = candleList;
+		}
+		
+		for (var j = 0; j < coinList.length; j++) {
+			console.log(coinList[j]);
+	
+			var URL = 'https://cors-anywhere.herokuapp.com/https://api.binance.com/api/v1/klines?symbol=' + coinList[j] + '&interval=1d&limit=10';
+			
+			let serverRequest = new XMLHttpRequest();
+			var openTime, openPrice, high, low, closePrice, volume, closeTime;
+			
+			serverRequest.open('GET', URL, true);
+			serverRequest.onload = function() {
+				console.log(serverRequest.responseText);
+			}
+			serverRequest.send();
+			
+			serverRequest.onload = function() {
+				var data = serverRequest.responseText
+				var jsonResponse = JSON.parse(data);
+				var candleList = [];
+				
+				function candleData(openTime, openPrice, high, low, closePrice, volume, closeTime) {
+					this.openTime = openTime;
+					this.openPrice = openPrice;
+					this.high = high;
+					this.low = low;
+					this.closePrice = closePrice;
+					this.volume = volume;
+					this.closeTime = closeTime;
+				}
+				
+				for (var i = jsonResponse.length-1; i >= 0; i--) {
+					openTime = jsonResponse[i][0];
+					openPrice = jsonResponse[i][1];
+					high = jsonResponse[i][2];
+					low = jsonResponse[i][3];
+					closePrice = jsonResponse[i][4];
+					volume = jsonResponse[i][5];
+					closeTime = jsonResponse[i][6];
+					
+					newCandle = new candleData(openTime, openPrice, high, low, closePrice, volume, closeTime);
+					candleList.push(newCandle);
+					
+				/* 	console.log(serverRequest.responseText);
+					console.log(newCandle.openTime);
+					console.log(newCandle.openPrice);
+					console.log(newCandle.high);
+					console.log(newCandle.low);
+					console.log(newCandle.closePrice);
+					console.log(newCandle.volume);
+					console.log(newCandle.closeTime); */
+				}
+				newCoin = new coinData(coinList[j], candleList);
+				masterSet.push(newCoin);
+				console.log(masterSet.length);
+			}
+		}
+		console.log(masterSet.length);
+	</script>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+	<body>
+	
+	</body>
+</html>
