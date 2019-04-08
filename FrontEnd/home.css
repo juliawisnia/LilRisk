@@ -141,6 +141,8 @@ ul.new-portfolio input[type=button] {
 	border-color: white;
 }
 
+a {text-decoration: none; color: white; background-color: rgba(0,0,0,0);}
+
 #dollar {
 	position: absolute;
 	background-color: rgb(189, 189, 189, 0);
