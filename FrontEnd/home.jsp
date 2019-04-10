@@ -130,7 +130,7 @@
  		}
 		</script>
 	</head>
-	<div id="title"><i>LIL RISK</i></div>
+	<div id="title"><i>LIL RISK INC.</i></div>
 	<hr style="border: 0.5px solid white;" />
 	<body>
 		<div id="main-chart" style="height: 90%; width: 95%; margin-left: -10%; position: relative;"></div>
