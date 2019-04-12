@@ -27,7 +27,6 @@ public class UserClass {
 		Thread updater = new PriceUpdater();
 		updater.start();
 		
-		
 	}
 	
 	/*
@@ -55,7 +54,7 @@ public class UserClass {
 	}
 	*/
 	
-	public String[] coinTrends(String coins[]) {
+	public static String[] coinTrends(String coins[]) {
 		String key = "CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN";
 		String secret = "PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM";
 		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance(key, secret);
@@ -64,13 +63,13 @@ public class UserClass {
 		String values[] = new String[coins.length*2 + 1];
 		for(int i = 0; i < coins.length; i++) {
 			values[2*i] = coins[i];
-			values[2*i + 1] = client.getPrice(coins[i]).getPrice();
+			values[2*i + 1] = client.get24HrPriceStatistics(coins[i]).getPriceChangePercent();
 		}
-		values[coins.length*2 + 1] = trend(coins);
+		values[coins.length*2] = trend(coins);
 		return values;
 	}
 	
-	private String trend(String coins[]) {
+	private static String trend(String coins[]) {
 		String key = "CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN";
 		String secret = "PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM";
 		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance(key, secret);
@@ -81,23 +80,26 @@ public class UserClass {
 			coinValues.add(client.getCandlestickBars(coins[i], CandlestickInterval.HALF_HOURLY));
 		}
 		String ret = "[";
-		if() {
+		if(coins.length != 0) {
 			ret += "[0";
 			for(int i = 0; i < coinValues.size(); i++) {
-				
+				ret += "," + coinValues.get(i).get(0).getOpen();
 			}
+			ret += "]";
 		}
 		for(int j = 0; j < coinValues.get(0).size(); j++) {
 			ret += ",[" + j;
 			for(int i = 0; i < coinValues.size(); i++) {
-				
+				ret += "," + coinValues.get(i).get(j).getOpen();
 			}
+			ret += "]";
 		}
 			
 		ret += "[";
+		return ret;
 	}
 }
-
+/*
 class Coinmap{
 	private Map<String, String> symbol2Names = Collections.synchronizedMap(new Hashtable<String, String>());
 	private Map<String, String> name2Symbols = Collections.synchronizedMap(new Hashtable<String, String>());
@@ -114,3 +116,4 @@ class Coinmap{
 		
 	}
 }
+*/
