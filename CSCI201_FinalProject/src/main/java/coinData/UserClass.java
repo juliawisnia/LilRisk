@@ -60,14 +60,14 @@ public class UserClass {
 		if(coins.length != 0) {
 			ret += "[0";
 			for(int i = 0; i < coinValues.size(); i++) {
-				ret += "," + coinValues.get(i).get(0).getOpen();
+				ret += "," + coinValues.get(i).get(0).getOpen().substring(0, coinValues.get(i).get(0).getOpen().indexOf('.'));
 			}
 			ret += "]";
 		}
 		for(int j = 0; j < coinValues.get(0).size(); j++) {
 			ret += ",[" + j;
 			for(int i = 0; i < coinValues.size(); i++) {
-				ret += "," + coinValues.get(i).get(j).getOpen();
+				ret += "," + coinValues.get(i).get(j).getOpen().substring(0, coinValues.get(i).get(j).getOpen().indexOf('.'));
 			}
 			ret += "]";
 		}
