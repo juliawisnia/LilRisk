@@ -28,15 +28,15 @@ api_key = 'CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN'
 api_secret = 'PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM'
 client = Client(api_key, api_secret)
 
-TIMEFRAME = Client.KLINE_INTERVAL_1HOUR
-parseList = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'BCCUSDT', 'NEOUSDT', 'LTCUSDT', 'QTUMUSDT', 'ADAUSDT', 'XRPUSDT', 'EOSUSDT', 'TUSDUSDT', 'IOTAUSDT', 'XLMUSDT', 'ONTUSDT', 'TRXUSDT', 'ETCUSDT', 'ICXUSDT', 'VENUSDT', 'NULSUSDT', 'VETUSDT', 'PAXUSDT', 'BCHABCUSDT', 'BCHSVUSDT', 'USDCUSDT', 'LINKUSDT', 'WAVESUSDT', 'BTTUSDT', 'USDSUSDT', 'ONGUSDT', 'HOTUSDT', 'ZILUSDT', 'ZRXUSDT', 'FETUSDT', 'BATUSDT', 'XMRUSDT', 'ZECUSDT', 'IOSTUSDT', 'CELRUSDT', 'DASHUSDT', 'NANOUSDT', 'OMGUSDT']
+tickers = client.get_all_tickers()
 
-rawAllCandleObjects = []
-rawCoinList = []
+coinNames = []
 
-for coin in parseList:
-    candleList = client.get_klines(symbol=coin, interval=TIMEFRAME)
-    allCandleObjects = []
-    for i in range(len(candleList)):
-        rawAllCandleObjects.append(candleList[(len(candleList) - 2) - i])
-    rawCoinList.append(rawAllCandleObjects)
+for tick in tickers:
+    coin = tick['symbol']
+    if coin[-4:] == 'USDT':
+        if coin not in coinNames:
+            coinNames.append(coin)
+
+print(len(coinNames))
+print(coinNames)

@@ -1,0 +1,62 @@
+* {
+	font-family: Avenir Next;
+	background-color: #242424;
+}
+
+#title {
+	position: relative;
+	color: white;
+	font-size: 70px;
+	margin-left: 1%;
+}
+
+#accnt {
+	text-align: center;
+	margin-left: 2.5%;
+	color: white;
+	font-size: 50px;
+	margin-top: 10%;
+}
+
+.form-container {
+	width: 668px;
+	height: 369px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+}
+
+ul.list {
+	list-style-type: none;
+	text-align: center;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+input {
+	width: 97%;
+	border-radius: 10px;
+	border-style: solid white;
+	border-width: 1px;
+	font-size: 30px;
+	color: #E0E0E0;
+	padding: 10px 17px;
+}
+
+ul.list input[type=button] {
+	font-size: 30px;
+	width: 191px;
+	background-color: #084179;
+	color: #E0E0E0;
+	border-radius: 15px;
+	border-style: solid white;
+	border-width: 1px;
+	cursor: pointer;
+}
+
+
