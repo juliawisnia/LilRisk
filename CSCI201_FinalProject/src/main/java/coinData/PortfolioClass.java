@@ -1,6 +1,5 @@
 package coinData;
 
-
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
@@ -9,13 +8,33 @@ import java.util.Set;
 import java.util.Vector;
 
 
+class timeValue{
+	private long time;
+	private double value;
+	
+	public timeValue(long time, double value) {
+		this.time = time;
+		this.value = value;
+	}
+	
+	public long getTime() {
+		return time;
+	}
+	
+	public double getValue() {
+		return value;
+	}
+}
+
 
 public class PortfolioClass {
 	private String portfolioName;
 	private Map<String, Position> coins;
+	private List<timeValue> trendInformation;
 	private Vector<TradeClass> tradeHistory;
 	private double extraMunz;
 	private double spentMunz;
+	private double balance;
 
 	public PortfolioClass(String portfolioName) {
 		this.portfolioName = portfolioName;
@@ -23,12 +42,7 @@ public class PortfolioClass {
 		this.tradeHistory = new Vector<TradeClass>();
 		this.extraMunz = 0;
 		this.spentMunz = 0;
-	}
-	
-	public void recordTrade(String coin, double avgBuyPrice, double avgSellPrice, double amount, long time) {
-		TradeClass executedTrade = new TradeClass(coin, avgBuyPrice, avgSellPrice, amount, time);
-		tradeHistory.add(executedTrade);
-		extraMunz += ((avgSellPrice - avgBuyPrice) * amount);
+		this.balance = 0;
 	}
 	
 	/**
@@ -59,6 +73,22 @@ public class PortfolioClass {
 	
 	public void sell(Position pos, double avgSellPrice) {
 		recordTrade(pos.getName(), pos.getAvgBuy(), avgSellPrice, pos.getAmount(), System.currentTimeMillis());
+	}
+	
+	
+	public void recordTrade(String coin, double avgBuyPrice, double avgSellPrice, double amount, long time) {
+		TradeClass executedTrade = new TradeClass(coin, avgBuyPrice, avgSellPrice, amount, time);
+		tradeHistory.add(executedTrade);
+		double profit = ((avgSellPrice - avgBuyPrice) * amount);
+		if (spentMunz <= extraMunz) {
+			extraMunz = 0;
+			spentMunz += profit;
+		}
+		else {
+			extraMunz += profit;
+		}
+		double bal = getBalance();
+		//INSERT INTO DATABASE
 	}
 	
 	
@@ -155,23 +185,13 @@ public class PortfolioClass {
 	public double getExtraMunz() {
 		return extraMunz;
 	}
-}
-
-
-class timeValue{
-	private long time;
-	private double value;
 	
-	public timeValue(long time, double value) {
-		this.time = time;
-		this.value = value;
+	public double getBalance() {
+		this.balance = calculateBalance();
+		return balance;
 	}
 	
-	public long getTime() {
-		return time;
-	}
-	
-	public double getValue() {
-		return value;
+	public double calculateBalance() {
+		return (extraMunz - spentMunz);
 	}
 }
