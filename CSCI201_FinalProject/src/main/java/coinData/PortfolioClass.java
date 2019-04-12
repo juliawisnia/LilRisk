@@ -158,9 +158,6 @@ public class PortfolioClass {
 }
 
 
-	
-	
-
 class timeValue{
 	private long time;
 	private double value;

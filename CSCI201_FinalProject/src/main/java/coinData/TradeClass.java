@@ -56,3 +56,4 @@ public class TradeClass {
 		this.time = time;
 	}
 }
+
