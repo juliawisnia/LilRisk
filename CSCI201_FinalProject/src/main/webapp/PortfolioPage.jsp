@@ -207,11 +207,6 @@
 				<li><input type="text" id="shares"></li></br>
 				<li><input type="button" onclick="create()" name="create" value="Create"></li>
 			</ul>
-		</div>
-		<div class="top" id="alert">
-			<ul class="alert">
-				<li id="no-name" class="hide">Must have a portfolio name.</li>
-			</ul>
 		</div> -->
 
  		<!-- HISTORY BUTTON -->
