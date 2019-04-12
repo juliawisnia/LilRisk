@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 
 import com.binance.api.client.BinanceApiClientFactory;
@@ -18,15 +17,15 @@ public class UserClass {
 	private static Lock lock;
 	
 	public UserClass() {
-		System.out.println("hello");
-	}
-	
-	public static void main(String [] args) {
 		UserThread userThread = new UserThread();
 		userThread.initialize();
 		userThread.start();
 		Thread updater = new PriceUpdater();
 		updater.start();
+	}
+	
+	public static void main(String [] args) {
+		UserThread userThread = new UserThread();
 		
 	}
 
@@ -78,21 +77,6 @@ public class UserClass {
 		return ret;
 	}
 }
-/*
-class Coinmap{
-	private Map<String, String> symbol2Names = Collections.synchronizedMap(new Hashtable<String, String>());
-	private Map<String, String> name2Symbols = Collections.synchronizedMap(new Hashtable<String, String>());
-	
-	public Coinmap() {
-		
-	}
-	
-	public String symbol2Name(String symbol) {
-		
-	}
-	
-	public String name2Symbol(String symbol) {
-		
-	}
-}
-*/
+
+
+

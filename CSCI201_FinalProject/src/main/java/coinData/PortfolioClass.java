@@ -95,6 +95,16 @@ public class PortfolioClass {
 		return listToString(coins, timeFrame);
 	}
 	
+	
+	/**
+	 * 
+	 * @param timeFrame
+	 * @return
+	 */
+	public List<timeValue> portfolioTrend(String timeFrame){
+		return null;
+	}
+	
 	/**
 	 * 
 	 * @param coins
@@ -138,5 +148,27 @@ public class PortfolioClass {
 	 */
 	public double getExtraMunz() {
 		return extraMunz;
+	}
+}
+
+
+	
+	
+
+class timeValue{
+	private long time;
+	private double value;
+	
+	public timeValue(long time, double value) {
+		this.time = time;
+		this.value = value;
+	}
+	
+	public long getTime() {
+		return time;
+	}
+	
+	public double getValue() {
+		return value;
 	}
 }
