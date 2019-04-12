@@ -24,8 +24,8 @@
 			data.addColumn('number', 'PORTFOLIO 1');
 			data.addColumn('number', 'PORTFOLIO 2');
 			data.addColumn('number', 'PORTFOLIO 3');
-			
-			data.addRows(<%= session.getAttribute("data")%>);
+			var vals = <%= session.getAttribute("data")%>;
+			data.addRows(vals);
 			
 			var options = {
 				series: {
