@@ -112,6 +112,7 @@
 	<input type="button" id="portfolioButton" value="PORTFOLIOS" onclick= "changeSideBar()">
 	<hr style="border: 0.5px solid white;" />
 	<body>
+		<div class="portfolio-name">PORTFOLIO NAME</div>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
@@ -123,16 +124,19 @@
 			</ul>
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
 				<li id="look"><input type="text" id="search" value="Search" onfocus="this.value=''"></li>
-				<li class="symbol" style="border-top: 1px solid white;">AAPL<div class="price">190.50</div></li>
+				
+				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value="AAPL"><div class="price">190.50</div></li>
 				<li class="company">Apple Inc. <div class="portPer">0.60%</div></li>
-				<li class="symbol">GOOG<div class="price">1,197.25</div></li>
+				
+				<li class="symbol"><input type="button" class="sb" value="GOOG"><div class="price">1,197.25</div></li>
 				<li class="company">Alphabet Inc.<div class="portPer">0.65%</div></li>
-				<li class="symbol">fb<div class="price">177.58</div></li>
+				
+				<li class="symbol"><input type="button" class="sb" value="FB"><div class="price">177.58</div></li>
 				<li class="company">Facebook, Inc.<div class="portPer" style="border-color: green; color: green;">2.65%</div></li>
 			</ul>
 		</div>		
 		<!-- MAIN GRAPH-->		
-		<div id="mainGraph"></div>
+		<div id="mainGraph" style="position: fixed; z-index: 1;"></div>
 		
 		<div class="stocks-container">
 			<table class="stocks">

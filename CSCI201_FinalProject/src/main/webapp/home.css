@@ -141,6 +141,7 @@ ul.new-portfolio input[type=button] {
 	border-style: solid white;
 	border-width: 1px;
 	border-color: white;
+	margin-right: 31%;
 }
 
 a {text-decoration: none; color: white; background-color: rgba(0,0,0,0);}
@@ -181,6 +182,6 @@ ul.alert li {
 }
 
 .hide {
-	display:none;  
+	display: none;  
 }
 

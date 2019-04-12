@@ -81,7 +81,9 @@ button:focus {
 }
 
 input[type=button] {
-	vertical-align: 5%;
+	position: absolute;
+	right: 15px;
+	margin-top: 1.5%;
 	width: 29px;
 	height: 29px;
 	line-height: 29px;
@@ -192,13 +194,12 @@ ul.alert li {
 	padding-left: 35px;
 	text-align: center;
 	text-decoration: none;
-	display: inline-block;
 	font-size: 15px;
 	cursor: pointer;
 	z-index: 4; 
 	position: absolute;
-	top: 3.5%;
-	right: 6%;
+	top: 4.7%;
+	right: 10%;
 }
 
 #registerButton {
@@ -210,12 +211,11 @@ ul.alert li {
 	padding-left: 20px;
 	text-align: center;
 	text-decoration: none;
-	display: inline-block;
 	font-size: 15px;
 	margin: 2px 2px;
 	cursor: pointer;
 	z-index: 4; 
 	position: absolute;
-	top: 3.5%;
-	right: 1%;
+	top: 7%;
+	right: 2%;
 }

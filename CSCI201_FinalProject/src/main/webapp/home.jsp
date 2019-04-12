@@ -116,7 +116,7 @@
 		
 		function createNewPortfolio(port) {
 			var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-			$('<li><div class="per"style="border-color: green; color: green;">0%</div><a href="PortfolioPage.jsp">' + port + '</a> <input type="button" value="+" class="add" style="border-color:' + color + '; color:' + color +  ';"></li>').prependTo('#sidebar');
+			$('<li><div class="per" style="border-color: green; color: green;">0%</div><a href="PortfolioPage.jsp">' + port + '</a> <input type="button" value="+" class="add" style="border-color:' + color + '; color:' + color +  ';"></li>').prependTo('#sidebar');
 		}
 		
  		function addSign() {
@@ -140,7 +140,7 @@
 				<li><div class="per">2.5%</div><a href="PortfolioPage.jsp">Portfolio 1 </a><input type="button" value="-" class="add" id="1"></li>
 				<li><div class="per" style="border-color: green; color: green;">3.8%</div><a href="PortfolioPage.jsp">Portfolio 2 </a><input type="button" value="-" class="add" style="border-color: green; color: green;"></li>
 				<li><div class="per" style="border-color: green; color: green;">1.8%</div><a href="PortfolioPage.jsp">Portfolio 3 </a><input type="button" value="-" class="add" style="border-color: blue; color: blue;"></li>
-				<li>New Portfolio    <input type="button" value="+" id="add" onclick="addNew()" style="border-color: purple; color: purple;"></li>
+				<li>New Portfolio<input type="button" value="+" id="add" onclick="addNew()" style="border-color: purple; color: purple;"></li>
 			</ul>
 		</div>
 		<!-- add a new portfolio -->

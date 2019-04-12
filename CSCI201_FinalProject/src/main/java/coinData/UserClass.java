@@ -18,6 +18,7 @@ public class UserClass {
 	private static Lock lock;
 	
 	public UserClass() {
+		System.out.println("hello");
 	}
 	
 	public static void main(String [] args) {
@@ -28,33 +29,9 @@ public class UserClass {
 		updater.start();
 		
 	}
-	
-	/*
-	public void trend(String portfolios[], String timeFrame) {
-		String ret = "[";
-		int dataLength = coins.size();
-		if(dataLength != 0) {
-			ret += "[0";
-			double change = 0;
-			for(int i = 0; i < dataLength; i++) {
-				change += Double.parseDouble(coins.get(i).trendData(timeFrame).get(0).getOpen())-coins.get(i).getAvgBuy();
-			}
-			ret += "," + change + "]";
-		}
-		int coinsLength = coins.get(0).trendData(timeFrame).size();
-		for(int i = 1; i < coinsLength; i++) {
-			ret += ",[" + i;
-			double change = 0;
-			for(int j = 0; j < dataLength; j++) {
-				change += Double.parseDouble(coins.get(j).trendData(timeFrame).get(i).getOpen())-coins.get(j).getAvgBuy();
-			}
-			ret += "," + change + "]";
-		}
-		return ret + "]";
-	}
-	*/
-	
-	public static String[] coinTrends(String coins[]) {
+
+	public String[] coinTrends(String coins[]) {
+		System.out.println("hello");
 		String key = "CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN";
 		String secret = "PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM";
 		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance(key, secret);
@@ -69,7 +46,7 @@ public class UserClass {
 		return values;
 	}
 	
-	private static String trend(String coins[]) {
+	private String trend(String coins[]) {
 		String key = "CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN";
 		String secret = "PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM";
 		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance(key, secret);
@@ -95,7 +72,9 @@ public class UserClass {
 			ret += "]";
 		}
 			
-		ret += "[";
+		ret += "]";
+		
+		System.out.println("hello");
 		return ret;
 	}
 }

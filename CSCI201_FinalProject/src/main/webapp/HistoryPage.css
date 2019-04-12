@@ -16,6 +16,16 @@ html,body {
 	overflow-y: hidden;
 }
 
+.portfolio-name {
+	color: white;
+	font-size: 45px;
+	font-weight: lighter;
+	margin-left: 1%;
+	margin-top: .5%;
+	position: absolute;
+	z-index: 2;
+}
+
 .form-container {
 	height: 100%;
 	width: 320px; 	
@@ -233,4 +243,14 @@ button:focus {
 
 .stocks tr:last-child {
 	border: none;
+}
+
+.sb {
+	text-transform: uppercase;
+	border: none;
+	color: white;
+	font-size: 30px;
+	background-color: rgba(0,0,0,0);
+	padding: 0;
+	cursor: pointer;
 }

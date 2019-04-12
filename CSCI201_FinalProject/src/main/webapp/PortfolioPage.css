@@ -16,6 +16,16 @@ html,body {
 	overflow-y: hidden;
 }
 
+.portfolio-name {
+	color: white;
+	font-size: 45px;
+	font-weight: lighter;
+	margin-left: 1%;
+	margin-top: .5%;
+	position: absolute;
+	z-index: 2;
+}
+
 .form-container {
 	height: 100%;
 	width: 320px; 	
@@ -105,6 +115,7 @@ a {text-decoration: none; color: white; background-color: rgba(0,0,0,0);}
 	padding-right: 7px;
 	color: #E10808;
 }
+
 #portfolioButton {
 	background-color: #7d7d7d;
 	border: 1px solid white;
@@ -247,3 +258,59 @@ button:focus {
 .stocks tr:last-child {
 	border: none;
 }
+
+.sb {
+	text-transform: uppercase;
+	border: none;
+	color: white;
+	font-size: 30px;
+	background-color: rgba(0,0,0,0);
+	padding: 0;
+	cursor: pointer;
+}
+
+/* .center {
+	position: absolute;
+	width: 534px;
+	height: 315px;
+	background-color: rgb(189, 189, 189, 0.6);
+	left: 30%;
+	top: 30%;
+	border-radius: 15px;
+	padding: 0px;
+	z-index: 6;
+}
+
+ul.buy-shares {
+	list-style-type: none;
+	text-align: center;
+	margin-right: 5%;
+}
+
+ul.buy-shares, ul.buy-shares li {
+	background-color: rgb(189, 189, 189, 0);
+}
+
+input {
+	border-radius: 10px;
+	border-style: solid white;
+	border-width: 1px;
+	font-size: 30px;
+	color: #E0E0E0;
+	padding: 10px 17px;
+	background-color: rgb(189, 189, 189, .2);
+}
+ */
+/* ul.buy-shares input[type=button] {
+	cursor: pointer;
+	font-size: 30px;
+	width: 155px;
+	height: 44px;
+	line-height: 25px;
+	background-color: #084179;
+	color: #E0E0E0;
+	border-radius: 15px;
+	border-style: solid white;
+	border-width: 1px;
+	border-color: white;
+} */
