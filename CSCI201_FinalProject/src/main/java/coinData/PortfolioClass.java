@@ -13,14 +13,22 @@ import java.util.Vector;
 public class PortfolioClass {
 	private String portfolioName;
 	private Map<String, Position> coins;
+	private Vector<TradeClass> tradeHistory;
 	private double extraMunz;
 	private double spentMunz;
 
 	public PortfolioClass(String portfolioName) {
 		this.portfolioName = portfolioName;
 		this.coins = Collections.synchronizedMap(new Hashtable<String, Position>());
+		this.tradeHistory = new Vector<TradeClass>();
 		this.extraMunz = 0;
 		this.spentMunz = 0;
+	}
+	
+	public void recordTrade(String coin, double avgBuyPrice, double avgSellPrice, int amount, long time) {
+		TradeClass executedTrade = new TradeClass(coin, avgBuyPrice, avgSellPrice, amount, time);
+		tradeHistory.add(executedTrade);
+		extraMunz += ((avgSellPrice - avgBuyPrice) * amount);
 	}
 	
 	/**
