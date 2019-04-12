@@ -21,9 +21,9 @@
 	
 			var data = new google.visualization.DataTable();
 			data.addColumn('number', 'X');
-			data.addColumn('number', 'PORTFOLIO 1');
-			data.addColumn('number', 'PORTFOLIO 2');
-			data.addColumn('number', 'PORTFOLIO 3');
+			data.addColumn('number', '<%=session.getAttribute("firstSym")%>');
+			data.addColumn('number', '<%=session.getAttribute("secondSym")%>');
+			data.addColumn('number', '<%=session.getAttribute("thirdSym")%>');
 			var vals = <%= session.getAttribute("data")%>;
 			data.addRows(vals);
 			
