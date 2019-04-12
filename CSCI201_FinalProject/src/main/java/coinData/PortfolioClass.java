@@ -25,7 +25,7 @@ public class PortfolioClass {
 		this.spentMunz = 0;
 	}
 	
-	public void recordTrade(String coin, double avgBuyPrice, double avgSellPrice, int amount, long time) {
+	public void recordTrade(String coin, double avgBuyPrice, double avgSellPrice, double amount, long time) {
 		TradeClass executedTrade = new TradeClass(coin, avgBuyPrice, avgSellPrice, amount, time);
 		tradeHistory.add(executedTrade);
 		extraMunz += ((avgSellPrice - avgBuyPrice) * amount);
@@ -35,7 +35,7 @@ public class PortfolioClass {
 	 * 
 	 * @param position: coin that you want to
 	 */
-	public void buy(String coin, int amount) {
+	public void buy(String coin, double amount) {
 		double spent;
 		if(coins.containsKey(coin)) {
 			spent = coins.get(coin).buyMore(amount);
@@ -55,6 +55,12 @@ public class PortfolioClass {
 		}
 		spendMunz(spent);
 	}
+	
+	
+	public void sell(Position pos, double avgSellPrice) {
+		recordTrade(pos.getName(), pos.getAvgBuy(), avgSellPrice, pos.getAmount(), System.currentTimeMillis());
+	}
+	
 	
 	/**
 	 * 

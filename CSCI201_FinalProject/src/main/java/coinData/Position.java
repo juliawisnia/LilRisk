@@ -7,10 +7,10 @@ import com.binance.api.client.domain.market.Candlestick;
 public class Position {
 	private CoinClass coin;
 	private double avgBuy;
-	private int amount;
+	private double amount;
 	private long time;
 	
-	public Position(String coin, int amount) {
+	public Position(String coin, double amount) {
 		this.coin = AllCoins.getCoin(coin);
 		this.avgBuy = this.coin.getCurrentPrice();
 		this.amount = amount;
@@ -96,7 +96,7 @@ public class Position {
 	 * 
 	 * @param amount
 	 */
-	public double buyMore(int amount) {
+	public double buyMore(double amount) {
 		double newAvg = coin.getCurrentPrice();
 		double ret = newAvg;
 		newAvg = ((newAvg*amount)+(avgBuy*this.amount))/(this.amount+amount);
@@ -109,7 +109,7 @@ public class Position {
 	 * 
 	 * @return
 	 */
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 	

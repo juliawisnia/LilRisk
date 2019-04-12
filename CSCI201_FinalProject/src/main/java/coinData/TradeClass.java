@@ -3,12 +3,12 @@ package coinData;
 public class TradeClass {
 	
 	String coin;
-	int amount;
+	double amount;
 	double avgBuyPrice;
 	double avgSellPrice;
 	long time;
 	
-	public TradeClass(String coin, double avgBuyPrice, double avgSellPrice, int amount, long time) {
+	public TradeClass(String coin, double avgBuyPrice, double avgSellPrice, double amount, long time) {
 		this.coin = coin;
 		this.avgBuyPrice = avgBuyPrice;
 		this.avgSellPrice = avgSellPrice;
@@ -20,7 +20,7 @@ public class TradeClass {
 		return coin;
 	}
 	
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 	
@@ -40,7 +40,7 @@ public class TradeClass {
 		this.coin = coin;
 	}
 	
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 	
