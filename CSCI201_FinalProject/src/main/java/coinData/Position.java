@@ -32,14 +32,12 @@ public class Position {
 	public List<Candlestick> trendData(String timeFrame){
 		if(timeFrame.equalsIgnoreCase("hours")) {
 			List<Candlestick> ret = coin.getHourly();
-			/*
 			for(int i = 0; i < ret.size(); i++) {
 				if(ret.get(i).getOpenTime() < this.time) {
 					ret.remove(i);
 					i--;
 				}
 			}
-			*/
 			return ret;
 		}
 		else if(timeFrame.equalsIgnoreCase("days")) {
@@ -52,8 +50,8 @@ public class Position {
 			}
 			return ret;
 		}
-		else if(timeFrame.equalsIgnoreCase("weeks")) {
-			List<Candlestick> ret = coin.getWeekly();
+		else if(timeFrame.equalsIgnoreCase("min5")) {
+			List<Candlestick> ret = coin.getMin5();
 			for(int i = 0; i < ret.size(); i++) {
 				if(ret.get(i).getOpenTime() < this.time) {
 					ret.remove(i);
@@ -62,8 +60,8 @@ public class Position {
 			}
 			return ret;
 		}
-		else if(timeFrame.equalsIgnoreCase("months")) {
-			List<Candlestick> ret = coin.getMonthly();
+		else if(timeFrame.equalsIgnoreCase("halfHour")) {
+			List<Candlestick> ret = coin.getHalfHour();
 			for(int i = 0; i < ret.size(); i++) {
 				if(ret.get(i).getOpenTime() < this.time) {
 					ret.remove(i);
@@ -98,11 +96,13 @@ public class Position {
 	 * 
 	 * @param amount
 	 */
-	public void buyMore(int amount) {
+	public double buyMore(int amount) {
 		double newAvg = coin.getCurrentPrice();
+		double ret = newAvg;
 		newAvg = ((newAvg*amount)+(avgBuy*this.amount))/(this.amount+amount);
 		avgBuy = newAvg;
 		this.amount += amount;
+		return ret*amount;
 	}
 	
 	/**
@@ -133,10 +133,10 @@ public class Position {
 		else if(timeFrame.equalsIgnoreCase("days")) {
 			return listToString(trendData(timeFrame));
 		}
-		else if(timeFrame.equalsIgnoreCase("weeks")) {
+		else if(timeFrame.equalsIgnoreCase("min5")) {
 			return listToString(trendData(timeFrame));
 		}
-		else if(timeFrame.equalsIgnoreCase("months")) {
+		else if(timeFrame.equalsIgnoreCase("halfHour")) {
 			return listToString(trendData(timeFrame));
 		}
 		else {

@@ -7,21 +7,25 @@ import com.binance.api.client.domain.market.Candlestick;
 
 public class CoinClass {
 	private String coinName;
+	private List<Candlestick> coinMin5;
+	private List<Candlestick> coinHalfHour;
 	private List<Candlestick> coinHourly;
 	private List<Candlestick> coinDaily;
-	private List<Candlestick> coinWeekly;
-	private List<Candlestick> coinMonthly;
 	private double currentPrice;
 	
-	public CoinClass(String coinName, List<Candlestick> hours, List<Candlestick> days, List<Candlestick> weeks, List<Candlestick> months, double currentPrice) {
+	public CoinClass(String coinName, List<Candlestick> min5, List<Candlestick> halfHour, List<Candlestick> hour, List<Candlestick> day, double currentPrice) {
 		this.coinName = coinName;
-		this.coinHourly = Collections.synchronizedList(hours);
-		this.coinDaily = Collections.synchronizedList(days);
-		this.coinWeekly = Collections.synchronizedList(weeks);
-		this.coinMonthly = Collections.synchronizedList(months);
+		this.coinMin5 = Collections.synchronizedList(min5);
+		this.coinHalfHour = Collections.synchronizedList(halfHour);
+		this.coinHourly = Collections.synchronizedList(hour);
+		this.coinDaily = Collections.synchronizedList(day);
 		this.currentPrice = currentPrice;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return coinName;
 	}
@@ -33,21 +37,21 @@ public class CoinClass {
 	 * 
 	 * @param data: list of candle data for the coin, while not checked it should be the
 	 * same time frame as the timeFrame string given
-	 * @param timeFrame: time frame of the data. Choose from: hours, days, weeks, months. 
+	 * @param timeFrame: time frame of the data. Choose from: min5, halfHour, hours, days. 
 	 * This is the time in between each candle
 	 */
 	public void updateList(List<Candlestick> data, String timeFrame) {
-		if(timeFrame.equalsIgnoreCase("hours")) {
+		if(timeFrame.equalsIgnoreCase("min5")) {
+			this.coinMin5 = Collections.synchronizedList(data);
+		}
+		else if(timeFrame.equalsIgnoreCase("halfHour")) {
+			this.coinHalfHour = Collections.synchronizedList(data);	
+		}
+		else if(timeFrame.equalsIgnoreCase("hours")) {
 			this.coinHourly = Collections.synchronizedList(data);
 		}
 		else if(timeFrame.equalsIgnoreCase("days")) {
-			this.coinDaily = Collections.synchronizedList(data);	
-		}
-		else if(timeFrame.equalsIgnoreCase("weeks")) {
-			this.coinWeekly = Collections.synchronizedList(data);
-		}
-		else if(timeFrame.equalsIgnoreCase("months")) {
-			this.coinMonthly = Collections.synchronizedList(data);
+			this.coinDaily = Collections.synchronizedList(data);
 		}
 		else {
 			System.out.println("Error: timeFrame input must be one of the following: hours, days, weeks, months");
@@ -61,17 +65,17 @@ public class CoinClass {
 	 * @return: a string of the data to be used in the front end for graphs
 	 */
 	public String trend(String timeFrame) {
-		if(timeFrame.equalsIgnoreCase("hours")) {
+		if(timeFrame.equalsIgnoreCase("min5")) {
+			return listToString(coinMin5);
+		}
+		else if(timeFrame.equalsIgnoreCase("halfHour")) {
+			return listToString(coinHalfHour);
+		}
+		else if(timeFrame.equalsIgnoreCase("hours")) {
 			return listToString(coinHourly);
 		}
 		else if(timeFrame.equalsIgnoreCase("days")) {
 			return listToString(coinDaily);
-		}
-		else if(timeFrame.equalsIgnoreCase("weeks")) {
-			return listToString(coinWeekly);
-		}
-		else if(timeFrame.equalsIgnoreCase("months")) {
-			return listToString(coinMonthly);
 		}
 		else {
 			System.out.println("Error: timeFrame input must be one of the following: hours, days, weeks, months");
@@ -107,16 +111,20 @@ public class CoinClass {
 		return currentPrice;
 	}
 	
+	/**
+	 * 
+	 * @param price
+	 */
 	public void setCurrentPrice(double price) {
 		this.currentPrice = price;
 	}
 	
 	/**
 	 * 
-	 * @return the hourly list
+	 * @return the min5 list
 	 */
-	public List<Candlestick> getHourly(){
-		return coinHourly;
+	public List<Candlestick> getMin5(){
+		return coinMin5;
 	}
 	
 	/**
@@ -129,37 +137,49 @@ public class CoinClass {
 
 	/**
 	 * 
-	 * @return the weekly list
+	 * @return the halfHour list
 	 */
-	public List<Candlestick> getWeekly(){
-		return coinWeekly;
+	public List<Candlestick> getHalfHour(){
+		return coinHalfHour;
 	}
 	
 	/**
 	 * 
 	 * @return the monthly list
 	 */
-	public List<Candlestick> getMonthly(){
-		return coinMonthly;
+	public List<Candlestick> getHourly(){
+		return coinHourly;
 	}
 	
-	
+	/**
+	 * 
+	 * @param data
+	 */
 	public void setHourly(List<Candlestick> data){
 		this.coinHourly = data;
 	}
 	
-	
+	/**
+	 * 
+	 * @param data
+	 */
 	public void setDaily(List<Candlestick> data){
 		this.coinDaily = data;
 	}
 
-	
-	public void setWeekly(List<Candlestick> data){
-		this.coinWeekly = data;
+	/**
+	 * 
+	 * @param data
+	 */
+	public void setMin5(List<Candlestick> data){
+		this.coinMin5 = data;
 	}
 	
-	
-	public void setMonthly(List<Candlestick> data){
-		this.coinMonthly = data;
+	/**
+	 * 
+	 * @param data
+	 */
+	public void setHalfHour(List<Candlestick> data){
+		this.coinHalfHour = data;
 	}
 }

@@ -10,21 +10,39 @@ public class AllCoins {
 	public AllCoins() {
 	}
 	
+	/**
+	 * 
+	 * @param coin
+	 * @return
+	 */
 	public static CoinClass getCoin(String coin) {
 		return coins.get(coin);
 	}
 	
+	/**
+	 * 
+	 * @param coin
+	 */
 	public static void addCoin(CoinClass coin) {
 		coins.put(coin.getName(), coin);
 	}
 	
+	/**
+	 * 
+	 * @param coin
+	 */
 	public static void updateCoin(CoinClass coin) {
 		coins.get(coin.getName()).setHourly(coin.getHourly());
 		coins.get(coin.getName()).setDaily(coin.getDaily());
-		coins.get(coin.getName()).setWeekly(coin.getWeekly());
-		coins.get(coin.getName()).setMonthly(coin.getMonthly());
+		coins.get(coin.getName()).setMin5(coin.getMin5());
+		coins.get(coin.getName()).setHalfHour(coin.getHalfHour());
 	}
 	
+	/**
+	 * 
+	 * @param coin
+	 * @param price
+	 */
 	public static void updatePrice(String coin, double price) {
 		coins.get(coin).setCurrentPrice(price);
 	}

@@ -2,37 +2,57 @@ package coinData;
 
 public class TradeClass {
 	
-	double currentBalance;
-	double tradingPositionDollarAmount;
+	String coin;
+	int amount;
 	double avgBuyPrice;
 	double avgSellPrice;
-	double positionAmount;
-	double percentageGain;
-	double priceGain;
+	long time;
 	
-	public TradeClass(double avgBuyPrice, double avgSellPrice) {
-		this.tradingPositionDollarAmount = 0.00;
+	public TradeClass(String coin, double avgBuyPrice, double avgSellPrice, int amount, long time) {
+		this.coin = coin;
 		this.avgBuyPrice = avgBuyPrice;
 		this.avgSellPrice = avgSellPrice;
-		this.positionAmount = 0.00;
-		this.percentageGain = 0.00;
-		this.priceGain = 0.00;	
+		this.amount = amount;
+		this.time = time;
 	}
 	
-	public double calculateTradingPosition() {
-		return (this.avgBuyPrice*this.tradingPositionDollarAmount);
+	public String getCoin() {
+		return coin;
 	}
 	
-	public double calculatePercentageGain() {
-		return ((this.avgSellPrice*(this.positionAmount-(this.positionAmount*0.001))) - (this.tradingPositionDollarAmount+(this.tradingPositionDollarAmount*0.001))) / this.tradingPositionDollarAmount;
+	public int getAmount() {
+		return amount;
 	}
 	
-	public double calculatePriceGain() {
-		double calculatedResult = this.calculatePriceGain();
-		return (calculatedResult*this.positionAmount);
+	public double getAvgBuyPrice() {
+		return avgBuyPrice;
 	}
 	
-	public double calculatePrincipalCapital() {
-		return (currentBalance+this.calculatePriceGain());
+	public double getAvgSellPrice() {
+		return avgSellPrice;
+	}
+	
+	public long getTime() {
+		return time;
+	}
+	
+	public void setCoin(String coin) {
+		this.coin = coin;
+	}
+	
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	
+	public void setAvgBuyPrice(double avgBuyPrice) {
+		this.avgBuyPrice = avgBuyPrice;
+	}
+	
+	public void setAvgSellPrice(double avgSellPrice) {
+		this.avgSellPrice = avgSellPrice;
+	}
+	
+	public void setTime(long time) {
+		this.time = time;
 	}
 }
