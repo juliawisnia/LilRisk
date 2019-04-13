@@ -3,8 +3,10 @@ package coinData;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
 import com.binance.api.client.BinanceApiClientFactory;
@@ -15,6 +17,7 @@ import com.binance.api.client.domain.market.CandlestickInterval;
 public class UserClass {
 	private static Map<String, PortfolioClass> portfolios = Collections.synchronizedMap(new Hashtable<String, PortfolioClass>());
 	private static Lock lock;
+	private String username;
 	
 	public UserClass() {
 		UserThread userThread = new UserThread();
@@ -22,6 +25,7 @@ public class UserClass {
 		userThread.start();
 		Thread updater = new PriceUpdater();
 		updater.start();
+		this.username = "";
 	}
 	
 	public static void main(String [] args) {
@@ -76,6 +80,46 @@ public class UserClass {
 		
 		System.out.println("hello");
 		return ret;
+	}
+	
+	public List<timeValue> getPorfolioTrends(String timeFrame) {
+		List<timeValue> ret = Collections.synchronizedList(new ArrayList<timeValue>());
+		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
+		Set<String> keys = portfolios.keySet();
+		Iterator<String> iter = keys.iterator();
+		while(iter != null) {
+			ports.add(portfolios.get(iter.next()).portfolioTrend(timeFrame));
+			
+		}
+		int longest = 0;
+		for(int i = 0; i < ports.size(); i++) {
+			if(ports.get(i).size() > longest) {
+				longest = ports.get(i).size();
+			}
+		}
+		for(int i = 0; i < ports.size(); i++) {
+			for(int j = 0; j < longest; i++) {
+				double total = 0;
+				long time = 0;
+				int size = longest - ports.get(i).size();
+				if(j >= size) {
+					time = ports.get(i).get(j).getTime();
+					total += ports.get(i).get(j).getValue();
+				}
+				ret.add(new timeValue(time, total));
+			}
+				
+		}
+		return ret;
+	}
+	
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 }
 

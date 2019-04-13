@@ -1,7 +1,9 @@
 package coinData;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -138,7 +140,36 @@ public class PortfolioClass {
 	 * @return
 	 */
 	public List<timeValue> portfolioTrend(String timeFrame){
-		return null;
+		List<timeValue> ret = Collections.synchronizedList(new ArrayList<timeValue>());
+		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
+		Set<String> keys = coins.keySet();
+		Iterator<String> iter = keys.iterator();
+		while(iter != null) {
+			ports.add(coins.get(iter.next()).timeValueData(timeFrame));
+		}
+		for(int i = 0; i < tradeHistory.size(); i++) {
+			ports.add(tradeHistory.get(i).timeValueRange(timeFrame));
+		}
+		int longest = 0;
+		for(int i = 0; i < ports.size(); i++) {
+			if(ports.get(i).size() > longest) {
+				longest = ports.get(i).size();
+			}
+		}
+		for(int i = 0; i < ports.size(); i++) {
+			for(int j = 0; j < longest; i++) {
+				double total = 0;
+				long time = 0;
+				int size = longest - ports.get(i).size();
+				if(j >= size) {
+					time = ports.get(i).get(j).getTime();
+					total += ports.get(i).get(j).getValue();
+				}
+				ret.add(new timeValue(time, total));
+			}
+				
+		}
+		return ret;
 	}
 	
 	/**
