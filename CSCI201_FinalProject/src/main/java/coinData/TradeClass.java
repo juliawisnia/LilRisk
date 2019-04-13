@@ -1,31 +1,30 @@
 package coinData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TradeClass {
 	
-	String coin;
-	double amount;
-	double avgBuyPrice;
+	Position pos;
 	double avgSellPrice;
 	long time;
 	
-	public TradeClass(String coin, double avgBuyPrice, double avgSellPrice, double amount, long time) {
-		this.coin = coin;
-		this.avgBuyPrice = avgBuyPrice;
+	public TradeClass(Position pos, double avgSellPrice, long time) {
+		this.pos = pos;
 		this.avgSellPrice = avgSellPrice;
-		this.amount = amount;
 		this.time = time;
 	}
 	
 	public String getCoin() {
-		return coin;
+		return pos.getName();
 	}
 	
 	public double getAmount() {
-		return amount;
+		return pos.getAmount();
 	}
 	
 	public double getAvgBuyPrice() {
-		return avgBuyPrice;
+		return pos.getAvgBuy();
 	}
 	
 	public double getAvgSellPrice() {
@@ -36,24 +35,30 @@ public class TradeClass {
 		return time;
 	}
 	
-	public void setCoin(String coin) {
-		this.coin = coin;
-	}
-	
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-	
-	public void setAvgBuyPrice(double avgBuyPrice) {
-		this.avgBuyPrice = avgBuyPrice;
-	}
-	
 	public void setAvgSellPrice(double avgSellPrice) {
 		this.avgSellPrice = avgSellPrice;
 	}
 	
 	public void setTime(long time) {
 		this.time = time;
+	}
+	
+	
+	public List<timeValue> timeValueRange(String timeFrame) {
+		List<timeValue> timeValueList = new ArrayList<timeValue>();
+		List<timeValue> temp = pos.timeValueData(timeFrame);
+		double profit = 0;
+		for (int i = 0; i < temp.size(); i++) {
+			if (temp.get(i).getTime() < time) {
+				timeValueList.add(temp.get(i));
+				profit = temp.get(i).getValue();
+			}
+			else {
+				timeValue tv = new timeValue(temp.get(i).getTime(), profit);
+				timeValueList.add(tv);
+			}
+		}
+		return timeValueList;
 	}
 }
 
