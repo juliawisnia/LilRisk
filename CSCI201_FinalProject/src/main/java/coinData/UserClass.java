@@ -16,7 +16,6 @@ import com.binance.api.client.domain.market.CandlestickInterval;
 
 public class UserClass {
 	private static Map<String, PortfolioClass> portfolios = Collections.synchronizedMap(new Hashtable<String, PortfolioClass>());
-	private static Lock lock;
 	private String username;
 	
 	public UserClass() {
@@ -27,14 +26,8 @@ public class UserClass {
 		updater.start();
 		this.username = "";
 	}
-	
-	public static void main(String [] args) {
-		UserThread userThread = new UserThread();
-		
-	}
 
 	public String[] coinTrends(String coins[]) {
-		System.out.println("hello");
 		String key = "CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN";
 		String secret = "PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM";
 		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance(key, secret);
@@ -68,10 +61,15 @@ public class UserClass {
 			}
 			ret += "]";
 		}
-		for(int j = 0; j < coinValues.get(0).size(); j++) {
+		for(int j = 1; j < coinValues.get(0).size(); j++) {
 			ret += ",[" + j;
 			for(int i = 0; i < coinValues.size(); i++) {
-				ret += "," + coinValues.get(i).get(j).getOpen().substring(0, coinValues.get(i).get(j).getOpen().indexOf('.'));
+				if(i < coinValues.get(i).size()) {
+					ret += "," + coinValues.get(i).get(j).getOpen().substring(0, coinValues.get(i).get(j).getOpen().indexOf('.'));
+				}
+				else {
+					ret += "," + 0;
+				}
 			}
 			ret += "]";
 		}
@@ -79,6 +77,50 @@ public class UserClass {
 		ret += "]";
 		
 		System.out.println("hello");
+		return ret;
+	}
+	
+	public String trends(String timeFrame) {
+		String ret = "[";
+		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
+		Set<String> keys = portfolios.keySet();
+		Iterator<String> iter = keys.iterator();
+		while(iter != null) {
+			ports.add(portfolios.get(iter.next()).portfolioTrend(timeFrame));
+		}
+		int longest = 0;
+		for(int i = 0; i < ports.size(); i++) {
+			if(ports.get(i).size() > longest) {
+				longest = ports.get(i).size();
+			}
+		}
+		if(ports.get(0).size() != 0) {
+			ret += "[0";
+			for(int i = 0; i < ports.size(); i++) {
+				if(ports.get(i).size()-longest == 0) {
+					ret += "," + (int) ports.get(i).get(0).getValue();
+				}
+				else {
+					ret += "," + 0;
+				}
+				
+			}
+			ret += "]";
+		}
+		for(int j = 1; j < ports.get(0).size(); j++) {
+			ret += ",[" + j;
+			for(int i = 0; i < ports.size(); i++) {
+				if(ports.get(i).size()-longest > 0) {
+					ret += "," + (int) ports.get(i).get(j).getValue();
+				}
+				else {
+					ret += "," + 0;
+				}
+				
+			}
+			ret += "]";
+		}
+		ret += "]";
 		return ret;
 	}
 	
