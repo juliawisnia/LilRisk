@@ -7,7 +7,7 @@
 		<!-- SIDEBAR SCRIPT -->
 		<script> 
 			function buy(symbol) {
-				
+				document.getElementById('search').value = symbol;
 			}
 			function changeSideBar() {
 				if (document.getElementById('PortfolioSideBar').style.display === 'none') {
@@ -15,12 +15,14 @@
 					document.getElementById('portfolioButton').style.backgroundColor = '#7d7d7d';
 					document.getElementById('PortfolioSideBar').style.display = 'inline';
 					document.getElementById('StockSideBar').style.display = 'none';
+					document.getElementById('buy').style.display = 'none';
 				}
 				else {
 					document.getElementById('stocksButton').style.backgroundColor = '#7d7d7d';
 					document.getElementById('portfolioButton').style.backgroundColor = '#313030';
 					document.getElementById('PortfolioSideBar').style.display = 'none';
 					document.getElementById('StockSideBar').style.display = 'inline';
+					document.getElementById('buy').style.display = 'inline';
 				}
 			}
 
@@ -174,7 +176,7 @@
 	<body id="body">
 		
 	<div id="title"><i><a href="home.jsp">LIL RISK INC.</a></i></div>
-	<input type="button" id="stocksButton" value="STOCKS" onclick= "changeSideBar()">
+	<input type="button" id="stocksButton" value="COINS" onclick= "changeSideBar()">
 	<input type="button" id="portfolioButton" value="PORTFOLIOS" onclick= "changeSideBar()">
 	<hr style="border: 0.5px solid white;" />
 	<body>
@@ -188,16 +190,22 @@
 				<li><a href="PortfolioPage.jsp">Careful </a><div class="per">2.18%</div></li>
 				<li><a href="PortfolioPage.jsp">Tech </a><div class="per" style="border-color: green; color: green;">8.81%</div></li>
 			</ul>
+			<ul class="buy" id="buy" style="display: none;">
+				<li style="font-size: 30px;">BUY<input type="text" id="search" value="Search" onfocus="this.value=''"></li>
+				<li>SHARES<input type="number" id="quantity" min="1" class="b"></li>
+				<li>TOTAL<input type="text" id="total" class="b"></li>
+				<li style="padding-bottom: 15px;"><input type="button" id="purchase" value="purchase"></li>
+			</ul>
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
-				<li id="look"><input type="text" id="search" value="Search" onfocus="this.value=''"></li>
+				<!-- <li id="look"><input type="text" id="search" value="Search" onfocus="this.value=''"></li> -->
 				
 				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value="AAPL" onclick="buy(this.value)"><div class="price" onclick="expand()">190.50</div></li>
 				<li class="company">Apple Inc. <div class="portPer">0.60%</div></li>
 				
-				<li class="symbol"><input type="button" class="sb" value="GOOG"><div class="price">1,197.25</div></li>
+				<li class="symbol"><input type="button" class="sb" value="GOOG" onclick="buy(this.value)"><div class="price">1,197.25</div></li>
 				<li class="company">Alphabet Inc.<div class="portPer">0.65%</div></li>
 				
-				<li class="symbol"><input type="button" class="sb" value="FB"><div class="price">177.58</div></li>
+				<li class="symbol"><input type="button" class="sb" value="FB" onclick="buy(this.value)"><div class="price">177.58</div></li>
 				<li class="company">Facebook, Inc.<div class="portPer" style="border-color: green; color: green;">2.65%</div></li>
 			</ul>
 		</div>

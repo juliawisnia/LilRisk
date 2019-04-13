@@ -7,15 +7,34 @@
 	session.setAttribute("user", user);
 	String redirectURL = "UnregisteredHomePage.jsp";
     response.sendRedirect(redirectURL);
-    String[] coins = {"ETHUSDT", "BNBUSDT", "LTCUSDT"};
+    String[] coins = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "BCCUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "TUSDUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT", "VENUSDT", "NULSUSDT", "VETUSDT", "PAXUSDT", "BCHABCUSDT", "BCHSVUSDT", "USDCUSDT", "LINKUSDT", "WAVESUSDT", "BTTUSDT", "USDSUSDT", "ONGUSDT", "HOTUSDT", "ZILUSDT", "ZRXUSDT", "FETUSDT", "BATUSDT", "XMRUSDT", "ZECUSDT", "IOSTUSDT", "CELRUSDT", "DASHUSDT", "NANOUSDT", "OMGUSDT"};
     String[] vals = user.coinTrends(coins);
-    session.setAttribute("firstSym", vals[0]);
-    session.setAttribute("firstChange", vals[1]);
-    session.setAttribute("secondSym", vals[2]);
-    session.setAttribute("secondChange", vals[3]);
-    session.setAttribute("thirdSym", vals[4]);
-    session.setAttribute("thirdChange", vals[5]);
-    session.setAttribute("data", vals[6]);
+    
+    String[] pn = new String[1000];
+    int cnt = 0;
+    for (int i = 1; i < vals.length - 1; i+=2) {
+    	String c = "";
+    	String se = Integer.toString(i);
+    	if (vals[i].charAt(0) == '-') {
+    		pn[cnt] = "n";
+    		for (int j = 1; j < vals[i].length(); j++) {
+    			c += vals[i].charAt(j);
+    		}
+    		c += '%';
+    	}
+    	else {
+    		pn[cnt] = "p";
+    		c = vals[i] + '%';
+    	}
+    	vals[i] = c;
+    	cnt++;
+    }
+    
+	session.setAttribute("vals", vals);
+	session.setAttribute("pn", pn);
+	session.setAttribute("len", vals.length);
+	
+	session.setAttribute("data", vals[vals.length-1]);
 %>
 <!DOCTYPE html>
 <html>

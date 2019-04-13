@@ -21,9 +21,14 @@
 	
 			var data = new google.visualization.DataTable();
 			data.addColumn('number', 'X');
-			data.addColumn('number', '<%=session.getAttribute("firstSym")%>');
-			data.addColumn('number', '<%=session.getAttribute("secondSym")%>');
-			data.addColumn('number', '<%=session.getAttribute("thirdSym")%>');
+			<%
+				String[] syms = (String[])(session.getAttribute("vals"));
+				String sym = "";
+				for (int i = 0; i < syms.length - 1; i+=2) {
+					sym = syms[i];
+			%>
+			data.addColumn('number', '<%=sym %>');
+			<%}%>
 			var vals = <%= session.getAttribute("data")%>;
 			data.addRows(vals);
 			
@@ -35,6 +40,9 @@
 					3: { color: '#6f9654' },
 					4: { color: '#1c91c0' },
 					5: { color: '#43459d' },
+					6: { color: '#43459d' },
+					7: { color: '#43459d' },
+					8: { color: '#43459d' },
 				},
 				hAxis: {
 					title: 'Month',
@@ -63,9 +71,11 @@
 			    (function(i) {
 			        items[i].addEventListener('click', function(event) {
 			        	if (items[i].value === '-') {
+			        		items[i].style.color = "green"; items[i].style.borderColor = "green";
 			        		items[i].value = '+';
 			        	}
 			        	else {
+			        		items[i].style.color = "red"; items[i].style.borderColor = "red";
 			        		this.value = '-';
 			        	}
 			        	view = new google.visualization.DataView(data);
@@ -121,9 +131,22 @@
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="sidebar" id="sidebar">
-				<li><div class="per"><%=(String)session.getAttribute("firstChange") %></div><%=(String)session.getAttribute("firstSym") %><input type="button" value="-" class="add" id="1"></li>
-				<li><div class="per"><%=(String)session.getAttribute("secondChange") %></div><%=(String)session.getAttribute("secondSym") %><input type="button" value="-" class="add" style="border-color: green; color: green;"></li>
-				<li><div class="per"><%=(String)session.getAttribute("thirdChange") %></div><%=(String)session.getAttribute("thirdSym") %><input type="button" value="-" class="add" style="border-color: blue; color: blue;"></li>
+			<% 
+				String[] vals = (String[])(session.getAttribute("vals"));
+				String[] pn = (String[])(session.getAttribute("pn"));
+				String color = "";
+				int cnt = 0;
+				for (int i = 0; i < vals.length - 1; i+=2) {
+					if (pn[cnt] == "n") {
+						color = "red";
+					}
+					else {
+						color = "green";
+					}
+					cnt++;
+			%>
+ 				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=vals[i+1] %></div><%=vals[i] %><input type="button" value="-" class="add"></li>
+ 			<%} %>
 			</ul>
 		</div>
 	</body>

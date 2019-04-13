@@ -90,15 +90,7 @@ ul.StockSideBar li.company {
 	padding-bottom: 12px;
 	border-bottom: 1px solid white;
 }
-#search {
-	background-color: rgba(0,0,0,0);
-	color: white;
-	font-size: 25px;
-	width: 90%;
-	padding-left: 10px;
-	padding-top: 5px; padding-bottom: 5px;
-	margin-bottom: 10px;
-}
+
 a {text-decoration: none; color: white; background-color: rgba(0,0,0,0);}
 
 .per {
@@ -269,6 +261,55 @@ button:focus {
 	cursor: pointer;
 }
 
+ul.buy {
+	background-color: rgba(0,0,0,0);
+	color: white;
+}
+
+ul.buy li {
+	background-color: rgba(0,0,0,0);
+	font-size: 20px;
+	padding-left: 15px;
+}
+
+#search {
+	position: absolute;
+	right: 21px;
+	background-color: rgba(0,0,0,0);
+	color: white;
+	font-size: 15px;
+	width: 30%;
+	padding-left: 5px;
+	line-height: 20px;
+	margin-top: 2%;
+}
+input[type=number]::-webkit-inner-spin-button {
+	opacity: 1;
+}
+
+.b {
+	background-color: rgba(0,0,0,0);
+	position: absolute;
+	right: 21px;
+	color: white;
+	width: 30%;
+	padding-left: 5px;
+}
+
+#purchase {
+	position: absolute;
+	text-transform: uppercase;
+	background-color: rgba(0,0,0,0);
+	font-size: 15px;
+	color: white;
+	border: 1px solid white;
+	border-radius: 100px;
+	cursor: pointer;
+	width: 115px;
+	height: 33px;
+	left: 28%;
+	top: 20%;
+}
 /* .center {
 	position: absolute;
 	width: 534px;
