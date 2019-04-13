@@ -1,5 +1,6 @@
 package coinData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.binance.api.client.domain.market.Candlestick;
@@ -14,7 +15,10 @@ public class Position {
 		this.coin = AllCoins.getCoin(coin);
 		this.avgBuy = this.coin.getCurrentPrice();
 		this.amount = amount;
+		this.time = System.currentTimeMillis();
 	}
+	
+	
 	
 	/**
 	 * 
@@ -164,6 +168,71 @@ public class Position {
 			ret += ",[" + i + "," + change + "]";
 		}
 		return ret + "]";
+	}
+	
+	
+	public List<timeValue> timeValueData(String timeFrame) {
+		List<timeValue> returnList = new ArrayList();
+		if(timeFrame.equalsIgnoreCase("hours")) {
+			List<Candlestick> ret = coin.getHourly();
+			for(int i = 0; i < ret.size(); i++) {
+				if(ret.get(i).getOpenTime() < this.time) {
+					ret.remove(i);
+					i--;
+				}
+				else {
+					timeValue temp = new timeValue(ret.get(i).getOpenTime(), Double.parseDouble(ret.get(i).getOpen())-avgBuy);
+					returnList.add(temp);
+				}
+			}
+			return returnList;
+		}
+		else if(timeFrame.equalsIgnoreCase("days")) {
+			List<Candlestick> ret = coin.getDaily();
+			for(int i = 0; i < ret.size(); i++) {
+				if(ret.get(i).getOpenTime() < this.time) {
+					ret.remove(i);
+					i--;
+				}
+				else {
+					timeValue temp = new timeValue(ret.get(i).getOpenTime(), Double.parseDouble(ret.get(i).getOpen())-avgBuy);
+					returnList.add(temp);
+				}
+			}
+			return returnList;
+		}
+		else if(timeFrame.equalsIgnoreCase("min5")) {
+			List<Candlestick> ret = coin.getMin5();
+			for(int i = 0; i < ret.size(); i++) {
+				if(ret.get(i).getOpenTime() < this.time) {
+					ret.remove(i);
+					i--;
+				}
+				else {
+					timeValue temp = new timeValue(ret.get(i).getOpenTime(), Double.parseDouble(ret.get(i).getOpen())-avgBuy);
+					returnList.add(temp);
+				}
+			}
+			return returnList;
+		}
+		else if(timeFrame.equalsIgnoreCase("halfHour")) {
+			List<Candlestick> ret = coin.getHalfHour();
+			for(int i = 0; i < ret.size(); i++) {
+				if(ret.get(i).getOpenTime() < this.time) {
+					ret.remove(i);
+					i--;
+				}
+				else {
+					timeValue temp = new timeValue(ret.get(i).getOpenTime(), Double.parseDouble(ret.get(i).getOpen())-avgBuy);
+					returnList.add(temp);
+				}
+			}
+			return returnList;
+		}
+		else {
+			System.out.println("Error: timeFrame input must be one of the following: hours, days, weeks, months");
+			return null;
+		}
 	}
 }
 
