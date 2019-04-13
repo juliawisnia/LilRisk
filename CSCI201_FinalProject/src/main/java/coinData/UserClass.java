@@ -37,7 +37,8 @@ public class UserClass {
 		for(int i = 0; i < coins.length; i++) {
 			values[2*i] = coins[i];
 			String percent = client.get24HrPriceStatistics(coins[i]).getPriceChangePercent();
-			values[2*i + 1] = percent.substring(0, percent.indexOf('.') + 3);
+			double numPercent = Math.floor(Double.parseDouble(percent) * 100) / 100;
+			values[2*i + 1] = "" + numPercent;
 		}
 		values[coins.length*2] = trend(coins);
 		return values;

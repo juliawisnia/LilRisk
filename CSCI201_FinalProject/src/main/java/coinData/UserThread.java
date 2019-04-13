@@ -16,7 +16,6 @@ public class UserThread extends Thread{
 		BinanceApiRestClient client = factory.newRestClient();
 		
 		String coinNames[] = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "BCCUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "TUSDUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT", "VENUSDT", "NULSUSDT", "VETUSDT", "PAXUSDT", "BCHABCUSDT", "BCHSVUSDT", "USDCUSDT", "LINKUSDT", "WAVESUSDT", "BTTUSDT", "USDSUSDT", "ONGUSDT", "HOTUSDT", "ZILUSDT", "ZRXUSDT", "FETUSDT", "BATUSDT", "XMRUSDT", "ZECUSDT", "IOSTUSDT", "CELRUSDT", "DASHUSDT", "NANOUSDT", "OMGUSDT"};
-		System.out.println("Before Initial Pull");
 		for(int i = 0; i < coinNames.length; i++) {
 			List<Candlestick> weekly = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.WEEKLY));
 			List<Candlestick> daily = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.DAILY));
@@ -24,7 +23,6 @@ public class UserThread extends Thread{
 			List<Candlestick> monthly = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.MONTHLY));
 			AllCoins.addCoin(new CoinClass(coinNames[i],hourly,weekly,daily,monthly,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
 		}
-		System.out.println("After Initial Pull");
 	}
 	
 	public void run() {
