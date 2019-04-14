@@ -36,7 +36,7 @@
 			})
 		}
 	</script>
-	<div id="title"><i>LIL RISK INC.</i></div>
+	<a href="UnregisteredHomePage.jsp" style="text-decoration: none;"><div id="title"><i>LIL RISK INC.</i></div></a>
 	<hr style="border: 0.5px solid white;" />
 	<body>
 		<div id="accnt">Sign In</div>
