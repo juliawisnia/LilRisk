@@ -96,6 +96,10 @@ public class Position {
 		return avgBuy;
 	}
 	
+	public long getBuyTime() {
+		return time;
+	}
+	
 	/**
 	 * 
 	 * @param timeFrame
