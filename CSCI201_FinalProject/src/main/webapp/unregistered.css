@@ -91,7 +91,7 @@ button:focus {
 	color: #E10808;
 }
 
-input[type=button].add {
+input[type=button].add, input[type=button].lr {
 	position: absolute;
 	right: 15px;
 	margin-top: 1.5%;

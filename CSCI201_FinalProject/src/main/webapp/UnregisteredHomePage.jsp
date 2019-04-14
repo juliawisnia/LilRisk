@@ -18,38 +18,65 @@
 			else element.value = '+';
 		}
 		function drawBasic() {
-	
 			var data = new google.visualization.DataTable();
+			
+			var options = document.getElementsByClassName('time');
+			var timeFrame;
+			for (var i = 0; i < options.length; i++) {
+				if (options[i].style.fontWeight === "bold") timeFrame = options[i].value;
+			}
+			
+			if (timeFrame === '1D') timeFrame = "day";
+			else if (timeFrame === '1W') timeFrame = "week";
+			else if (timeFrame === '1M') timeFrame = "month";
+			else if (timeFrame === '6M') timeFrame = "sixMonth";
+			else timeFrame = "year";
+			session.setAttribute("timeFrame", timeFrame);
+			
 			data.addColumn('number', 'X');
 			<%
-				String[] syms = (String[])(session.getAttribute("vals"));
+				String timeFrame = (String)(session.getAttribute("timeFrame"));
+				String[] syms = null;
+				if (timeFrame.equals("day")) syms = (String[])(session.getAttribute("dayVals"));
+				else if (timeFrame.equals("week")) syms = (String[])(session.getAttribute("weekVals"));
+				else if (timeFrame.equals("month")) syms = (String[])(session.getAttribute("monthVals"));
+				else if (timeFrame.equals("sixMonth")) syms = (String[])(session.getAttribute("sixMonthVals"));
+				else syms = (String[])(session.getAttribute("yearVals"));
+				
 				String sym = "";
 				for (int i = 0; i < syms.length - 1; i+=2) {
 					sym = syms[i];
 			%>
 			data.addColumn('number', '<%=sym %>');
 			<%}%>
-			var vals = <%= session.getAttribute("data")%>;
+			
+			var vals;
+			if (timeFrame.equals("day")) <%= session.getAttribute("dayData")%>;
+			else if (timeFrame.equals("week")) <%= session.getAttribute("weekData")%>;
+			else if (timeFrame.equals("month")) <%= session.getAttribute("monthData")%>;
+			else if (timeFrame.equals("sixMonth")) <%= session.getAttribute("sixMonthData")%>;
+			else syms = <%= session.getAttribute("yearData")%>;
+			
 			data.addRows(vals);
-
+			
 			var options = {
 				series: {
-					0: { color: '#F58B35' },
-					1: { color: '#FCBD3A' },
-					2: { color: '#FBD542' },
-					3: { color: '#A8CF4E' },
-					4: { color: '#53BF48' },
-					5: { color: '#0FA575' },
-					6: { color: '#23939F' },
-					7: { color: '#2499DC' },
-					8: { color: '#3D2873' },
-					9: { color: '#90208C' },
-					10: { color: '#CE0089' },
-					11: { color: '#EB0080' },
-					12: { color: '#EA0D2C' },
-					13: { color: '#B445C0' },
-					14: { color: '#00B7C5' },
-					15: { color: '#03CC6B' },
+					0: { color: '#662A8E' },
+					1: { color: '#90208C' },
+					2: { color: '#CE0089' },
+					3: { color: '#EB0080' },
+					4: { color: '#EA0D2C' },
+					5: { color: '#F48C37' },
+					6: { color: '#FCBD3A' },
+					7: { color: '#FBD542' },
+					8: { color: '#A8CF4E' },
+					9: { color: '#53BF48' },
+					10: { color: '#06A44D' },
+					11: { color: '#0FA575' },
+					12: { color: '#23939F' },
+					13: { color: '#2499DC' },
+					14: { color: '#185AA6' },
+					15: { color: '#3D2873' },
 				},
 				hAxis: {
 					titleTextStyle: {
@@ -136,6 +163,7 @@
  			if (document.getElementById('new').style.visibility === 'hidden') document.getElementById('new').style.visibility = 'visible';
  		}
  		function bold(element) {
+ 			location.reload();
  			var all = document.getElementsByClassName('time');
  			for (var i = 0; i < all.length; i++) {
  				if (all[i].isSameNode(element)) {
@@ -155,8 +183,8 @@
 	<body>
 		
 		<!-- LOGIN/REGISTER BUTTONS -->
-		<a href="LoginPage.jsp"><input class="add" type="button" id="loginButton" value="LOGIN"></a>
-		<a href="RegisterPage.jsp"><input class="add" type="button" id="registerButton" value="REGISTER"></a>		
+		<a href="LoginPage.jsp"><input class="lr" type="button" id="loginButton" value="LOGIN"></a>
+		<a href="RegisterPage.jsp"><input class="lr" type="button" id="registerButton" value="REGISTER"></a>		
 		
 		<div id="main-chart" style="height: 85%; width: 98%; margin-left: -10%; position: relative;"></div>
 		<table class="time-frames">
@@ -172,11 +200,17 @@
 		<div class="form-container">
 			<ul class="sidebar" id="sidebar">
 			<% 
-				String[] vals = (String[])(session.getAttribute("vals"));
-				String[] pn = (String[])(session.getAttribute("pn"));
+				String[] pn = null;
+				
+				if (timeFrame.equals("day")) pn = (String[])(session.getAttribute("pnDay"));
+				else if (timeFrame.equals("week")) pn = (String[])(session.getAttribute("pnWeek"));
+				else if (timeFrame.equals("month")) pn = (String[])(session.getAttribute("pnMonth"));
+				else if (timeFrame.equals("sixMonth")) pn = (String[])(session.getAttribute("pnSixMonth"));
+				else pn = (String[])(session.getAttribute("pnYear"));
+			
 				String color = "";
 				int cnt = 0;
-				for (int i = 0; i < vals.length - 1; i+=2) {
+				for (int i = 0; i < syms.length - 1; i+=2) {
 					if (pn[cnt] == "n") {
 						color = "red";
 					}
@@ -185,7 +219,7 @@
 					}
 					cnt++;
 			%>
- 				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=vals[i+1] %></div><%=vals[i] %><input type="button" value="-" class="add"></li>
+ 				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div><%=syms[i] %><input type="button" value="-" class="add"></li>
  			<%} %>
 			</ul>
 		</div>
