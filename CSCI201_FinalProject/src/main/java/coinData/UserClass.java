@@ -36,18 +36,34 @@ public class UserClass {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		PreparedStatement ps3 = null;
+		ResultSet rs3 = null;
+		PreparedStatement ps2 = null;
+		ResultSet rs2 = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			ps = conn.prepareStatement("SELECT * FROM Portfolio WHERE userID = ?");
-			ps.setString(1, Integer.toString(userID));
+			ps.setInt(1, userID);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				int portfolioID = rs.getInt("portfolioID");
 				String portfolioName = rs.getString("portfolioName");
-				PreparedStatement ps2 = null;
-				ResultSet rs2 = null;
-				ps = conn.prepareStatement("SELECT port. FROM Portfolio port, Positions pos WHERE userID = ?");
+				PortfolioClass temp = new PortfolioClass(portfolioName);
+				
+				ps2 = conn.prepareStatement("SELECT symbol, buyTime, buyPrice, amount FROM Positions p WHERE portfolioID = ?");
+				ps2.setInt(1, portfolioID);
+				rs2 = ps2.executeQuery();
+				while(rs2.next()) {
+					temp.addPosition(new Position(rs2.getString("symbol"),rs2.getDouble("buyPrice"), rs2.getDate("buyTime").getTime(), rs2.getDouble("amount")));
+				}
+				
+				ps3 = conn.prepareStatement("SELECT symbol, buyTime, sellTime, buyPrice, sellPrice, amount FROM Positions p WHERE portfolioID = ?");
+				ps3.setInt(1, portfolioID);
+				rs3 = ps3.executeQuery();
+				while(rs3.next()) {
+					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getDate("buyTime").getTime(), rs3.getDouble("amount")), rs3.getDouble("avgSell"), rs3.getDate("sellTime").getTime()));
+				}
 			}
 			
 		}
@@ -65,9 +81,22 @@ public class UserClass {
 				if(ps != null) {
 					ps.close();
 				}
+				if(rs2 != null) {
+					rs2.close();
+				}
+				if(ps2 != null) {
+					ps2.close();
+				}
+				if(rs3 != null) {
+					rs3.close();
+				}
+				if(ps3 != null) {
+					ps3.close();
+				}
 				if(conn != null) {
 					conn.close();
 				}
+				
 			}
 			catch(SQLException sqle) {
 				System.out.println("sqle closing stuff: " + sqle.getMessage());

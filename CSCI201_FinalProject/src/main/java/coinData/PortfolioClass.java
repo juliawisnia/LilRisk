@@ -47,6 +47,14 @@ public class PortfolioClass {
 		this.balance = 0;
 	}
 	
+	public void addPosition(Position pos) {
+		coins.put(pos.getName(), pos);
+	}
+	
+	public void addTrade(TradeClass trade) {
+		tradeHistory.add(trade);
+	}
+	
 	/**
 	 * 
 	 * @param position: coin that you want to

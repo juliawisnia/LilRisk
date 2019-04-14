@@ -18,6 +18,13 @@ public class Position {
 		this.time = System.currentTimeMillis();
 	}
 	
+	public Position(String coin, double avgBuy, long time, double amount) {
+		this.coin = AllCoins.getCoin(coin);
+		this.avgBuy = avgBuy;
+		this.time = time;;
+		this.amount = amount;
+	}
+	
 	
 	
 	/**
