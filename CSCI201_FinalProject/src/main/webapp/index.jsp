@@ -18,7 +18,7 @@
     String[] pnWeek = new String[100];
     String[] pnMonth = new String[100];
     String[] pnSixMonth = new String[100];
-    String[] pnYear = new String[100];
+    String[] pnYear = new String[100]; 
     
     /* DAY */
     
@@ -49,7 +49,7 @@
 	
 	/* WEEK */
 	
-	cnt = 0;
+ 	cnt = 0;
 	    for (int i = 1; i < weekVals.length - 1; i+=2) {
 	    	String c = "";
 	    	String se = Integer.toString(i);
@@ -73,10 +73,10 @@
 		session.setAttribute("lenWeek", weekVals.length);
 		
 		session.setAttribute("weekData", weekVals[weekVals.length-1]); 
-	
+	 
 		/* MONTH */	
 		
-    cnt = 0;
+     cnt = 0;
     for (int i = 1; i < monthVals.length - 1; i+=2) {
     	String c = "";
     	String se = Integer.toString(i);
@@ -99,10 +99,10 @@
 	session.setAttribute("pnMonth", pnMonth);
 	session.setAttribute("lenMonth", monthVals.length);
 	
-	session.setAttribute("monthData", monthVals[monthVals.length-1]); 
+	session.setAttribute("monthData", monthVals[monthVals.length-1]);  
     
 	/* SIX MONTHS */
-	
+ 	
     cnt = 0;
     for (int i = 1; i < sixMonthVals.length - 1; i+=2) {
     	String c = "";
@@ -126,7 +126,7 @@
 	session.setAttribute("pnSixMonth", pnSixMonth);
 	session.setAttribute("lenSixMonth", sixMonthVals.length);
 	
-	session.setAttribute("sixMonthData", sixMonthVals[sixMonthVals.length-1]); 
+	session.setAttribute("sixMonthData", sixMonthVals[sixMonthVals.length-1]);  
 	
 	/* YEAR */
 	
