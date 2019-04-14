@@ -17,11 +17,14 @@ public class UserThread extends Thread{
 		
 		String coinNames[] = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT", "NULSUSDT", "VETUSDT", "PAXUSDT", "BCHABCUSDT", "BCHSVUSDT", "LINKUSDT", "WAVESUSDT", "BTTUSDT",  "ONGUSDT", "HOTUSDT", "ZILUSDT", "ZRXUSDT", "FETUSDT", "BATUSDT", "XMRUSDT", "ZECUSDT", "IOSTUSDT", "CELRUSDT", "DASHUSDT", "NANOUSDT", "OMGUSDT"};
 		for(int i = 0; i < coinNames.length; i++) {
-			List<Candlestick> weekly = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.WEEKLY));
-			List<Candlestick> daily = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.DAILY));
-			List<Candlestick> hourly = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.ONE_MINUTE));
-			List<Candlestick> monthly = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.MONTHLY));
-			AllCoins.addCoin(new CoinClass(coinNames[i],hourly,weekly,daily,monthly,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
+			long dayTime = 1;
+			dayTime = dayTime*24*60*60*1000;
+			List<Candlestick> day = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.THREE_MINUTES, 500, System.currentTimeMillis()-dayTime,System.currentTimeMillis()));
+			List<Candlestick> week = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.HALF_HOURLY, 500,System.currentTimeMillis()-(dayTime*7),System.currentTimeMillis()));
+			List<Candlestick> month = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.TWO_HOURLY, 500,System.currentTimeMillis()-(dayTime*30),System.currentTimeMillis()));
+			List<Candlestick> month6 = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.TWELVE_HOURLY, 500,System.currentTimeMillis()-(dayTime*30*6),System.currentTimeMillis()));
+			List<Candlestick> year = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.DAILY, 500,System.currentTimeMillis()-(dayTime*365),System.currentTimeMillis()));
+			AllCoins.addCoin(new CoinClass(coinNames[i],day,week,month,month6,year,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
 		}
 	}
 	
@@ -36,11 +39,15 @@ public class UserThread extends Thread{
 			try {
 				Thread.sleep(100000);
 				for(int i = 0; i < coinNames.length; i++) {
-					List<Candlestick> min5 = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.FIVE_MINUTES));
-					List<Candlestick> halfHour = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.HALF_HOURLY));
-					List<Candlestick> hourly = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.HOURLY));
-					List<Candlestick> daily = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.DAILY));
-					AllCoins.updateCoin(new CoinClass(coinNames[i],min5,halfHour,hourly,daily,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
+					long dayTime = 1;
+					dayTime = dayTime*24*60*60*1000;
+					List<Candlestick> day = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.THREE_MINUTES, 500, System.currentTimeMillis()-dayTime,System.currentTimeMillis()));
+					List<Candlestick> week = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.HALF_HOURLY, 500,System.currentTimeMillis()-(dayTime*7),System.currentTimeMillis()));
+					List<Candlestick> month = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.TWO_HOURLY, 500,System.currentTimeMillis()-(dayTime*30),System.currentTimeMillis()));
+					List<Candlestick> month6 = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.TWELVE_HOURLY, 500,System.currentTimeMillis()-(dayTime*30*6),System.currentTimeMillis()));
+					List<Candlestick> year = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.DAILY, 500,System.currentTimeMillis()-(dayTime*365),System.currentTimeMillis()));
+					AllCoins.addCoin(new CoinClass(coinNames[i],day,week,month,month6,year,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
+					AllCoins.updateCoin(new CoinClass(coinNames[i],day,week,month,month6,year,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
 				}
 			}
 			catch(InterruptedException ie) {

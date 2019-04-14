@@ -32,10 +32,11 @@ public class AllCoins {
 	 * @param coin
 	 */
 	public static void updateCoin(CoinClass coin) {
-		coins.get(coin.getName()).setHourly(coin.getHourly());
-		coins.get(coin.getName()).setDaily(coin.getDaily());
-		coins.get(coin.getName()).setMin5(coin.getMin5());
-		coins.get(coin.getName()).setHalfHour(coin.getHalfHour());
+		coins.get(coin.getName()).setDay(coin.getDay());
+		coins.get(coin.getName()).setWeek(coin.getWeek());
+		coins.get(coin.getName()).setMonth(coin.getMonth());
+		coins.get(coin.getName()).setMonth6(coin.getMonth6());
+		coins.get(coin.getName()).setYear(coin.getYear());
 	}
 	
 	/**
