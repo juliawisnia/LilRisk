@@ -96,7 +96,6 @@ public class UserClass {
 				if(conn != null) {
 					conn.close();
 				}
-				
 			}
 			catch(SQLException sqle) {
 				System.out.println("sqle closing stuff: " + sqle.getMessage());
