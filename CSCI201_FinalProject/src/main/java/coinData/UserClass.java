@@ -1,5 +1,10 @@
 package coinData;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
@@ -25,6 +30,46 @@ public class UserClass {
 		Thread updater = new PriceUpdater();
 		updater.start();
 		this.username = "";
+	}
+	
+	public void loadUser(int userID) { 
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
+			ps = conn.prepareStatement("SELECT * FROM Portfolio WHERE userID = ?");
+			ps.setString(1, Integer.toString(userID));
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				int portfolioID = rs.getInt("porttfolioID");
+				String portfolioName = rs.getString("");
+			}
+			
+		}
+		catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				System.out.println("sqle closing stuff: " + sqle.getMessage());
+			}
+		}
 	}
 
 	public String[] coinTrends(String coins[]) {
@@ -76,8 +121,6 @@ public class UserClass {
 		}
 			
 		ret += "]";
-		
-		System.out.println("hello");
 		return ret;
 	}
 	
