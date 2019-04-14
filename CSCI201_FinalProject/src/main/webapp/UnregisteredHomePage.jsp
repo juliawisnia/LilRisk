@@ -31,28 +31,47 @@
 			<%}%>
 			var vals = <%= session.getAttribute("data")%>;
 			data.addRows(vals);
-			
+
 			var options = {
 				series: {
-					0: { color: '#e2431e' },
-					1: { color: '#e7711b' },
-					2: { color: '#f1ca3a' },
-					3: { color: '#6f9654' },
-					4: { color: '#1c91c0' },
-					5: { color: '#43459d' },
-					6: { color: '#43459d' },
-					7: { color: '#43459d' },
-					8: { color: '#43459d' },
+					0: { color: '#F58B35' },
+					1: { color: '#FCBD3A' },
+					2: { color: '#FBD542' },
+					3: { color: '#A8CF4E' },
+					4: { color: '#53BF48' },
+					5: { color: '#0FA575' },
+					6: { color: '#23939F' },
+					7: { color: '#2499DC' },
+					8: { color: '#3D2873' },
+					9: { color: '#90208C' },
+					10: { color: '#CE0089' },
+					11: { color: '#EB0080' },
+					12: { color: '#EA0D2C' },
+					13: { color: '#B445C0' },
+					14: { color: '#00B7C5' },
+					15: { color: '#03CC6B' },
 				},
 				hAxis: {
-					title: 'Month',
+					titleTextStyle: {
+						fontName: 'Avenir Next',
+						italic: false 
+					},
+					baselineColor: 'white',
+					titleColor: 'white',
+					textColor: 'white',
 					gridlines: {
 						color: 'transparent'
 					}
 				},
 				vAxis: {
-					title: 'Account Value',
-					/* textStyle:{color: 'white'}, */
+					titleTextStyle: {
+						fontName: 'Avenir Next',
+						italic: false 
+					},
+					baselineColor: 'white',
+					title: 'COIN VALUE',
+					titleColor: 'white',
+					textColor: 'white',
 					gridlines: {
 						color: 'transparent'
 					}
@@ -116,6 +135,18 @@
  		function addNew() {
  			if (document.getElementById('new').style.visibility === 'hidden') document.getElementById('new').style.visibility = 'visible';
  		}
+ 		function bold(element) {
+ 			var all = document.getElementsByClassName('time');
+ 			for (var i = 0; i < all.length; i++) {
+ 				if (all[i].isSameNode(element)) {
+ 					all[i].style.fontWeight = "bold";
+ 				}
+ 				else {
+ 					all[i].style.fontWeight = "normal";
+ 				}
+ 			}
+ 			
+ 		}
  		window.onload = load();
 		</script>
 	</head>
@@ -124,12 +155,21 @@
 	<body>
 		
 		<!-- LOGIN/REGISTER BUTTONS -->
-		<a href="LoginPage.jsp"><input type="button" id="loginButton" value="LOGIN"></a>
-		<a href="RegisterPage.jsp"><input type="button" id="registerButton" value="REGISTER"></a>		
+		<a href="LoginPage.jsp"><input class="add" type="button" id="loginButton" value="LOGIN"></a>
+		<a href="RegisterPage.jsp"><input class="add" type="button" id="registerButton" value="REGISTER"></a>		
 		
-		<div id="main-chart" style="height: 90%; width: 95%; margin-left: -10%; position: relative;"></div>
+		<div id="main-chart" style="height: 85%; width: 98%; margin-left: -10%; position: relative;"></div>
+		<table class="time-frames">
+			<tr>
+				<th><input type="button" class="time" onclick="bold(this)" value="1D" style="font-weight: bold;"></th>
+				<th><input type="button" class="time" onclick="bold(this)" value="1W"></th>
+				<th><input type="button" class="time" onclick="bold(this)" value="1M"></th>
+				<th><input type="button" class="time" onclick="bold(this)" value="6M"></th>
+				<th><input type="button" class="time" onclick="bold(this)" value="1Y"></th>
+			</tr>
+		</table>
+		<div class="top-box"></div>
 		<div class="form-container">
-			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="sidebar" id="sidebar">
 			<% 
 				String[] vals = (String[])(session.getAttribute("vals"));
