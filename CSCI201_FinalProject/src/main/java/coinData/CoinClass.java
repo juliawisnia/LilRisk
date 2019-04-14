@@ -13,8 +13,9 @@ public class CoinClass {
 	private List<Candlestick> month6;
 	private List<Candlestick> year;
 	private double currentPrice;
+	private double dayPercentChange;
 	
-	public CoinClass(String coinName, List<Candlestick> day, List<Candlestick> week, List<Candlestick> month, List<Candlestick> month6,List<Candlestick> year, double currentPrice) {
+	public CoinClass(String coinName, List<Candlestick> day, List<Candlestick> week, List<Candlestick> month, List<Candlestick> month6,List<Candlestick> year, double currentPrice, double dayPercentChange) {
 		this.coinName = coinName;
 		this.day = Collections.synchronizedList(day);
 		this.week = Collections.synchronizedList(week);
