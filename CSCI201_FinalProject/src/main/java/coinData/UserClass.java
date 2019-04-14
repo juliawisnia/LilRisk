@@ -43,8 +43,11 @@ public class UserClass {
 			ps.setString(1, Integer.toString(userID));
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				int portfolioID = rs.getInt("porttfolioID");
-				String portfolioName = rs.getString("");
+				int portfolioID = rs.getInt("portfolioID");
+				String portfolioName = rs.getString("portfolioName");
+				PreparedStatement ps2 = null;
+				ResultSet rs2 = null;
+				ps = conn.prepareStatement("SELECT port. FROM Portfolio port, Positions pos WHERE userID = ?");
 			}
 			
 		}

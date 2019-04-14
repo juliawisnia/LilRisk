@@ -11,24 +11,28 @@ CREATE TABLE User (
 CREATE TABLE Portfolio (
 	userID INT(11),
     portfolioID INT(11) PRIMARY KEY AUTO_INCREMENT,
-	portfolioName VARCHAR(20)
+	portfolioName VARCHAR(20),
+	FOREIGN KEY userID REFERENCEs (User)userID
 );
 
 CREATE TABLE Positions (
 	portfolioID INT(11),
     symbol VARCHAR(8),
-    dateTime VARCHAR(30),
+    buyTime VARCHAR(30),
     buyPrice FLOAT(32),
-    amount FLOAT(11)
+    amount FLOAT(11),
+    FOREIGN KEY portfolioID REFERENCEs (Portfolio)portfolioID
 );
 
 CREATE TABLE Trades (
 	portfolioID INT(11),
     symbol VARCHAR(8),
-    dateTime VARCHAR(30),
+    buyTime VARCHAR(30),
+    sellTime VARCHAR(30),
     buyPrice FLOAT(32),
     sellPrice FLOAT(32),
-    amount FLOAT(11)
+    amount FLOAT(11),
+    FOREIGN KEY portfolioID REFERENCEs (Portfolio)portfolioID
 );
 
 INSERT INTO User (username, userPassword)
