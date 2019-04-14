@@ -20,7 +20,7 @@ import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.CandlestickInterval;
 
 public class UserClass {
-	private static Map<String, PortfolioClass> portfolios = Collections.synchronizedMap(new Hashtable<String, PortfolioClass>());
+	private Map<String, PortfolioClass> portfolios = Collections.synchronizedMap(new Hashtable<String, PortfolioClass>());
 	private String username;
 	
 	public UserClass() {
@@ -32,7 +32,9 @@ public class UserClass {
 		this.username = "";
 	}
 	
-	public void loadUser(int userID) { 
+	public void loadUser(int userID, String username) { 
+		this.username = username;
+		this.portfolios.clear();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
