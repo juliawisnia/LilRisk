@@ -114,7 +114,7 @@ public class UserClass {
 		String values[] = new String[coins.length*2 + 1];
 		for(int i = 0; i < coins.length; i++) {
 			values[2*i] = coins[i];
-			String percent = client.get24HrPriceStatistics(coins[i]).getPriceChangePercent();
+			String percent = AllCoins.getCoin(coins[i]).getPriceChangePercent();
 			double numPercent = Math.floor(Double.parseDouble(percent) * 100) / 100;
 			values[2*i + 1] = "" + numPercent;
 		}
