@@ -143,7 +143,7 @@ public class UserClass {
 		for(int j = 1; j < longest; j++) {
 			ret += ",[" + j;
 			for(int i = 0; i < coinValues.size(); i++) {
-				if(longest-j < coinValues.get(i).size()) {
+				if(longest-j <= coinValues.get(i).size()) {
 					if(coinValues.get(i).get(j-(longest-coinValues.get(i).size())).getOpen().indexOf('.') == -1) {
 						ret += "," + coinValues.get(i).get(j-(longest-coinValues.get(i).size())).getOpen();
 					}
