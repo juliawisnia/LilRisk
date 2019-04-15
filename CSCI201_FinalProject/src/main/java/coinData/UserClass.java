@@ -106,16 +106,11 @@ public class UserClass {
 	}
 
 	public String[] coinTrends(String coins[], String timeFrame) {
-		String key = "CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN";
-		String secret = "PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM";
-		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance(key, secret);
-		BinanceApiRestClient client = factory.newRestClient();
-		
 		String values[] = new String[coins.length*2 + 1];
 		for(int i = 0; i < coins.length; i++) {
 			values[2*i] = coins[i];
-			String percent = AllCoins.getCoin(coins[i]).getPriceChangePercent();
-			double numPercent = Math.floor(Double.parseDouble(percent) * 100) / 100;
+			double percent = AllCoins.getCoin(coins[i]).getDayPercentChange();
+			double numPercent = Math.floor(percent * 100) / 100;
 			values[2*i + 1] = "" + numPercent;
 		}
 		values[coins.length*2] = trend(coins, timeFrame);
@@ -123,35 +118,9 @@ public class UserClass {
 	}
 	
 	private String trend(String coins[], String timeFrame) {
-		String key = "CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN";
-		String secret = "PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM";
-		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance(key, secret);
-		BinanceApiRestClient client = factory.newRestClient();
-		
 		List<List<Candlestick>> coinValues = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
-		CandlestickInterval ci = null;
-		long dayTime = 24*60*60*1000;
-		if(timeFrame.equalsIgnoreCase("day")) {
-			ci = CandlestickInterval.THREE_MINUTES;
-		}
-		else if(timeFrame.equalsIgnoreCase("week")) {
-			ci = CandlestickInterval.THREE_MINUTES;
-			dayTime = 24*60*60*1000*7;
-		}
-		else if(timeFrame.equalsIgnoreCase("month")) {
-			ci = CandlestickInterval.THREE_MINUTES;
-			dayTime = 24*60*60*1000*30;
-		}
-		else if(timeFrame.equalsIgnoreCase("month6")) {
-			ci = CandlestickInterval.THREE_MINUTES;
-			dayTime = 24*60*60*1000*30*6;
-		}
-		else if(timeFrame.equalsIgnoreCase("year")) {
-			ci = CandlestickInterval.THREE_MINUTES;
-			dayTime = 24*60*60*1000*365;
-		}
 		for(int i = 0; i < coins.length; i++) {
-			coinValues.add(client.getCandlestickBars(coins[i], ci, 500, System.currentTimeMillis()-dayTime, System.currentTimeMillis()));
+			coinValues.add(AllCoins.getCoin(coins[i]).getDataList(timeFrame));
 		}
 		String ret = "[";
 		if(coins.length != 0) {

@@ -24,7 +24,7 @@ public class UserThread extends Thread{
 			List<Candlestick> month = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.TWO_HOURLY, 500,System.currentTimeMillis()-(dayTime*30),System.currentTimeMillis()));
 			List<Candlestick> month6 = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.TWELVE_HOURLY, 500,System.currentTimeMillis()-(dayTime*30*6),System.currentTimeMillis()));
 			List<Candlestick> year = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.DAILY, 500,System.currentTimeMillis()-(dayTime*365),System.currentTimeMillis()));
-			AllCoins.addCoin(new CoinClass(coinNames[i],day,week,month,month6,year,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
+			AllCoins.addCoin(new CoinClass(coinNames[i],day,week,month,month6,year,Double.parseDouble(client.getPrice(coinNames[i]).getPrice()),Double.parseDouble(client.get24HrPriceStatistics(coinNames[i]).getPriceChangePercent())));
 		}
 	}
 	
@@ -46,8 +46,7 @@ public class UserThread extends Thread{
 					List<Candlestick> month = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.TWO_HOURLY, 500,System.currentTimeMillis()-(dayTime*30),System.currentTimeMillis()));
 					List<Candlestick> month6 = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.TWELVE_HOURLY, 500,System.currentTimeMillis()-(dayTime*30*6),System.currentTimeMillis()));
 					List<Candlestick> year = Collections.synchronizedList(client.getCandlestickBars(coinNames[i], CandlestickInterval.DAILY, 500,System.currentTimeMillis()-(dayTime*365),System.currentTimeMillis()));
-					AllCoins.addCoin(new CoinClass(coinNames[i],day,week,month,month6,year,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
-					AllCoins.updateCoin(new CoinClass(coinNames[i],day,week,month,month6,year,Double.parseDouble(client.getPrice(coinNames[i]).getPrice())));
+					AllCoins.updateCoin(new CoinClass(coinNames[i],day,week,month,month6,year,Double.parseDouble(client.getPrice(coinNames[i]).getPrice()),Double.parseDouble(client.get24HrPriceStatistics(coinNames[i]).getPriceChangePercent())));
 				}
 			}
 			catch(InterruptedException ie) {

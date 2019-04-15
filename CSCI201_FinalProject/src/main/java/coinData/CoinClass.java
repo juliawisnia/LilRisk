@@ -23,6 +23,7 @@ public class CoinClass {
 		this.month6 = Collections.synchronizedList(month6);
 		this.year = Collections.synchronizedList(year);
 		this.currentPrice = currentPrice;
+		this.dayPercentChange = dayPercentChange;
 	}
 	
 	/**
@@ -33,6 +34,14 @@ public class CoinClass {
 		return coinName;
 	}
 	
+	
+	public double getDayPercentChange() {
+		return dayPercentChange;
+	}
+	
+	public void setDayPercentChange(double dpc) {
+		this.dayPercentChange = dpc;
+	}
 	
 	/**
 	 * Updates the data for the given time frame
