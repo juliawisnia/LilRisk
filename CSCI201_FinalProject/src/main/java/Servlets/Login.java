@@ -1,5 +1,7 @@
 package Servlets;
 
+import coinData.UserClass;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,100 +9,75 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import coinData.UserClass;
-
-/**
- * Servlet implementation class Login
- */
+@WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Login() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("email");
+		String password = request.getParameter("pwd");
+		
+		if (username == null) response.getWriter().write("Username must not be empty.");
+		if (password == null) response.getWriter().write("Password must not be empty.\n");
+		
+		response.setContentType("text/plain");
+		HttpSession session = request.getSession();
+		session = request.getSession();
+		
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		
+		Connection conn1 = null;
+		PreparedStatement ps1 = null;
+		ResultSet rs1 = null;
+		
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
-			ps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
-			ps.setString(1, username);
-			rs = ps.executeQuery();
-			boolean sent = false;
-			while(rs.next()) {
-				sent = true;
-				if(!rs.getString("pass").equals(password)) {
-					request.setAttribute("errorMessage", "Incorrect Password");
-					String nextPage = "/login.jsp";
-					RequestDispatcher dispatch = getServletContext().getRequestDispatcher(nextPage);
-					dispatch.forward(request, response);
-				}
-				else {
-					request.setAttribute("username", username);
-					HttpSession ses = request.getSession();
-					UserClass user = (UserClass)ses.getAttribute("user");
-					user.setUsername(username);
-					user.loadUser(rs.getInt("userID"), username);
-					String nextPage = "/home.jsp";
-					RequestDispatcher dispatch = getServletContext().getRequestDispatcher(nextPage);
-					dispatch.forward(request, response);
+			
+			ps1 = conn.prepareStatement("SELECT * FROM User WHERE username=?");
+			ps1.setString(1,  username);
+			rs1 = ps1.executeQuery();
+			if (!rs1.next()) response.getWriter().write("Username does not exist.");
+			
+			else {
+				ps = conn.prepareStatement("SELECT * FROM User WHERE username=? AND userPassword=?");
+				ps.setString(1, username);
+				ps.setString(2, password);
+				rs = ps.executeQuery();
+				// returned a non-empty result set
+				if (rs.next()) {
+					session.setAttribute("login", username);
+					response.getWriter().write("success");
+				} else {
+					response.getWriter().write("Username and password don't match.");
 				}
 			}
-			if(!sent) {
-				request.setAttribute("errorMessage", "User was not found");
-				String nextPage = "/login.jsp";
-				RequestDispatcher dispatch = getServletContext().getRequestDispatcher(nextPage);
-				dispatch.forward(request, response);
-			}
-		}
-		catch (SQLException sqle) {
+		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
-		}
-		catch (ClassNotFoundException cnfe) {
+		} catch (ClassNotFoundException cnfe) {
 			System.out.println("cnfe: " + cnfe.getMessage());
-		}
-		finally {
+		} finally {
 			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(ps != null) {
-					ps.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			}
-			catch(SQLException sqle) {
+				if (rs1 != null) rs1.close();
+				if (ps1 != null) ps1.close();
+				if (conn1 != null) conn1.close();
+				if (rs != null) rs.close();
+				if (ps != null) ps.close();
+				if (conn != null) conn.close();
+			} catch (SQLException sqle) {
 				System.out.println("sqle closing stuff: " + sqle.getMessage());
 			}
 		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 	}
 
 }
