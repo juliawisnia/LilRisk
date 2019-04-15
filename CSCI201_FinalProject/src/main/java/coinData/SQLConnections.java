@@ -25,8 +25,8 @@ public class SQLConnections {
 	public static void recordTradeInDatabase(Position pos, double avgSellPrice, long sellTime) {
 		try {
 			PreparedStatement statement = conn.prepareStatement("SELECT * FROM Positions WHERE symbol=?");
-			String newUser = "INSERT INTO User(symbol, buyTime, sellTime, buyPrice, sellPrice, amount) VALUES ('" + pos.getName() + "','" + pos.getBuyTime() + "','" + sellTime + "','" + pos.getAvgBuy() + "','" + avgSellPrice + "','" + pos.getAmount() + "')";
-			statement.executeUpdate(newUser);
+			String newTrade = "INSERT INTO Trades(symbol, buyTime, sellTime, buyPrice, sellPrice, amount) VALUES ('" + pos.getName() + "','" + pos.getBuyTime() + "','" + sellTime + "','" + pos.getAvgBuy() + "','" + avgSellPrice + "','" + pos.getAmount() + "')";
+			statement.executeUpdate(newTrade);
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		}
