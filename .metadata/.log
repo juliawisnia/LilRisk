@@ -1514,3 +1514,9 @@ org.apache.http.NoHttpResponseException: www.apache.org:80 failed to respond
 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2019-04-14 17:13:19.405
 !MESSAGE Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2019-04-14 17:16:45.546
+!MESSAGE Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2019-04-14 17:16:45.561
+!MESSAGE Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
