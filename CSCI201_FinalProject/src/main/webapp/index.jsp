@@ -154,6 +154,7 @@
 	session.setAttribute("lenYear", yearVals.length);
 	
 	session.setAttribute("yearData", yearVals[yearVals.length-1]); 
+	session.setAttribute("timeFrame", "day");
 %>
 <!DOCTYPE html>
 <html>

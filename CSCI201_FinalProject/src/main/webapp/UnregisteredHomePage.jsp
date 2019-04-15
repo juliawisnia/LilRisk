@@ -21,18 +21,6 @@
 		function drawBasic() {
 			var data = new google.visualization.DataTable();
 			
-			var options = document.getElementsByClassName('time');
-			var timeFrame;
-			for (var i = 0; i < options.length; i++) {
-				if (options[i].style.fontWeight === "bold") timeFrame = options[i].value;
-			}
-			
-			if (timeFrame === '1D') timeFrame = "day";
-			else if (timeFrame === '1W') timeFrame = "week";
-			else if (timeFrame === '1M') timeFrame = "month";
-			else if (timeFrame === '6M') timeFrame = "sixMonth";
-			else timeFrame = "year";
-			
 			data.addColumn('number', 'X');
 			<%
 				String timeFrame = (String)(session.getAttribute("timeFrame"));
@@ -163,18 +151,25 @@
  			if (document.getElementById('new').style.visibility === 'hidden') document.getElementById('new').style.visibility = 'visible';
  		}
  		function bold(element) {
- 			location.reload();
  			var all = document.getElementsByClassName('time');
+			var timeFrame;
+			
  			for (var i = 0; i < all.length; i++) {
  				if (all[i].isSameNode(element)) {
  					all[i].style.fontWeight = "bold";
+ 					timeFrame = all[i].value;
  				}
  				else {
  					all[i].style.fontWeight = "normal";
  				}
  			}
- 			
+			if (timeFrame === '1D') session.setAttribute("timeFrame", "day");
+			else if (timeFrame === '1W') session.setAttribute("timeFrame", "week");
+			else if (timeFrame === '1M') session.setAttribute("timeFrame", "month");
+			else if (timeFrame === '6M') session.setAttribute("timeFrame", "sixMonth");
+			else session.setAttribute("timeFrame", "year");
  		}
+ 		/* location.reload(); */
  		window.onload = load();
 		</script>
 	</head>
