@@ -190,7 +190,7 @@ public class UserClass {
 			ret += ",[" + j;
 			for(int i = 0; i < ports.size(); i++) {
 				if(ports.get(i).size()-longest > 0) {
-					ret += "," + (int) ports.get(i).get(j).getValue();
+					ret += "," + (int) ports.get(i).get(j+(ports.get(i).size()-longest)).getValue();
 				}
 				else {
 					ret += "," + 0;
