@@ -14,11 +14,11 @@
     String[] sixMonthVals = user.coinTrends(coins, "MONTH6");
     String[] yearVals = user.coinTrends(coins, "YEAR");
     
-    String[] pnDay = new String[100];
-    String[] pnWeek = new String[100];
-    String[] pnMonth = new String[100];
-    String[] pnSixMonth = new String[100];
-    String[] pnYear = new String[100]; 
+    String[] pnDay = new String[1000];
+    String[] pnWeek = new String[1000];
+    String[] pnMonth = new String[1000];
+    String[] pnSixMonth = new String[1000];
+    String[] pnYear = new String[1000]; 
     
     /* DAY */
     
