@@ -126,7 +126,12 @@ public class UserClass {
 		if(coinValues.size() != 0) {
 			ret += "[0";
 			for(int i = 0; i < coinValues.size(); i++) {
-				ret += "," + coinValues.get(i).get(0).getOpen().substring(0, coinValues.get(i).get(0).getOpen().indexOf('.'));
+				if(coinValues.get(i).get(0).getOpen().indexOf('.') == -1) {
+					ret += "," + coinValues.get(i).get(0).getOpen();
+				}
+				else {
+					ret += "," + coinValues.get(i).get(0).getOpen().substring(0, coinValues.get(i).get(0).getOpen().indexOf('.'));
+				}
 			}
 			ret += "]";
 		}
@@ -134,7 +139,13 @@ public class UserClass {
 			ret += ",[" + j;
 			for(int i = 0; i < coinValues.size(); i++) {
 				if(i < coinValues.size()) {
-					ret += "," + coinValues.get(i).get(j).getOpen().substring(0, coinValues.get(i).get(j).getOpen().indexOf('.'));
+					if(coinValues.get(i).get(j).getOpen().indexOf('.') == -1) {
+						ret += "," + coinValues.get(i).get(j).getOpen();
+					}
+					else {
+						ret += "," + coinValues.get(i).get(j).getOpen().substring(0, coinValues.get(i).get(j).getOpen().indexOf('.'));
+					}
+					
 				}
 				else {
 					ret += "," + 0;
