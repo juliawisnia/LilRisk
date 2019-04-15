@@ -138,7 +138,7 @@ public class UserClass {
 		for(int j = 1; j < coinValues.get(0).size(); j++) {
 			ret += ",[" + j;
 			for(int i = 0; i < coinValues.size(); i++) {
-				if(i < coinValues.size()) {
+				if(j < coinValues.get(i).size()) {
 					if(coinValues.get(i).get(j).getOpen().indexOf('.') == -1) {
 						ret += "," + coinValues.get(i).get(j).getOpen();
 					}
