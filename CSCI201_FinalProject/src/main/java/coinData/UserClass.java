@@ -119,8 +119,12 @@ public class UserClass {
 	
 	private String trend(String coins[], String timeFrame) {
 		List<List<Candlestick>> coinValues = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
+		int longest = 0;
 		for(int i = 0; i < coins.length; i++) {
 			coinValues.add(AllCoins.getCoin(coins[i]).getDataList(timeFrame));
+			if(coinValues.get(i).size() > longest) {
+				longest = coinValues.get(i).size();
+			}
 		}
 		String ret = "[";
 		if(coinValues.size() != 0) {
@@ -139,12 +143,12 @@ public class UserClass {
 		for(int j = 1; j < coinValues.get(0).size(); j++) {
 			ret += ",[" + j;
 			for(int i = 0; i < coinValues.size(); i++) {
-				if(coinValues.get(0).size()-j < coinValues.get(i).size()) {
-					if(coinValues.get(i).get(j).getOpen().indexOf('.') == -1) {
-						ret += "," + coinValues.get(i).get(j).getOpen();
+				if(longest-j < coinValues.get(i).size()) {
+					if(coinValues.get(i).get(j-(longest-coinValues.get(i).size())).getOpen().indexOf('.') == -1) {
+						ret += "," + coinValues.get(i).get(j-(longest-coinValues.get(i).size())).getOpen();
 					}
 					else {
-						ret += "," + coinValues.get(i).get(j).getOpen().substring(0, coinValues.get(i).get(j).getOpen().indexOf('.'));
+						ret += "," + coinValues.get(i).get(j-(longest-coinValues.get(i).size())).getOpen().substring(0, coinValues.get(i).get(j-(longest-coinValues.get(i).size())).getOpen().indexOf('.'));
 					}
 					
 				}
@@ -224,8 +228,8 @@ public class UserClass {
 				long time = 0;
 				int size = longest - ports.get(i).size();
 				if(j >= size) {
-					time = ports.get(i).get(j).getTime();
-					total += ports.get(i).get(j).getValue();
+					time = ports.get(i).get(j-size).getTime();
+					total += ports.get(i).get(j-size).getValue();
 				}
 				ret.add(new timeValue(time, total));
 			}
