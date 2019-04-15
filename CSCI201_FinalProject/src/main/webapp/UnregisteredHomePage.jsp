@@ -17,6 +17,7 @@
 			if (a === '+') element.value = '-';
 			else element.value = '+';
 		}
+		
 		function drawBasic() {
 			var data = new google.visualization.DataTable();
 			
@@ -31,7 +32,6 @@
 			else if (timeFrame === '1M') timeFrame = "month";
 			else if (timeFrame === '6M') timeFrame = "sixMonth";
 			else timeFrame = "year";
-			session.setAttribute("timeFrame", timeFrame);
 			
 			data.addColumn('number', 'X');
 			<%

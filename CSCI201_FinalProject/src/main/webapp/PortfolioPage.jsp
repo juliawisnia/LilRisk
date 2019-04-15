@@ -55,7 +55,6 @@
 						fontSize: 16
 						},
 				},
-				//legend: 'none',
 				pieHole: 0.5,
 				pieSliceTextStyle: {
 		            color: 'white',
@@ -67,7 +66,6 @@
 		        
 		        fontSize: 20,
 		        fontName: 'Avenir Next',
-		        //is3D: true,
 		        
 		        backgroundColor: '#242424',
 		        
