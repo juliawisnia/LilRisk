@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="true"%>
+<%@ page import="Servlets.*" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,7 +12,7 @@
 	<script>
 		function login() {
 			$.ajax({
-				url: "LoginServlet",
+				url: "Login",
 				type: "POST",
 				data: {
 					email: document.getElementById('email').value,
