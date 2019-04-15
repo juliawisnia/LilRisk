@@ -126,6 +126,7 @@ public class UserClass {
 		if(coinValues.size() != 0) {
 			ret += "[0";
 			for(int i = 0; i < coinValues.size(); i++) {
+				System.out.println(coinValues.get(i).size());
 				if(coinValues.get(i).get(0).getOpen().indexOf('.') == -1) {
 					ret += "," + coinValues.get(i).get(0).getOpen();
 				}
