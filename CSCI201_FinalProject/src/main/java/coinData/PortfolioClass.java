@@ -37,6 +37,8 @@ public class PortfolioClass {
 	private double extraMunz;
 	private double spentMunz;
 	private double balance;
+	
+	SQLConnections sql = new SQLConnections();
 
 	public PortfolioClass(String portfolioName) {
 		this.portfolioName = portfolioName;
@@ -97,8 +99,7 @@ public class PortfolioClass {
 		else {
 			extraMunz += profit;
 		}
-		double bal = getBalance();
-		//INSERT INTO DATABASE
+		SQLConnections.recordTradeInDatabase(coins.get(coin), avgSellPrice, time);
 	}
 	
 	

@@ -11,7 +11,7 @@ public class SQLConnections {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	public static void connection() {
+	public static void connectToDatabase() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
@@ -20,11 +20,6 @@ public class SQLConnections {
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		}
-	}
-	
-	public static void connectToDatabase(Position pos, double avgSellPrice, long sellTime) {
-		connection();
-		System.out.println("ESTABLISHED CONNECTION");
 	}
 	
 	public static void recordTradeInDatabase(Position pos, double avgSellPrice, long sellTime) {
