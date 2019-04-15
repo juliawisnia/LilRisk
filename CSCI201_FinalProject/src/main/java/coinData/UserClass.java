@@ -123,7 +123,7 @@ public class UserClass {
 			coinValues.add(AllCoins.getCoin(coins[i]).getDataList(timeFrame));
 		}
 		String ret = "[";
-		if(coins.length != 0) {
+		if(coinValues.size() != 0) {
 			ret += "[0";
 			for(int i = 0; i < coinValues.size(); i++) {
 				ret += "," + coinValues.get(i).get(0).getOpen().substring(0, coinValues.get(i).get(0).getOpen().indexOf('.'));
