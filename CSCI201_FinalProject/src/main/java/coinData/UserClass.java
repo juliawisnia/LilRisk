@@ -140,7 +140,7 @@ public class UserClass {
 			}
 			ret += "]";
 		}
-		for(int j = 1; j < coinValues.get(0).size(); j++) {
+		for(int j = 1; j < longest; j++) {
 			ret += ",[" + j;
 			for(int i = 0; i < coinValues.size(); i++) {
 				if(longest-j < coinValues.get(i).size()) {
