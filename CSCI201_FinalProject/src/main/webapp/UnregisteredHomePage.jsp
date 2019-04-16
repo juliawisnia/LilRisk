@@ -186,11 +186,13 @@ input[type=button].time {
 		}
 		
 		function drawBasic() {
+			console.log("redrawing grah");
 			var data = new google.visualization.DataTable();
 			
 			data.addColumn('number', 'X');
 			<%
 				String timeFrame = (String)(session.getAttribute("timeFrame"));
+				System.out.println(timeFrame);
 				String[] syms = null;
 				if (timeFrame.equals("day")) syms = (String[])(session.getAttribute("dayVals"));
 				else if (timeFrame.equals("week")) syms = (String[])(session.getAttribute("weekVals"));
@@ -207,6 +209,7 @@ input[type=button].time {
 			
 			var vals; 
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
+			console.log(timeFrame);
 			if (timeFrame === "day") vals = <%=session.getAttribute("dayData")%>;
 			else if (timeFrame === "week") vals = <%=session.getAttribute("weekData")%>;
 			else if (timeFrame === "month") vals = <%=session.getAttribute("monthData")%>;
@@ -236,7 +239,6 @@ input[type=button].time {
 				},
 				hAxis: {
 					titleTextStyle: {
-						fontName: 'Avenir Next',
 						italic: false 
 					},
 					baselineColor: 'white',
@@ -248,7 +250,6 @@ input[type=button].time {
 				},
 				vAxis: {
 					titleTextStyle: {
-						fontName: 'Avenir Next',
 						italic: false 
 					},
 					baselineColor: 'white',
@@ -321,38 +322,33 @@ input[type=button].time {
  		function bold(element) {
  			var all = document.getElementsByClassName('time');
 			var timeFrame;
-			
  			for (var i = 0; i < all.length; i++) {
  				if (all[i].isSameNode(element)) {
- 					all[i].style.fontWeight = "bold";
  					timeFrame = all[i].value;
- 				}
- 				else {
- 					all[i].style.fontWeight = "normal";
+ 					break;
  				}
  			}
- 			var dummy;
-			if (timeFrame === '1D') {
-				dummy = 1;
+			if (timeFrame.localeCompare("1D") == 0) {
 				<%session.setAttribute("timeFrame", "day");%>
+				location.reload(true);
 			}
-			else if (timeFrame === '1W') {
-				dummy = 2;
+			else if (timeFrame.localeCompare("1W") == 0) {
 				<%session.setAttribute("timeFrame", "week");%>
+				location.reload(true);
 			}
-			else if (timeFrame === '1M') {
-				dummy = 3;
+			else if (timeFrame.localeCompare("1M") == 0) {
 				<%session.setAttribute("timeFrame", "month");%>
+				location.reload(true);
 			}
-			else if (timeFrame === '6M') {
-				dummy = 4;
+			else if (timeFrame.localeCompare("6M") == 0) {
 				<%session.setAttribute("timeFrame", "sixMonth");%>
+				location.reload(true);
 			}
 			else {
-				dummy = 5;
 				<%session.setAttribute("timeFrame", "year");%>
+				location.reload(true);
 			}
-			location.reload();
+			
  		}
 		</script>
 	</head>

@@ -6,11 +6,11 @@
 	UserClass user = new UserClass();
 	session.setAttribute("user", user);
     String[] coins = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT"};
-    String[] dayVals = user.coinTrends(coins, "DAY");
-    String[] weekVals = user.coinTrends(coins, "WEEK");
-    String[] monthVals = user.coinTrends(coins, "MONTH");
-    String[] sixMonthVals = user.coinTrends(coins, "MONTH6");
-    String[] yearVals = user.coinTrends(coins, "YEAR");
+    String[] dayVals = user.coinTrends(coins, "day");
+    String[] weekVals = user.coinTrends(coins, "week");
+    String[] monthVals = user.coinTrends(coins, "month");
+    String[] sixMonthVals = user.coinTrends(coins, "month6");
+    String[] yearVals = user.coinTrends(coins, "year");
     
     String[] pnDay = new String[1000];
     String[] pnWeek = new String[1000];
