@@ -12,7 +12,7 @@
 	<script>
 		function login() {
 			$.ajax({
-				url: "Login",
+				url: "LoginServlet",
 				type: "POST",
 				data: {
 					email: document.getElementById('email').value,

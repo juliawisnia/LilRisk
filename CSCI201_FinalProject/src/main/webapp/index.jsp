@@ -5,8 +5,6 @@
 <%
 	UserClass user = new UserClass();
 	session.setAttribute("user", user);
-	String redirectURL = "UnregisteredHomePage.jsp";
-    response.sendRedirect(redirectURL);
     String[] coins = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT"};
     String[] dayVals = user.coinTrends(coins, "DAY");
     String[] weekVals = user.coinTrends(coins, "WEEK");
@@ -155,6 +153,9 @@
 	
 	session.setAttribute("yearData", yearVals[yearVals.length-1]); 
 	session.setAttribute("timeFrame", "day");
+	
+	String redirectURL = "UnregisteredHomePage.jsp";
+    response.sendRedirect(redirectURL);
 %>
 <!DOCTYPE html>
 <html>

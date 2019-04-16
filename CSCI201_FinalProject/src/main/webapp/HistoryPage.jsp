@@ -4,8 +4,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
-		</script>
+		<link rel="stylesheet" type="text/css" href="HistoryPage.css" />
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<!-- MAIN GRAPH -->
 		<script type="text/javascript">
