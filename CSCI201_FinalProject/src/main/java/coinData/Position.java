@@ -11,11 +11,11 @@ public class Position {
 	private double amount;
 	private long time;
 	
-	public Position(String coin, double amount) {
+	public Position(String coin, double amount, long time) {
 		this.coin = AllCoins.getCoin(coin);
 		this.avgBuy = this.coin.getCurrentPrice();
 		this.amount = amount;
-		this.time = System.currentTimeMillis();
+		this.time = time;
 	}
 	
 	public Position(String coin, double avgBuy, long time, double amount) {

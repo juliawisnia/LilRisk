@@ -52,13 +52,13 @@ public class Portfolio extends HttpServlet {
 			
 			if (buyButtonDidPressed != null && buyButtonDidPressed.length() != 0) {
 				//IMPLEMENT FOR BUY BUTTON
-				Position newPos = new Position(coinSymbol, Double.parseDouble(amount));
+				Position newPos = new Position(coinSymbol, Double.parseDouble(amount), System.currentTimeMillis());
 			}
 			else if (sellButtonDidPressed != null && sellButtonDidPressed.length() != 0) {
 				//IMPLEMENT FOR SELL BUTTON
 				
 				
-				Position newPos = null; //PLACEHOLDER/ CHANGE LATER
+				Position newPos = null; //PLACEHOLDER
 				
 				
 				TradeClass newTrade = new TradeClass(newPos, Double.parseDouble(sellPrice));
