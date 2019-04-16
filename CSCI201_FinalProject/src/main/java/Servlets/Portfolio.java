@@ -14,15 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import coinData.Position;
+import coinData.TradeClass;
+
 @WebServlet("/Portfolio")
 public class Portfolio extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String buyButtonDidPressed = request.getParameter("buyButton");
+		String sellButtonDidPressed = request.getParameter("sellButton");
+		
 		String coinSymbol = request.getParameter("symbol");
 		String buyPrice = request.getParameter("buyPrice");
 		String buyTime = request.getParameter("buyTime");
 		String sellPrice = request.getParameter("sellPrice");
-		String buyTime = request.getParameter("sellTime");
+		String sellTime = request.getParameter("sellTime");
 		String amount = request.getParameter("amount");
 		
 		if (coinSymbol == null) response.getWriter().write("Coin symbol must not be empty.");
@@ -40,61 +46,35 @@ public class Portfolio extends HttpServlet {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		Connection conn1 = null;
-		PreparedStatement ps1 = null;
-		ResultSet rs1 = null;
-		
-		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			
-			ps1 = conn.prepareStatement("SELECT * FROM User WHERE username=?");
-			ps1.setString(1,  username);
-			rs1 = ps1.executeQuery();
+			if (buyButtonDidPressed != null && buyButtonDidPressed.length() != 0) {
+				//IMPLEMENT FOR BUY BUTTON
+				Position newPos = new Position(coinSymbol, Double.parseDouble(amount));
+			}
+			else if (sellButtonDidPressed != null && sellButtonDidPressed.length() != 0) {
+				//IMPLEMENT FOR SELL BUTTON
+				
+				
+				Position newPos = null; //PLACEHOLDER/ CHANGE LATER
+				
+				
+				TradeClass newTrade = new TradeClass(newPos, Double.parseDouble(sellPrice));
+			}
 			
-			if (!rs1.next()) {
-				response.getWriter().write("Username does not exist.");
-			}
-			else {
-				ps = conn.prepareStatement("SELECT * FROM User WHERE username=? AND userPassword=?");
-				ps.setString(1, username);
-				ps.setString(2, password);
-				rs = ps.executeQuery();
-				// returned a non-empty result set
-				if (rs.next()) {
-					session.setAttribute("login", username);
-					response.getWriter().write("success");
-				} else {
-					response.getWriter().write("Username and password don't match.");
-				}
-			}
+			
+			
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("cnfe: " + cnfe.getMessage());
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (ps != null) {
-					ps.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-				
-				if (rs1 != null) {
-					rs1.close();
-				}
-				if (ps1 != null) {
-					ps1.close();
-				}
-				if (conn1 != null) {
-					conn1.close();
-				}
+				if (rs != null) { rs.close(); }
+				if (ps != null) { ps.close(); }
+				if (conn != null) { conn.close(); }
 			} catch (SQLException sqle) {
 				System.out.println("sqle closing stuff: " + sqle.getMessage());
 			}
