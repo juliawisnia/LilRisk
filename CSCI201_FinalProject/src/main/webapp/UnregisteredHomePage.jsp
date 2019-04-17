@@ -193,7 +193,6 @@ input[type=button].time {
 			data.addColumn('number', 'X');
 			<%
 				String timeFrame = (String)(session.getAttribute("timeFrame"));
-				System.out.println(timeFrame);
 				String[] syms = null;
 				if (timeFrame.equals("day")) syms = (String[])(session.getAttribute("dayVals"));
 				else if (timeFrame.equals("week")) syms = (String[])(session.getAttribute("weekVals"));
@@ -211,7 +210,6 @@ input[type=button].time {
 			var vals; 
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
 			
-			console.log(timeFrame);
 			if (timeFrame === "day") {
 				vals = <%=session.getAttribute("dayData")%>;
 				document.getElementById('day').style.fontWeight = 'bold';
