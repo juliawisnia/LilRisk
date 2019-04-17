@@ -74,7 +74,7 @@ public class PortfolioClass {
 			}
 		}
 		else {
-			Position temp = new Position(coin, amount);
+			Position temp = new Position(coin, amount, System.currentTimeMillis());
 			coins.put(coin, temp);
 			spent = temp.getAvgBuy();
 			
@@ -89,7 +89,7 @@ public class PortfolioClass {
 	
 	
 	public void recordTrade(String coin, double avgBuyPrice, double avgSellPrice, double amount, long time) {
-		TradeClass executedTrade = new TradeClass(coins.get(coin), avgSellPrice, time);
+		TradeClass executedTrade = new TradeClass(coins.get(coin), avgSellPrice);
 		tradeHistory.add(executedTrade);
 		double profit = ((avgSellPrice - avgBuyPrice) * amount);
 		if (spentMunz <= extraMunz) {

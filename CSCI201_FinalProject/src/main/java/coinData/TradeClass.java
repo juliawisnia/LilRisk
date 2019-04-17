@@ -9,10 +9,10 @@ public class TradeClass {
 	double avgSellPrice;
 	long time;
 	
-	public TradeClass(Position pos, double avgSellPrice, long time) {
+	public TradeClass(Position pos, double avgSellPrice) {
 		this.pos = pos;
 		this.avgSellPrice = avgSellPrice;
-		this.time = time;
+		this.time = System.currentTimeMillis();
 	}
 	
 	public String getCoin() {
