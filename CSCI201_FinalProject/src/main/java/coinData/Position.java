@@ -24,6 +24,10 @@ public class Position {
 		this.time = time;;
 		this.amount = amount;
 	}
+
+	public double getTotalValue() {
+		return avgBuy*amount;
+	}
 	
 	
 	

@@ -28,6 +28,28 @@ class timeValue{
 	}
 }
 
+class nameValue{
+	private String name;
+	private double value;
+	
+	public nameValue(String name, double value) {
+		this.name = name;
+		this.value = value;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public double getValue() {
+		return value;
+	}
+	
+	public void increaseValue(double value) {
+		this.value += value;
+	}
+}
+
 
 public class PortfolioClass {
 	private String portfolioName;
@@ -141,6 +163,15 @@ public class PortfolioClass {
 		}
 		return listToString(coins, timeFrame);
 	}
+
+	public String getPieData() {
+		String ret = "";
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			ret += ",[" + entry.getKey() + "," + entry.getValue().getTotalValue() + "]";
+		}
+		return ret;
+	}
+	
 	
 	
 	/**
