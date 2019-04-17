@@ -10,7 +10,6 @@ import com.binance.api.client.domain.market.CandlestickInterval;
 
 public class UserThread extends Thread{
 	public void initialize() {
-		System.out.println("INITIALIZE THIS BITCH");
 		String key = "CFQvKQ9Xuf7L6mf8i7qqCoDmrK9C6XzGibUWXvTB4nagC3OblBlMTj49BNHV3qjN";
 		String secret = "PTJVaWQd9DCW2ysn7ATdLf1T9F8eheEe29mEVfIx9BML92N1dC95nk7jfn8tFplM";
 		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance(key, secret);

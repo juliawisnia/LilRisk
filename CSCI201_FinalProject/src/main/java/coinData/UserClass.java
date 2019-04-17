@@ -32,15 +32,6 @@ public class UserClass {
 		this.username = "";
 	}
 	
-	public static void main(String[] args) {
-		String coinNames[] = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT", "NULSUSDT", "VETUSDT", "PAXUSDT", "BCHABCUSDT", "BCHSVUSDT", "LINKUSDT", "WAVESUSDT", "BTTUSDT",  "ONGUSDT", "HOTUSDT", "ZILUSDT", "ZRXUSDT", "FETUSDT", "BATUSDT", "XMRUSDT", "ZECUSDT", "IOSTUSDT", "CELRUSDT", "DASHUSDT", "NANOUSDT", "OMGUSDT"};
-		UserClass uc = new UserClass();
-		String output[] = uc.coinTrends(coinNames, "day");
-		for(int i = 0; i < output.length; i++) {
-			System.out.println(output[i]);
-		}
-	}
-	
 	public void loadUser(int userID, String username) { 
 		this.username = username;
 		this.portfolios.clear();
@@ -147,8 +138,6 @@ public class UserClass {
 		if(coinValues.size() != 0) {
 			ret += "[0";
 			for(int i = 0; i < coinValues.size(); i++) {
-				System.out.println(i + ":" + coinValues.get(i).size());
-				System.out.println("Please print this");
 				if(coinValues.get(i).get(0).getOpen().indexOf('.') == -1) {
 					ret += "," + coinValues.get(i).get(0).getOpen();
 				}
