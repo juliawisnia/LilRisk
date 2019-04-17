@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import coinData.PortfolioClass;
 import coinData.Position;
 import coinData.TradeClass;
 
 @WebServlet("/Portfolio")
 public class Portfolio extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	Vector<Position> currentPositions = new Vector<Position>();
+	PortfolioClass currPortfolio = new PortfolioClass("temp"); //TEMPORARY PORTFOLIO, CHANGE LATER TO GET CURRENT PORTFOLIO
+	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String buyButtonDidPressed = request.getParameter("buyButton");
 		String sellButtonDidPressed = request.getParameter("sellButton");
@@ -51,21 +57,19 @@ public class Portfolio extends HttpServlet {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			
 			if (buyButtonDidPressed != null && buyButtonDidPressed.length() != 0) {
-				//IMPLEMENT FOR BUY BUTTON
 				Position newPos = new Position(coinSymbol, Double.parseDouble(amount), System.currentTimeMillis());
+				currentPositions.add(newPos);
 			}
 			else if (sellButtonDidPressed != null && sellButtonDidPressed.length() != 0) {
-				//IMPLEMENT FOR SELL BUTTON
-				
-				
-				Position newPos = null; //PLACEHOLDER
-				
-				
-				TradeClass newTrade = new TradeClass(newPos, Double.parseDouble(sellPrice));
+				Position newPos = findPosition(coinSymbol);
+				if (newPos != null) {
+					TradeClass newTrade = new TradeClass(newPos, Double.parseDouble(sellPrice));
+					currPortfolio.recordTrade(newTrade.getCoin(), newTrade.getAvgBuyPrice(), newTrade.getAvgSellPrice(), newTrade.getAmount(), newTrade.getTime());
+				}
+				else {
+					System.out.println("Error: Position for " + coinSymbol + " could not be found.");
+				}
 			}
-			
-			
-			
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
@@ -79,6 +83,15 @@ public class Portfolio extends HttpServlet {
 				System.out.println("sqle closing stuff: " + sqle.getMessage());
 			}
 		}
+	}
+	
+	Position findPosition(String symbol) {
+		for (int i = 0; i < currentPositions.size(); i++) {
+			if (symbol.equalsIgnoreCase(currentPositions.get(i).getName())) {
+				return currentPositions.get(i);
+			}
+		}
+		return null;
 	}
 
 
