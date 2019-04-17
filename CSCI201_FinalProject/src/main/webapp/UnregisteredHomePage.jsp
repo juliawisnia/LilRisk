@@ -176,7 +176,10 @@ input[type=button].time {
 		</style>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-		 <script type="text/javascript">
+		<script type="text/javascript">
+		function load() {
+			console.log("here");
+		}
 		google.charts.load('current', {packages: ['corechart', 'line']});
 		google.charts.setOnLoadCallback(drawBasic);
 		function addLine(element) {
@@ -186,7 +189,6 @@ input[type=button].time {
 		}
 		
 		function drawBasic() {
-			console.log("redrawing grah");
 			var data = new google.visualization.DataTable();
 			
 			data.addColumn('number', 'X');
@@ -319,38 +321,33 @@ input[type=button].time {
  		function addNew() {
  			if (document.getElementById('new').style.visibility === 'hidden') document.getElementById('new').style.visibility = 'visible';
  		}
- 		function bold(element) {
- 			var all = document.getElementsByClassName('time');
-			var timeFrame;
- 			for (var i = 0; i < all.length; i++) {
- 				if (all[i].isSameNode(element)) {
- 					timeFrame = all[i].value;
- 					break;
- 				}
- 			}
-			if (timeFrame.localeCompare("1D") == 0) {
-				<%session.setAttribute("timeFrame", "day");%>
-				location.reload(true);
-			}
-			else if (timeFrame.localeCompare("1W") == 0) {
-				<%session.setAttribute("timeFrame", "week");%>
-				location.reload(true);
-			}
-			else if (timeFrame.localeCompare("1M") == 0) {
-				<%session.setAttribute("timeFrame", "month");%>
-				location.reload(true);
-			}
-			else if (timeFrame.localeCompare("6M") == 0) {
-				<%session.setAttribute("timeFrame", "sixMonth");%>
-				location.reload(true);
-			}
-			else {
-				<%session.setAttribute("timeFrame", "year");%>
-				location.reload(true);
-			}
-			
+ 		function day() {
+ 			console.log("day");
+ 			<%session.setAttribute("timeFrame", "day");%>
+ 			location.reload(true);
+ 		}
+ 		function week() {
+ 			console.log("week");
+			<%session.setAttribute("timeFrame", "week");%>
+			location.reload(true);
+ 		}
+ 		function month() {
+ 			console.log("month");
+			<%session.setAttribute("timeFrame", "month");%>
+			location.reload(true);
+ 		}
+ 		function smonth() {
+ 			console.log("sixmonth");
+			<%session.setAttribute("timeFrame", "sixMonth");%>
+			location.reload(true);
+ 		}
+ 		function year() {
+ 			console.log("year");
+ 			<%session.setAttribute("timeFrame", "year");%>
+			location.reload(true);
  		}
 		</script>
+		
 	</head>
 	<a href="UnregisteredHomePage.jsp" style="text-decoration: none;"><div id="title"><i>LIL RISK</i></div></a>
 	<hr style="border: 0.5px solid white;" />
@@ -363,11 +360,11 @@ input[type=button].time {
 		<div id="main-chart" style="height: 85%; width: 98%; margin-left: -10%; position: relative;"></div>
 		<table class="time-frames">
 			<tr>
-				<th><input type="button" class="time" onclick="bold(this)" value="1D" style="font-weight: bold;"></th>
-				<th><input type="button" class="time" onclick="bold(this)" value="1W"></th>
-				<th><input type="button" class="time" onclick="bold(this)" value="1M"></th>
-				<th><input type="button" class="time" onclick="bold(this)" value="6M"></th>
-				<th><input type="button" class="time" onclick="bold(this)" value="1Y"></th>
+				<th><input type="button" class="time" onclick="day()" value="1D" style="font-weight: bold;"></th>
+				<th><input type="button" class="time" onclick="week()" value="1W"></th>
+				<th><input type="button" class="time" onclick="month()" value="1M"></th>
+				<th><input type="button" class="time" onclick="smonth()" value="6M"></th>
+				<th><input type="button" class="time" onclick="year()" value="1Y"></th>
 			</tr>
 		</table>
 		<div class="top-box"></div>
