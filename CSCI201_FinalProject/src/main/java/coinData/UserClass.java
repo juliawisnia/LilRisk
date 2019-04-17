@@ -115,6 +115,13 @@ public class UserClass {
 		}
 	}
 
+	public String getPie(String portfolio) {
+		PortfolioClass target = portfolios.get(portfolio);
+		String ret = "[['Coins', 'Value'],";
+		ret += target.getPieData() + "]";
+		return ret;
+	}
+
 	public String[] coinTrends(String coins[], String timeFrame) {
 		String values[] = new String[coins.length*2 + 1];
 		for(int i = 0; i < coins.length; i++) {
