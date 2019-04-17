@@ -6,7 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Home</title>
-		<style>
+<style>
 		* {
 	font-family: Avenir Next;
 	background-color: #242424;
