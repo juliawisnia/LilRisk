@@ -175,6 +175,7 @@ input[type=button].time {
 }
 		</style>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 		<script type="text/javascript">
 		function load() {
@@ -211,12 +212,48 @@ input[type=button].time {
 			
 			var vals; 
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
+			
 			console.log(timeFrame);
-			if (timeFrame === "day") vals = <%=session.getAttribute("dayData")%>;
-			else if (timeFrame === "week") vals = <%=session.getAttribute("weekData")%>;
-			else if (timeFrame === "month") vals = <%=session.getAttribute("monthData")%>;
-			else if (timeFrame === "sixMonth") vals = <%=session.getAttribute("sixMonthData")%>;
-			else vals = <%=session.getAttribute("yearData")%>;
+			if (timeFrame === "day") {
+				vals = <%=session.getAttribute("dayData")%>;
+				document.getElementById('day').style.fontWeight = 'bold';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "week") {
+				vals = <%=session.getAttribute("weekData")%>;
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'bold';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "month") {
+				vals = <%=session.getAttribute("monthData")%>;
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'bold';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "sixMonth") {
+				vals = <%=session.getAttribute("sixMonthData")%>;
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'bold';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else {
+				vals = <%=session.getAttribute("yearData")%>;
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'bold';
+			}
 			
 			data.addRows(vals);
 			
@@ -312,39 +349,19 @@ input[type=button].time {
 			}
 		}
 		
- 		function addSign() {
-			if (document.getElementById('dollar').style.visibility === 'hidden') {
-				document.getElementById('dollar').style.visibility = 'visible';
-			}
-			document.getElementById('start-amount').value = "";
-		}
- 		function addNew() {
- 			if (document.getElementById('new').style.visibility === 'hidden') document.getElementById('new').style.visibility = 'visible';
- 		}
- 		function day() {
- 			console.log("day");
- 			<%session.setAttribute("timeFrame", "day");%>
- 			location.reload(true);
- 		}
- 		function week() {
- 			console.log("week");
-			<%session.setAttribute("timeFrame", "week");%>
-			location.reload(true);
- 		}
- 		function month() {
- 			console.log("month");
-			<%session.setAttribute("timeFrame", "month");%>
-			location.reload(true);
- 		}
- 		function smonth() {
- 			console.log("sixmonth");
-			<%session.setAttribute("timeFrame", "sixMonth");%>
-			location.reload(true);
- 		}
- 		function year() {
- 			console.log("year");
- 			<%session.setAttribute("timeFrame", "year");%>
-			location.reload(true);
+ 		function changeTime(element) {
+			$.ajax({
+				url: "BoldServlet",
+				type: "POST",
+				data: {
+					timeframe: element.value
+				},
+				success: function(result) {
+					if (result === "success") {
+						location.reload(true);
+					}
+				}
+			})
  		}
 		</script>
 		
@@ -360,11 +377,11 @@ input[type=button].time {
 		<div id="main-chart" style="height: 85%; width: 98%; margin-left: -10%; position: relative;"></div>
 		<table class="time-frames">
 			<tr>
-				<th><input type="button" class="time" onclick="day()" value="1D" style="font-weight: bold;"></th>
-				<th><input type="button" class="time" onclick="week()" value="1W"></th>
-				<th><input type="button" class="time" onclick="month()" value="1M"></th>
-				<th><input type="button" class="time" onclick="smonth()" value="6M"></th>
-				<th><input type="button" class="time" onclick="year()" value="1Y"></th>
+				<th><input type="button" id="day" class="time" onclick="changeTime(this)" value="1D"></th>
+				<th><input type="button" id="week" class="time" onclick="changeTime(this)" value="1W"></th>
+				<th><input type="button" id="month" class="time" onclick="changeTime(this)" value="1M"></th>
+				<th><input type="button" id="sixMonth" class="time" onclick="changeTime(this)" value="6M"></th>
+				<th><input type="button" id="year" class="time" onclick="changeTime(this)" value="1Y"></th>
 			</tr>
 		</table>
 		<div class="top-box"></div>
