@@ -397,7 +397,6 @@ input[type=button].time {
 		}
 
  		function changeTime(element) {
- 			console.log("here");
 			$.ajax({
 				url: "BoldServlet",
 				type: "POST",
