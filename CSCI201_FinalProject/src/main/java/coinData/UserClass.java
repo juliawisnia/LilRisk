@@ -61,7 +61,7 @@ public class UserClass {
 				ps2.setInt(1, portfolioID);
 				rs2 = ps2.executeQuery();
 				while(rs2.next()) {
-					temp.addPosition(new Position(rs2.getString("symbol"),rs2.getDouble("buyPrice"), rs2.getDate("buyTime").getTime(), rs2.getDouble("amount")));
+					temp.addPosition(new Position(rs2.getString("symbol"),rs2.getDouble("buyPrice"), rs2.getLong("buyTime"), rs2.getDouble("amount")));
 				}
 				
 				ps3 = conn.prepareStatement("SELECT symbol, buyTime, sellTime, buyPrice, sellPrice, amount FROM Trades WHERE portfolioID = ?");
@@ -69,7 +69,7 @@ public class UserClass {
 				rs3 = ps3.executeQuery();
 				while(rs3.next()) {
 //					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getDate("buyTime").getTime(), rs3.getDouble("amount")), rs3.getDouble("avgSell"), rs3.getDate("sellTime").getTime()));
-					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getDate("buyTime").getTime(), rs3.getDouble("amount")), rs3.getDouble("avgSell")));
+					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getLong("buyTime"), rs3.getDouble("amount")), rs3.getDouble("avgSell"), rs3.getLong("sellTime")));
 				}
 				portfolios.put(portfolioName, temp);
 			}

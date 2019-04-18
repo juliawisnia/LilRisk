@@ -15,6 +15,12 @@ public class TradeClass {
 		this.time = System.currentTimeMillis();
 	}
 	
+	public TradeClass(Position pos, double avgSellPrice, long time) {
+		this.pos = pos;
+		this.avgSellPrice = avgSellPrice;
+		this.time = time;
+	}
+	
 	public String getCoin() {
 		return pos.getName();
 	}
