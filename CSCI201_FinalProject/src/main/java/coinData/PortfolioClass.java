@@ -222,31 +222,30 @@ public class PortfolioClass {
 	 */
 	public List<timeValue> portfolioTrend(String timeFrame){
 		List<timeValue> ret = Collections.synchronizedList(new ArrayList<timeValue>());
-		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
+		List<List<timeValue>> position = Collections.synchronizedList(new ArrayList<List<timeValue>>());
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
-			ports.add(entry.getValue().timeValueData(timeFrame));
+			position.add(entry.getValue().timeValueData(timeFrame));
 		}
 		for(int i = 0; i < tradeHistory.size(); i++) {
-			ports.add(tradeHistory.get(i).timeValueRange(timeFrame));
+			position.add(tradeHistory.get(i).timeValueRange(timeFrame));
 		}
 		int longest = 0;
-		for(int i = 0; i < ports.size(); i++) {
-			if(ports.get(i).size() > longest) {
-				longest = ports.get(i).size();
+		for(int i = 0; i < position.size(); i++) {
+			if(position.get(i).size() > longest) {
+				longest = position.get(i).size();
 			}
 		}
-		for(int i = 0; i < ports.size(); i++) {
+		for(int i = 0; i < position.size(); i++) {
+			double total = 0;
+			long time = 0;
 			for(int j = 0; j < longest; j++) {
-				double total = 0;
-				long time = 0;
-				int size = longest - ports.get(i).size();
+				int size = longest - position.get(i).size();
 				if(j >= size) {
-					time = ports.get(i).get(j-size).getTime();
-					total += ports.get(i).get(j-size).getValue();
+					time = position.get(i).get(j-size).getTime();
+					total += position.get(i).get(j-size).getValue();
 				}
-				ret.add(new timeValue(time, total));
 			}
-				
+			ret.add(new timeValue(time, total));
 		}
 		return ret;
 	}

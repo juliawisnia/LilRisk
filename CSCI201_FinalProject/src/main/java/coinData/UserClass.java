@@ -69,7 +69,7 @@ public class UserClass {
 				rs3 = ps3.executeQuery();
 				while(rs3.next()) {
 //					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getDate("buyTime").getTime(), rs3.getDouble("amount")), rs3.getDouble("avgSell"), rs3.getDate("sellTime").getTime()));
-					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getLong("buyTime"), rs3.getDouble("amount")), rs3.getDouble("sellPrice"), rs3.getLong("sellTime")));
+					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getLong("buyTime"), rs3.getDouble("amount")), rs3.getDouble("avgSell"), rs3.getLong("sellTime")));
 				}
 				portfolios.put(portfolioName, temp);
 			}
