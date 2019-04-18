@@ -39,10 +39,11 @@ INSERT INTO User (username, userPassword)
 	VALUES ('TestUsername1', 'TestPassword1'),
 		   ('TestUsername2', 'TestPassword2'),
 		   ('TestUsername3', 'TestPassword3'),
-           ('a','a');
+           ('Julia','Wisnia');
            
 INSERT INTO Portfolio (userID, portfolioName)
-	VALUES (1, 'TestPortfolio');
+	VALUES (1, 'TestPortfolio'),
+		   (4, 'Julia Account');
 
 INSERT INTO Positions (portfolioID, symbol, buyTime, buyPrice, amount)
 	VALUES (1, 'BTCUSDT', 'April 10 9:16:05', '5014.56', '0.358420'),
@@ -52,5 +53,8 @@ INSERT INTO Positions (portfolioID, symbol, buyTime, buyPrice, amount)
 INSERT INTO Trades (portfolioID, symbol, buyTime, sellTime, buyPrice, sellPrice, amount)
 	VALUES (1, 'BTCUSDT', 'April 10 9:16:05', 'April 11 9:16:05', '5014.56', '5236.84', '0.358420'),
 		   (1, 'ETHUSDT', 'April 11 14:34:25', 'April 12 9:16:05', '163.75', '154.35', '1.5673'),
-		   (1, 'XRPUSDT', 'April 11 20:54:15', 'April 12 9:16:05', '0.32236', '0.37865', '457.2312');
+		   (1, 'XRPUSDT', 'April 11 20:54:15', 'April 12 9:16:05', '0.32236', '0.37865', '457.2312'),
+           (4, 'BTCUSDT', 'April 10 9:16:05', 'April 11 9:16:05', '5214.56', '5436.84', '1.358420'),
+		   (4, 'ETHUSDT', 'April 11 14:34:25', 'April 12 9:16:05', '173.75', '181.35', '12.5673'),
+		   (4, 'XRPUSDT', 'April 11 20:54:15', 'April 12 9:16:05', '0.32236', '0.37865', '457.2312');
     
