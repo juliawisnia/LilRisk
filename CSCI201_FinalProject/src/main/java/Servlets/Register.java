@@ -62,7 +62,7 @@ public class Register extends HttpServlet {
 				response.getWriter().write("success");
 			}
 			
-		} catch (SQLException sqle) {
+		} catch (SQLExcegiption sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("cnfe: " + cnfe.getMessage());
