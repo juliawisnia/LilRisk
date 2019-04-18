@@ -2,7 +2,8 @@ DROP DATABASE IF EXISTS LilRisk;
 CREATE DATABASE LilRisk;
 USE LilRisk;
 
-SET GLOBAL time_zone = '+3:00';
+SET @@global.time_zone = '+00:00';
+SET @@session.time_zone = '+00:00';
 
 CREATE TABLE User (
 	userID INT(11) PRIMARY KEY AUTO_INCREMENT,
