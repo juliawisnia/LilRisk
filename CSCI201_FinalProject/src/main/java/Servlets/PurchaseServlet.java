@@ -23,6 +23,7 @@ public class PurchaseServlet extends HttpServlet {
 		int amount = Integer.parseInt((String)(request.getParameter("quantity")));
 		String port = request.getParameter("portfolio");
 		long now = Instant.now().toEpochMilli();
+		double val = 0;
 		
 		response.setContentType("text/plain");
 		HttpSession session = request.getSession();

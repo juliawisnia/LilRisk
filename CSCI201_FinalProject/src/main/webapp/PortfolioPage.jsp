@@ -530,15 +530,14 @@ input[type=number]::-webkit-inner-spin-button {
 				<li style="padding-bottom: 15px;"><input type="button" onclick="purchase()" id="purchase" value="purchase"></li>
 			</ul>
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
-				
-				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value="AAPL" onclick="buy(this.value)"><div class="price" onclick="expand()">190.50</div></li>
-				<li class="company">Apple Inc. <div class="portPer">0.60%</div></li>
-				
-				<li class="symbol"><input type="button" class="sb" value="GOOG" onclick="buy(this.value)"><div class="price">1,197.25</div></li>
-				<li class="company">Alphabet Inc.<div class="portPer">0.65%</div></li>
-				
-				<li class="symbol"><input type="button" class="sb" value="FB" onclick="buy(this.value)"><div class="price">177.58</div></li>
-				<li class="company">Facebook, Inc.<div class="portPer" style="border-color: green; color: green;">2.65%</div></li>
+				<%
+					String[] coins = (String[])(session.getAttribute("coins"));
+					for (int i = 0; i < coins.length; i+=4) {
+						String symbol = coins[i]; String name = coins[i+1]; String price = coins[i+2]; String per = coins[i+3];
+				%>
+				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value="<%=symbol %>" onclick="buy(this.value)"><div class="price"><%=price %></div></li>
+				<li class="company"><%=name %> <div class="portPer"><%=per %></div></li>
+				<%} %>
 			</ul>
 		</div>
 

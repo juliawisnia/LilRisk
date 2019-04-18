@@ -154,6 +154,9 @@
 	
 	String redirectURL = "home.jsp";
     response.sendRedirect(redirectURL);
+    
+    String[] coins = user.getAllCoins();
+    session.setAttribute("coins", coins);
 %>
 <!DOCTYPE html>
 <html>
