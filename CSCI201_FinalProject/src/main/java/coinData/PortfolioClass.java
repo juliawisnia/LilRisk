@@ -241,8 +241,8 @@ public class PortfolioClass {
 				long time = 0;
 				int size = longest - ports.get(i).size();
 				if(j >= size) {
-					time = ports.get(i).get(j).getTime();
-					total += ports.get(i).get(j).getValue();
+					time = ports.get(i).get(j-size).getTime();
+					total += ports.get(i).get(j-size).getValue();
 				}
 				ret.add(new timeValue(time, total));
 			}
