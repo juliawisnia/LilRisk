@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("hello");
 		String fname = request.getParameter("fname");
 		String lname = request.getParameter("lname");
 		String email = request.getParameter("email");
@@ -57,8 +56,8 @@ public class Register extends HttpServlet {
 				response.getWriter().write("Email is already in use.\n");
 			} else {
 				// we can insert their username now
-				ps = conn.prepareStatement("INSERT INTO User VALUES(?,?)");
-				ps.setString(1, email); ps.setString(2,  password);
+				ps = conn.prepareStatement("INSERT INTO User(username, userPassword) VALUES (?,?)");
+				ps.setString(1,  email); ps.setString(2,  password);
 				ps.executeUpdate();
 				response.getWriter().write("success");
 			}
