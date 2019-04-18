@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("hello");
 		String fname = request.getParameter("fname");
 		String lname = request.getParameter("lname");
 		String email = request.getParameter("email");
@@ -47,7 +48,7 @@ public class Register extends HttpServlet {
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=Secretagent101!");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			cps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
 			cps.setString(1,  email);
 			rs = cps.executeQuery();

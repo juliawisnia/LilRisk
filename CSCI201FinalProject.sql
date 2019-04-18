@@ -2,8 +2,13 @@ DROP DATABASE IF EXISTS LilRisk;
 CREATE DATABASE LilRisk;
 USE LilRisk;
 
+<<<<<<< HEAD
 SET @@global.time_zone = '+00:00';
 SET @@session.time_zone = '+00:00';
+=======
+SET GLOBAL time_zone = '+3:00';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+>>>>>>> 4541acb61d5fafbdcf1866a1b045e3abe129ff07
 
 CREATE TABLE User (
 	userID INT(11) PRIMARY KEY AUTO_INCREMENT,
