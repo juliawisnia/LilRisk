@@ -490,11 +490,12 @@ input[type=number]::-webkit-inner-spin-button {
 				type: "POST",
 				data: {
 					coin: document.getElementById('search'),
-					quantity: document.getElementById('quantity')
+					quantity: document.getElementById('quantity'),
+					portfolio: document.getElementById('curr')
 				},
 				success: function(result) {
 					if (result === "success") {
-						location.reload(true);
+						window.location.href = "load.jsp";
 					}
 				}
 			})
@@ -512,7 +513,7 @@ input[type=number]::-webkit-inner-spin-button {
 	<input type="button" id="portfolioButton" value="PORTFOLIOS" onclick= "changeSideBar()">
 	<hr style="border: 0.5px solid white;" />
 	<body>
-		<div class="portfolio-name">PORTFOLIO NAME</div>
+		<div class="portfolio-name" id="curr">PORTFOLIO NAME</div>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
@@ -529,7 +530,6 @@ input[type=number]::-webkit-inner-spin-button {
 				<li style="padding-bottom: 15px;"><input type="button" onclick="purchase()" id="purchase" value="purchase"></li>
 			</ul>
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
-				<!-- <li id="look"><input type="text" id="search" value="Search" onfocus="this.value=''"></li> -->
 				
 				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value="AAPL" onclick="buy(this.value)"><div class="price" onclick="expand()">190.50</div></li>
 				<li class="company">Apple Inc. <div class="portPer">0.60%</div></li>
