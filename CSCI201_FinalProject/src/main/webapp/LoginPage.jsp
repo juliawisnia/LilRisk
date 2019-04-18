@@ -107,7 +107,7 @@ ul.alert li {
 				url: "LoginServlet",
 				type: "POST",
 				data: {
-					email: document.getElementById('email').value,
+					username: document.getElementById('username').value,
 					password: document.getElementById('pw').value,
 				},
 				success: function(result) {
@@ -115,15 +115,7 @@ ul.alert li {
 						window.location.href = "home.jsp";
 					}
 					else {
-						var noEmail = <%=session.getAttribute("no-email")%>;
-						var noPw = <%=session.getAttribute("no-password")%>;
-						var inUser = <%=session.getAttribute("invalid-username")%>;
-						var noMatch = <%=session.getAttribute("no-match")%>;
-						
-						if (noEmail != null) document.getElementById("no-email").className = "show";
-						if (noPw != null) document.getElementById("no-password").className = "show";
-						if (inUser != null) document.getElementById("no-user").className = "show";
-						if (noMatch != null) document.getElementById("no-match").className = "show";
+						alert(result);
 					}
 				}
 			})
@@ -135,17 +127,9 @@ ul.alert li {
 		<div id="accnt">Sign In</div>
 		<div class="form-container">
 			<ul class="list">
-				<li><input type="email" id="email" onfocus="this.value=''" value="Email"></li></br>
+				<li><input type="text" id="username" onfocus="this.value=''" value="Email"></li></br>
 				<li><input type="text" id="pw" onfocus="this.value=''; this.type='password'" value="Password"></li></br>
 				<li><input type="button" onclick="login()" name="login" value="Login"></li>
-			</ul>
-		</div>
-		<div class="top" id="alert">
-			<ul class="alert">
-				<li id="no-email" class="hide">Must enter an email.</li>
-				<li id="no-password" class="hide">Must enter a password.</li>
-				<li id="no-match" class="hide">Email and password do not match.</li>
-				<li id="no-user" class="hide">No email exists.</li>
 			</ul>
 		</div>
 	</body>

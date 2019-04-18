@@ -20,13 +20,13 @@ public class Register extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String fname = request.getParameter("fname");
 		String lname = request.getParameter("lname");
-		String email = request.getParameter("email");
+		String username = request.getParameter("username");
 		String password = request.getParameter("pw");
 		String confirmPassword = request.getParameter("cpw");
 		
 		if (fname == null || fname.equals("First Name") || fname.trim().length() == 0) response.getWriter().write("Must enter a first name.\n");
 		if (lname == null || lname.contentEquals("Last Name") || lname.trim().length() == 0) response.getWriter().write("Must enter a last name.\n");
-		if (email == null || email.equals("Email") || email.trim().length() == 0) response.getWriter().write("Must enter an email.\n");
+		if (username == null || username.equals("Username") || username.trim().length() == 0) response.getWriter().write("Must enter a username.\n");
 		if (password == null || password.equals("Password") || password.length() == 0) response.getWriter().write("Must enter a password.\n");
 		if (confirmPassword == null || fname.equals("Confirm Password")  | confirmPassword.length() == 0) response.getWriter().write("Must confirm password.\n");
 		
@@ -49,20 +49,20 @@ public class Register extends HttpServlet {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			cps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
-			cps.setString(1,  email);
+			cps.setString(1,  username);
 			rs = cps.executeQuery();
 			// returned a non-empty result set
 			if (rs.next()) {
-				response.getWriter().write("Email is already in use.\n");
+				response.getWriter().write("Username is already taken.\n");
 			} else {
 				// we can insert their username now
 				ps = conn.prepareStatement("INSERT INTO User(username, userPassword) VALUES (?,?)");
-				ps.setString(1,  email); ps.setString(2,  password);
+				ps.setString(1,  username); ps.setString(2,  password);
 				ps.executeUpdate();
 				response.getWriter().write("success");
 			}
 			
-		} catch (SQLExcegiption sqle) {
+		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("cnfe: " + cnfe.getMessage());

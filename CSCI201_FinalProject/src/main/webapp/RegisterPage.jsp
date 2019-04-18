@@ -106,7 +106,7 @@ ul.alert li {
 				data: {
 					fname: document.getElementById('fname').value,
 					lname: document.getElementById('lname').value,
-					email: document.getElementById('email').value,
+					username: document.getElementById('username').value,
 					pw: document.getElementById('pw').value,
 					cpw: document.getElementById('cpw').value
 				},
@@ -129,7 +129,7 @@ ul.alert li {
 			<ul class="list">
 				<li><input type="text" id="fname" onfocus="this.value=''" value="First Name"></li></br>
 				<li><input type="text" id="lname" onfocus="this.value=''" value="Last Name"></li></br>
-				<li><input type="email" id="email" onfocus="this.value=''" value="Email"></li></br>
+				<li><input type="text" id="username" onfocus="this.value=''" value="Username"></li></br>
 				<li><input type="text" id="pw" onfocus="this.value=''; this.type='password'" value="Password"></li></br>
 				<li><input type="text" id="cpw" onfocus="this.value=''; this.type='password'" value="Confirm Password"></li></br>
 				<li><input type="button" onclick="create()" name="create" value="Create"></li>
