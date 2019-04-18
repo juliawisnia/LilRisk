@@ -111,7 +111,7 @@ public class UserClass {
 		}
 	}
 
-	public String getPie(String portfolio) {
+	public String getPieChart(String portfolio) {
 		PortfolioClass target = portfolios.get(portfolio);
 		String ret = "[['Coins', 'Value'],";
 		ret += target.getPieData() + "]";
