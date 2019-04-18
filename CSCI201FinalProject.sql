@@ -3,6 +3,7 @@ CREATE DATABASE LilRisk;
 USE LilRisk;
 
 SET GLOBAL time_zone = '+3:00';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 
 CREATE TABLE User (
 	userID INT(11) PRIMARY KEY AUTO_INCREMENT,
