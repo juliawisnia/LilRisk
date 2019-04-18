@@ -29,6 +29,10 @@ public class Position {
 		return avgBuy*amount;
 	}
 	
+	public CoinClass getCoin() {
+		return coin;
+	}
+	
 	
 	
 	/**

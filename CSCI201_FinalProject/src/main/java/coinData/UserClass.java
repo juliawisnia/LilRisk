@@ -188,6 +188,11 @@ public class UserClass {
 		return ret;
 	}
 	
+	public String[] coinPurchaseData() {
+		String data[] = new String[AllCoins.getNumCoins()];
+		return null;
+	}
+	
 	
 	public String[] homePageData(String timeFrame) {
 		String ret = "[";
@@ -196,7 +201,7 @@ public class UserClass {
 		Set<String> keys = portfolios.keySet();
 		Iterator<String> iter = keys.iterator();
 		ArrayList<PortfolioClass> portNames = new ArrayList<PortfolioClass>();
-		while(iter != null) {
+		while(iter.hasNext()) {
 			PortfolioClass tempPort = portfolios.get(iter.next());
 			ports.add(tempPort.portfolioTrend(timeFrame));
 			portNames.add(tempPort);

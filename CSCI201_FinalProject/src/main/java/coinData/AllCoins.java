@@ -19,6 +19,10 @@ public class AllCoins {
 		return coins.get(coin);
 	}
 	
+	public static int getNumCoins() {
+		return coins.size();
+	}
+	
 	/**
 	 * 
 	 * @param coin

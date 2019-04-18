@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import com.binance.api.client.domain.market.Candlestick;
+
 
 class timeValue{
 	private long time;
@@ -147,6 +149,24 @@ public class PortfolioClass {
 		}
 	}
 	
+	public String[] portfolioCoinData() {
+		String data[] = new String[coins.size()*7];
+		Set<String> keys = coins.keySet();
+		Iterator<String> iter = keys.iterator();
+		int i = 0;
+		while(iter.hasNext()) {
+			Position temp = coins.get(iter.next());
+			data[i*7] = temp.getName();
+			data[i*7+1] = "" + temp.getAvgBuy();
+			data[i*7+2] = "" + temp.getCoin().getCurrentPrice();
+			data[i*7+3] = "" + temp.percentDifference();
+			data[i*7+4] = "" + temp.absoluteDifference();
+			data[i*7+5] = "" + temp.getCoin().getCurrentPrice();
+			data[i*7+6] = "" + temp.getAmount();
+		}
+		return data;
+	}
+	
 	/**
 	 * give the trend of the data for this portfolio on the given time frame
 	 * 
@@ -169,6 +189,32 @@ public class PortfolioClass {
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			ret += ",[" + entry.getKey() + "," + entry.getValue().getTotalValue() + "]";
 		}
+		return ret;
+	}
+	
+	public String portfolioDataWithCoins(String timeFrame) {
+		List<timeValue> overAll = this.portfolioTrend(timeFrame);
+		List<List<Candlestick>> coinData = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
+		Set<String> keys = coins.keySet();
+		Iterator<String> iter = keys.iterator();
+		String ret = "[";
+		while(iter.hasNext()) {
+			coinData.add(coins.get(iter.next()).getCoin().getDataList(timeFrame));
+		}
+		if(overAll.size() > 0) {
+			ret += "[0," + overAll.get(0).getValue();
+			for(int i = 0; i < coinData.size(); i++) {
+				ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen();
+			}
+		}
+		for(int j = 0; j < overAll.size(); j++) {
+			ret += ",[" + j + "," + overAll.get(j).getValue();
+			for(int i = 0; i < coinData.size(); i++) {
+				ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen();
+			}
+			ret += "]";
+		}
+		ret += "]";
 		return ret;
 	}
 	
