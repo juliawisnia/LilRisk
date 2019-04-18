@@ -28,7 +28,7 @@ CREATE TABLE Trades (
 	portfolioID INT(11),
     symbol VARCHAR(8),
     buyTime BIGINT(64),
-    sellTime BIGING(64),
+    sellTime BIGINT(64),
     buyPrice FLOAT(32),
     sellPrice FLOAT(32),
     amount FLOAT(11),
