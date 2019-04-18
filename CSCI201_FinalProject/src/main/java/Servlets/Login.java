@@ -51,12 +51,16 @@ public class Login extends HttpServlet {
 			if (!rs1.next()) response.getWriter().write("Username does not exist.");
 			
 			else {
-				ps = conn.prepareStatement("SELECT * FROM User WHERE username=? AND userPassword=?");
+				ps = conn.prepareStatement("SELECT userID FROM User WHERE username=? AND userPassword=?");
 				ps.setString(1, username);
 				ps.setString(2, password);
 				rs = ps.executeQuery();
+				int userID = 0;
 				// returned a non-empty result set
 				if (rs.next()) {
+					rs.getInt("userID");
+					UserClass user = (UserClass)(session.getAttribute("user"));
+					user.loadUser(userID, username);
 					response.getWriter().write("success");
 				} else {
 					response.getWriter().write("Username and password don't match.");

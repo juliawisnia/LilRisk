@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import coinData.UserClass;
+
 @WebServlet("/Register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,7 +45,9 @@ public class Register extends HttpServlet {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement cps = null;
+		PreparedStatement cps1 = null;
 		ResultSet rs = null;
+		ResultSet rs1 = null;
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -59,6 +63,19 @@ public class Register extends HttpServlet {
 				ps = conn.prepareStatement("INSERT INTO User(username, userPassword) VALUES (?,?)");
 				ps.setString(1,  username); ps.setString(2,  password);
 				ps.executeUpdate();
+				
+				cps1 = conn.prepareStatement("SELECT userID FROM User WHERE username=?"); 
+				cps1.setString(1, username);
+				
+				rs1 = cps1.executeQuery();
+				int userID = 0;
+				if (rs1.next()) {
+					userID = rs1.getInt("userID");
+				}
+				
+				UserClass user = (UserClass)(session.getAttribute("user"));
+				user.loadUser(userID, username);
+				
 				response.getWriter().write("success");
 			}
 			
