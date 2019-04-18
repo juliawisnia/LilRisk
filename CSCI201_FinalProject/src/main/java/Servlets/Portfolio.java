@@ -24,7 +24,8 @@ public class Portfolio extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	Vector<Position> currentPositions = new Vector<Position>();
-	PortfolioClass currPortfolio = new PortfolioClass("temp"); //TEMPORARY PORTFOLIO, CHANGE LATER TO GET CURRENT PORTFOLIO
+	Vector<PortfolioClass> portfolioList = new Vector<PortfolioClass>();
+	PortfolioClass currPortfolio;
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String buyButtonDidPressed = request.getParameter("buyButton");
@@ -37,12 +38,18 @@ public class Portfolio extends HttpServlet {
 		String sellTime = request.getParameter("sellTime");
 		String amount = request.getParameter("amount");
 		
+		String portfolioName = request.getParameter("portfolioName");
+		
 		if (coinSymbol == null) response.getWriter().write("Coin symbol must not be empty.");
 		if (buyPrice == null) response.getWriter().write("Buy price must not be empty.\n");
 		if (buyTime == null) response.getWriter().write("Buy time must not be empty.\n");
 		if (sellPrice == null) response.getWriter().write("Sell price must not be empty.");
 		if (sellTime == null) response.getWriter().write("Sell time must not be empty.\n");
 		if (amount == null) response.getWriter().write("Amount must not be empty.\n");
+		if (portfolioName == null) response.getWriter().write("Portolio name must not be empty.\n");
+		
+		currPortfolio = findPortfolio(portfolioName);
+		
 		
 		response.setContentType("text/plain");
 		HttpSession session = request.getSession();
@@ -89,6 +96,15 @@ public class Portfolio extends HttpServlet {
 		for (int i = 0; i < currentPositions.size(); i++) {
 			if (symbol.equalsIgnoreCase(currentPositions.get(i).getName())) {
 				return currentPositions.get(i);
+			}
+		}
+		return null;
+	}
+	
+	PortfolioClass findPortfolio(String pName) {
+		for (int i = 0; i < portfolioList.size(); i++) {
+			if (pName.equalsIgnoreCase(portfolioList.get(i).getName())) {
+				return portfolioList.get(i);
 			}
 		}
 		return null;
