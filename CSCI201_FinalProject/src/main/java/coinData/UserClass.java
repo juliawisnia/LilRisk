@@ -119,6 +119,10 @@ public class UserClass {
 		return 0;
 	}
 	
+	public int getPriceByCoin(String coin) {
+		return -1;
+	}
+	
 	public String[] getAllCoins() {
 		return AllCoins.allCoinsData();
 	}
