@@ -23,6 +23,18 @@ public class AllCoins {
 		return coins.size();
 	}
 	
+	public static String[] allCoinsData() {
+		String ret[] = new String[coins.size()*4];
+		int i= 0;
+		for (Map.Entry<String,CoinClass> entry : coins.entrySet()) {
+			ret[i*4] = entry.getValue().getName();
+			ret[i*4+1] = CoinNamesMap.symbol2Name(entry.getValue().getName());
+			ret[i*4+2] = "" + entry.getValue().getCurrentPrice();
+			ret[i*4+3] = "" + entry.getValue().getDayPercentChange();
+		}
+		return ret;
+	}
+	
 	/**
 	 * 
 	 * @param coin

@@ -110,6 +110,18 @@ public class UserClass {
 			}
 		}
 	}
+	
+	public int buy(String portfolio, String coin, double amount) {
+		return 0;
+	}
+	
+	public int sell(String portfolio, String coin, double amount) {
+		return 0;
+	}
+	
+	public String[] getAllCoins() {
+		return AllCoins.allCoinsData();
+	}
 
 	public String getPieChart(String portfolio) {
 		PortfolioClass target = portfolios.get(portfolio);
@@ -150,10 +162,6 @@ public class UserClass {
 		
 		String ret = "[";
 		if(coinValues.size() != 0) {
-			//String date = (new Date(coinValues.get(0).get(0).getOpenTime())).toString();
-			//date = date.substring(4);
-			//date = date.substring(0, 12) + " " + date.substring(20);
-			//ret += "["+date + ",0";
 			ret += "[0";
 			for(int i = 0; i < coinValues.size(); i++) {
 				if(coinValues.get(i).get(0).getOpen().indexOf('.') == -1) {
@@ -166,10 +174,6 @@ public class UserClass {
 			ret += "]";
 		}
 		for(int j = 1; j < longest; j++) {
-			//String date = (new Date(coinValues.get(0).get(j).getOpenTime())).toString();
-			//date = date.substring(4);
-			//date = date.substring(0, 12) + " " + date.substring(20);
-			//ret += ",[" + date + "," + j;
 			ret += ",["+ j;
 			for(int i = 0; i < coinValues.size(); i++) {
 				if(longest-j <= coinValues.get(i).size()) {
@@ -197,9 +201,12 @@ public class UserClass {
 		return null;
 	}
 	
+	public void buyCoin(String portfolio, String coin, double amount) {
+		portfolios.get(portfolio).buy(coin, amount);
+	}
+	
 	
 	public String[] homePageData(String timeFrame) {
-		String ret = "[";
 		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
 		String data[] = new String[portfolios.size()*2+1];
 		ArrayList<PortfolioClass> portNames = new ArrayList<PortfolioClass>();
@@ -209,16 +216,10 @@ public class UserClass {
 			portNames.add(tempPort);
 		}
 		int longest = 0;
-		int ind = 0;
 		for(int i = 0; i < ports.size(); i++) {
 			if(ports.get(i).size() > longest) {
 				longest = ports.get(i).size();
-				ind = i;
 			}
-		}
-		if(ind != 0) {
-			Collections.swap(ports, 0, ind);
-			Collections.swap(portNames, 0, ind);
 		}
 		for(int i = 0; i < portNames.size(); i++) {
 			data[i*2] = portNames.get(i).getName();
@@ -230,7 +231,8 @@ public class UserClass {
 			data[portfolios.size()*2] = "[]";
 			return data;
 		}
-		if(ports.get(0).size() != 0) {
+		String ret = "[";
+		if(longest != 0) {
 			//String date = (new Date(ports.get(0).get(0).getTime())).toString();
 			//date = date.substring(4);
 			//date = date.substring(0, 12) + " " + date.substring(20);
@@ -247,55 +249,27 @@ public class UserClass {
 			}
 			ret += "]";
 		}
-		for(int j = 1; j < ports.get(0).size(); j++) {
+		for(int j = 1; j < longest; j++) {
 			//String date = (new Date(ports.get(0).get(j).getTime())).toString();
 			//date = date.substring(4);
 			//date = date.substring(0, 12) + " " + date.substring(20);
 			//ret += ",["+date + "," + j;
 			ret += ",["+ j;
+			
 			for(int i = 0; i < ports.size(); i++) {
-				if(ports.get(i).size()-longest > 0) {
-					ret += "," + (int) ports.get(i).get(j+(ports.get(i).size()-longest)).getValue();
+				int size = longest-ports.get(i).size();
+				if(j >= size) {
+					ret += "," + (int) ports.get(i).get(j-size).getValue();
 				}
 				else {
 					ret += "," + 0;
 				}
-				
 			}
 			ret += "]";
 		}
 		ret += "]";
 		data[portfolios.size()*2] = ret;
 		return data;
-	}
-	
-	public List<timeValue> getPorfolioTrends(String timeFrame) {
-		List<timeValue> ret = Collections.synchronizedList(new ArrayList<timeValue>());
-		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
-		for (Map.Entry<String,PortfolioClass> entry : portfolios.entrySet()) {
-			ports.add(entry.getValue().portfolioTrend(timeFrame));
-			
-		}
-		int longest = 0;
-		for(int i = 0; i < ports.size(); i++) {
-			if(ports.get(i).size() > longest) {
-				longest = ports.get(i).size();
-			}
-		}
-		for(int i = 0; i < ports.size(); i++) {
-			for(int j = 0; j < longest; j++) {
-				double total = 0;
-				long time = 0;
-				int size = longest - ports.get(i).size();
-				if(j >= size) {
-					time = ports.get(i).get(j-size).getTime();
-					total += ports.get(i).get(j-size).getValue();
-				}
-				ret.add(new timeValue(time, total));
-			}
-				
-		}
-		return ret;
 	}
 	
 	
