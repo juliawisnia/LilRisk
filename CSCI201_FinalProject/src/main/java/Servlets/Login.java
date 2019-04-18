@@ -55,7 +55,6 @@ public class Login extends HttpServlet {
 			
 			else {
 				Statement stmt = conn.createStatement();
-				System.out.println("username is: " + username);
 				String query = "SELECT * FROM User WHERE username='" + username.trim() + "'";
 				rs = stmt.executeQuery(query);
 				int userID = 0;

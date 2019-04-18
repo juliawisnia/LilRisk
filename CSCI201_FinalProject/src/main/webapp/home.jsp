@@ -206,6 +206,20 @@ input[type=button].time {
 	background-color: rgba(0,0,0,0);
 	font-size: 20px;
 }
+#logout {
+	position: absolute;
+	background-color: #313030;
+	border: 1px solid white;
+	border-radius: 20px;
+	color: white;
+	width: 100px;
+	text-align: center;
+	font-size: 15px;
+	cursor: pointer;
+	z-index: 5;
+	top: 4%; right: 6.5%;
+}
+
 </style>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -406,11 +420,15 @@ input[type=button].time {
  		function addNew() {
  			if (document.getElementById('new').style.visibility === 'hidden') document.getElementById('new').style.visibility = 'visible';
  		}
+ 		function logout() {
+ 			window.location.href = "UnregisteredHomePage.jsp";
+ 		}
 		</script>
 	</head>
 	<div id="title"><i>LIL RISK INC.</i></div>
 	<hr style="border: 0.5px solid white;" />
 	<body>
+		<input class="lr" type="button" id="logout" value="SIGN OUT" onclick="logout()">
 		<div id="main-chart" style="height: 90%; width: 95%; margin-left: -10%; position: relative;"></div>
 		<table class="time-frames">
 			<tr>
