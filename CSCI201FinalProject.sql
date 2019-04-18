@@ -4,11 +4,6 @@ USE LilRisk;
 
 SET @@global.time_zone = '+00:00';
 SET @@session.time_zone = '+00:00';
-<<<<<<< HEAD
-
-SET GLOBAL time_zone = '+3:00';
-=======
->>>>>>> e9bf61331f0a48ea81b3551ec22c5e07e9e7c5c8
 
 CREATE TABLE User (
 	userID INT(11) PRIMARY KEY AUTO_INCREMENT,
