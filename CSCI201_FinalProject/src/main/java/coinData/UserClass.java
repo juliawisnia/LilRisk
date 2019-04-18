@@ -149,7 +149,7 @@ public class UserClass {
 			String date = (new Date(coinValues.get(0).get(0).getOpenTime())).toString();
 			date = date.substring(4);
 			date = date.substring(0, 12) + " " + date.substring(20);
-			ret += "["+date;
+			ret += "["+date + ",0";
 			for(int i = 0; i < coinValues.size(); i++) {
 				if(coinValues.get(i).get(0).getOpen().indexOf('.') == -1) {
 					ret += "," + coinValues.get(i).get(0).getOpen();
@@ -164,7 +164,7 @@ public class UserClass {
 			String date = (new Date(coinValues.get(0).get(j).getOpenTime())).toString();
 			date = date.substring(4);
 			date = date.substring(0, 12) + " " + date.substring(20);
-			ret += ",[" + date;
+			ret += ",[" + date + "," + j;
 			for(int i = 0; i < coinValues.size(); i++) {
 				if(longest-j <= coinValues.get(i).size()) {
 					if(coinValues.get(i).get(j-(longest-coinValues.get(i).size())).getOpen().indexOf('.') == -1) {
@@ -221,7 +221,7 @@ public class UserClass {
 			String date = (new Date(ports.get(0).get(0).getTime())).toString();
 			date = date.substring(4);
 			date = date.substring(0, 12) + " " + date.substring(20);
-			ret += "["+date;
+			ret += "["+date + ",0";
 			for(int i = 0; i < ports.size(); i++) {
 				if(ports.get(i).size()-longest == 0) {
 					ret += "," + (int) ports.get(i).get(0).getValue();
@@ -237,7 +237,7 @@ public class UserClass {
 			String date = (new Date(ports.get(0).get(j).getTime())).toString();
 			date = date.substring(4);
 			date = date.substring(0, 12) + " " + date.substring(20);
-			ret += ",["+date;
+			ret += ",["+date + "," + j;
 			for(int i = 0; i < ports.size(); i++) {
 				if(ports.get(i).size()-longest > 0) {
 					ret += "," + (int) ports.get(i).get(j+(ports.get(i).size()-longest)).getValue();
