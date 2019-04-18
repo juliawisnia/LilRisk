@@ -64,15 +64,61 @@ ul.list input[type=button] {
 	border-width: 1px;
 	cursor: pointer;
 }
+/*ALERTS*/
 
+.top {
+	position: absolute;
+	top: 10%;
+	left: 30%;
+	width: 534px;
+	background-color: rgb(189, 189, 189, 0);
+}
+ul.alert {
+	list-style-type: none;
+	background-color: rgb(189, 189, 189, 0);
+	padding: 0;
+	text-align: center;
+}
 
-	
+ul.alert li {
+	background-color: rgb(0, 0, 0, .5);
+	margin-bottom: 10px;
+	color: white;
+	padding: 10px;
+	font-size: 25px;
+	font-weight: lighter;
+	border-radius: 10px;
+}
+
+.hide {
+	display: none;  
+}
+
 	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<title>Register</title>
 	</head>
 	<script>
 		function create() {
-			window.location.href = "login.jsp";
+			$.ajax({
+				url: "Register",
+				type: "POST",
+				data: {
+					fname: document.getElementById('fname').value,
+					lname: document.getElementById('lname').value,
+					email: document.getElementById('email').value,
+					pw: document.getElementById('pw').value,
+					cpw: document.getElementById('cpw').value
+				},
+				success: function(result) {
+					if (result === "success") {
+						window.location.href = "home.jsp";
+					}
+					else {
+						alert(result);
+					}
+				}
+			})
 		}
 	</script>
 	<a href="UnregisteredHomePage.jsp" style="text-decoration: none"><div id="title"><i>LIL RISK</i></div></a>
