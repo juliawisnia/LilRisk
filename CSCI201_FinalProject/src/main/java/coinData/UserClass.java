@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -128,15 +129,27 @@ public class UserClass {
 	private String trend(String coins[], String timeFrame) {
 		List<List<Candlestick>> coinValues = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
 		int longest = 0;
+		int k = 0;
 		for(int i = 0; i < coins.length; i++) {
 			coinValues.add(AllCoins.getCoin(coins[i]).getDataList(timeFrame));
 			if(coinValues.get(i).size() > longest) {
 				longest = coinValues.get(i).size();
+				k = i;
 			}
 		}
+		if(k != 0) {
+			Collections.swap(coinValues, 0, k);
+			String temp = coins[0];
+			coins[0] = coins[k];
+			coins[k] = temp;
+		}
+		
 		String ret = "[";
 		if(coinValues.size() != 0) {
-			ret += "[0";
+			String date = (new Date(coinValues.get(0).get(0).getOpenTime())).toString();
+			date = date.substring(4);
+			date = date.substring(0, 12) + " " + date.substring(20);
+			ret += "["+date;
 			for(int i = 0; i < coinValues.size(); i++) {
 				if(coinValues.get(i).get(0).getOpen().indexOf('.') == -1) {
 					ret += "," + coinValues.get(i).get(0).getOpen();
@@ -148,7 +161,10 @@ public class UserClass {
 			ret += "]";
 		}
 		for(int j = 1; j < longest; j++) {
-			ret += ",[" + j;
+			String date = (new Date(coinValues.get(0).get(j).getOpenTime())).toString();
+			date = date.substring(4);
+			date = date.substring(0, 12) + " " + date.substring(20);
+			ret += ",[" + date;
 			for(int i = 0; i < coinValues.size(); i++) {
 				if(longest-j <= coinValues.get(i).size()) {
 					if(coinValues.get(i).get(j-(longest-coinValues.get(i).size())).getOpen().indexOf('.') == -1) {
@@ -170,22 +186,42 @@ public class UserClass {
 		return ret;
 	}
 	
-	public String trends(String timeFrame) {
+	
+	public String[] homePageData(String timeFrame) {
 		String ret = "[";
 		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
+		String data[] = new String[portfolios.size()*2+1];
 		Set<String> keys = portfolios.keySet();
 		Iterator<String> iter = keys.iterator();
+		ArrayList<PortfolioClass> portNames = new ArrayList<PortfolioClass>();
 		while(iter != null) {
-			ports.add(portfolios.get(iter.next()).portfolioTrend(timeFrame));
+			PortfolioClass tempPort = portfolios.get(iter.next());
+			ports.add(tempPort.portfolioTrend(timeFrame));
+			portNames.add(tempPort);
 		}
 		int longest = 0;
+		int ind = 0;
 		for(int i = 0; i < ports.size(); i++) {
 			if(ports.get(i).size() > longest) {
 				longest = ports.get(i).size();
+				ind = i;
 			}
 		}
+		if(ind != 0) {
+			Collections.swap(ports, 0, ind);
+			Collections.swap(portNames, 0, ind);
+		}
+		for(int i = 0; i < portNames.size(); i++) {
+			data[i*2] = portNames.get(i).getName();
+			double percent = portNames.get(i).getPercentChange();
+			percent = Math.floor(percent * 100) / 100;
+			data[(i*2)+1] = "" + percent;
+		}
 		if(ports.get(0).size() != 0) {
-			ret += "[0";
+			String date = (new Date(ports.get(0).get(0).getTime())).toString();
+			date = date.substring(4);
+			date = date.substring(0, 12) + " " + date.substring(20);
+			ret += "["+date;
 			for(int i = 0; i < ports.size(); i++) {
 				if(ports.get(i).size()-longest == 0) {
 					ret += "," + (int) ports.get(i).get(0).getValue();
@@ -198,7 +234,10 @@ public class UserClass {
 			ret += "]";
 		}
 		for(int j = 1; j < ports.get(0).size(); j++) {
-			ret += ",[" + j;
+			String date = (new Date(ports.get(0).get(j).getTime())).toString();
+			date = date.substring(4);
+			date = date.substring(0, 12) + " " + date.substring(20);
+			ret += ",["+date;
 			for(int i = 0; i < ports.size(); i++) {
 				if(ports.get(i).size()-longest > 0) {
 					ret += "," + (int) ports.get(i).get(j+(ports.get(i).size()-longest)).getValue();
@@ -211,7 +250,8 @@ public class UserClass {
 			ret += "]";
 		}
 		ret += "]";
-		return ret;
+		data[portfolios.size()*2] = ret;
+		return data;
 	}
 	
 	public List<timeValue> getPorfolioTrends(String timeFrame) {

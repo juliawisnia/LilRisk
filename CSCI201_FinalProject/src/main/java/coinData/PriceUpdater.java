@@ -15,7 +15,7 @@ public class PriceUpdater extends Thread{
 		
 		while(true) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(10000);
 				for(int i = 0; i < coinNames.length; i++) {
 					AllCoins.updatePrice(coinNames[i], Double.parseDouble(client.getPrice(coinNames[i]).getPrice()));
 				}
