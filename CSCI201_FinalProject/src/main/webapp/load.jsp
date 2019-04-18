@@ -65,7 +65,7 @@
 	    }
 	    
 	    session.setAttribute("homeWeekVals", weekVals);
-		session.setAttribute("weekPnDay", pnWeek);
+		session.setAttribute("homePnWeek", pnWeek);
 		session.setAttribute("homeLenWeek", weekVals.length);
 		
 		session.setAttribute("homeWeekData", weekVals[weekVals.length-1]); 

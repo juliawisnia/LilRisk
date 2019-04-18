@@ -6,7 +6,7 @@
 		<meta charset="UTF-8">
 		<title>Home</title>
 		<style>
-		* {
+* {
 	font-family: Avenir Next;
 	background-color: #242424;
 }
@@ -88,7 +88,7 @@ button:focus {
 	color: #E10808;
 }
 
-input[type=button] {
+input[type=button].add {
 	position: absolute;
 	right: 15px;
 	margin-top: 1.5%;
@@ -377,6 +377,7 @@ input[type=button].time {
 		}
 
  		function changeTime(element) {
+ 			console.log("here");
 			$.ajax({
 				url: "BoldServlet",
 				type: "POST",
@@ -429,7 +430,7 @@ input[type=button].time {
 	<hr style="border: 0.5px solid white;" />
 	<body>
 		<input class="lr" type="button" id="logout" value="SIGN OUT" onclick="logout()">
-		<div id="main-chart" style="height: 90%; width: 95%; margin-left: -10%; position: relative;"></div>
+		<div id="main-chart" style="height: 85%; width: 98%; margin-left: -10%; position: relative;"></div>
 		<table class="time-frames">
 			<tr>
 				<th><input type="button" id="day" class="time" onclick="changeTime(this)" value="1D"></th>
@@ -442,8 +443,7 @@ input[type=button].time {
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="sidebar" id="sidebar">
-			<% 
-				String[] pn = null;
+			<% String[] pn = null;
 				
 				if (timeFrame.equals("day")) pn = (String[])(session.getAttribute("homePnDay"));
 				else if (timeFrame.equals("week")) pn = (String[])(session.getAttribute("homePnWeek"));
@@ -464,7 +464,7 @@ input[type=button].time {
 			%>
  				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div><%=syms[i] %><input type="button" value="-" class="add"></li>
  			<%} %>
-				<li>New Portfolio<input type="button" value="+" id="add" onclick="addNew()" style="border-color: purple; color: purple;"></li>
+				<li>New Portfolio<input type="button" value="+" class="add" onclick="addNew()" style="border-color: purple; color: purple;"></li>
 			</ul>
 		</div>
 		<!-- add a new portfolio -->

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="coinData.*" %>
+<%@ page session="true"%>
 
 <!DOCTYPE html>
 <html>
@@ -36,13 +38,16 @@
 		
 		// Draw the chart and set the chart values
 		function drawChart() {
-		  var data = google.visualization.arrayToDataTable([
-		  ['Stocks', 'Shares'],
-		  ['APPL', 50],
-		  ['GOOG', 50],
-		  ['FB', 50],
-		  ['TWTR', 50],
-		  ['SNAP', 50]
+			<%
+				UserClass user = (UserClass)session.getAttribute("user");
+			%>
+			var data = google.visualization.arrayToDataTable([
+			['Stocks', 'Shares'],
+			['APPL', 50],
+			['GOOG', 50],
+			['FB', 50],
+			['TWTR', 50],
+			['SNAP', 50]
 		]);
 		
 		  // Optional; add a title and set the width and height of the chart
