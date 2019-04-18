@@ -119,8 +119,14 @@ public class UserClass {
 		return 0;
 	}
 	
-	public int getPriceByCoin(String coin) {
-		return -1;
+	public double getPriceByCoin(String coin) {
+		CoinClass c = AllCoins.getCoin(coin);
+		if(c == null) {
+			return -1;
+		}
+		else {
+			return c.getCurrentPrice();
+		}
 	}
 	
 	public String[] getAllCoins() {

@@ -245,10 +245,10 @@ public class PortfolioClass {
 				longest = position.get(i).size();
 			}
 		}
-		for(int i = 0; i < position.size(); i++) {
+		for(int j = 0; j < longest; j++) {
 			double total = 0;
 			long time = 0;
-			for(int j = 0; j < longest; j++) {
+			for(int i = 0; i < position.size(); i++) {
 				int size = longest - position.get(i).size();
 				if(j >= size) {
 					time = position.get(i).get(j-size).getTime();
