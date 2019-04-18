@@ -20,18 +20,15 @@ import javax.servlet.http.HttpSession;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("email");
-		String password = request.getParameter("pwd");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 		
-		if (username == null || username.equalsIgnoreCase("Email") || username.equalsIgnoreCase("")) {
-			response.getWriter().write("Username must not be empty.");
-			response.getWriter().write("failure");
+		if (username == null || username.equalsIgnoreCase("Username") || username.equalsIgnoreCase("")) {
+			response.getWriter().write("Username must not be empty.\n");
 		}
 		if (password == null || password.equalsIgnoreCase("Password") || password.equalsIgnoreCase("")) {
-			response.getWriter().write("Password must not be empty.");
-			response.getWriter().write("failure");
+			response.getWriter().write("Password must not be empty.\n");
 		}
-		
 		response.setContentType("text/plain");
 		HttpSession session = request.getSession();
 		session = request.getSession();
@@ -52,8 +49,7 @@ public class Login extends HttpServlet {
 			ps1.setString(1,  username);
 			rs1 = ps1.executeQuery();
 			if (!rs1.next()) {
-				response.getWriter().write("Username does not exist.");
-				response.getWriter().write("failure");
+				response.getWriter().write("Username does not exist.\n");
 			}
 			
 			else {
@@ -64,17 +60,13 @@ public class Login extends HttpServlet {
 				int userID = 0;
 				// returned a non-empty result set
 				if (rs.next()) {
-<<<<<<< HEAD
 					rs.getInt("userID");
 					UserClass user = (UserClass)(session.getAttribute("user"));
 					user.loadUser(userID, username);
-=======
 					session.setAttribute("login", username);
->>>>>>> f03613ca4d038eeaa508801a6cc5937b387aa53d
 					response.getWriter().write("success");
 				} else {
 					response.getWriter().write("Username and password don't match.");
-					response.getWriter().write("failure");
 				}
 			}
 		} catch (SQLException sqle) {

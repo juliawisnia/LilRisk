@@ -91,8 +91,8 @@ ul.list input[type=button] {
 				url: "LoginServlet",
 				type: "POST",
 				data: {
-					email: document.getElementById('email').value,
-					password: document.getElementById('pw').value,
+					username: document.getElementById('username').value,
+					password: document.getElementById('pw').value
 				},
 				success: function(result) {
 					if (result === "success") {
@@ -111,7 +111,7 @@ ul.list input[type=button] {
 		<div id="accnt">Sign In</div>
 		<div class="form-container">
 			<ul class="list">
-				<li><input type="email" id="email" onfocus="this.value=''" value="Email"></li></br>
+				<li><input type="email" id="username" onfocus="this.value=''" value="Username"></li></br>
 				<li><input type="text" id="pw" onfocus="this.value=''; this.type='password'" value="Password"></li></br>
 				<li><input type="button" onclick="login()" name="login" value="Login"></li>
 			</ul>
