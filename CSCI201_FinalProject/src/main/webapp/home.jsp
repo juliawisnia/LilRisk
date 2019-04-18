@@ -107,6 +107,25 @@ input[type=button].add {
 	cursor: pointer;
 }
 
+input[type=button].addNew {
+	position: absolute;
+	right: 15px;
+	margin-top: 1.5%;
+	width: 29px;
+	height: 29px;
+	line-height: 29px;
+	border-radius: 50%;
+	border: 1px solid;
+	border-color: #E10808;
+	background: #313030;
+	font-size: 25px;
+	font-weight: lighter;
+	color: #E10808;
+	display: inline-block;
+	padding: 0px;
+	cursor: pointer;
+}
+
 .center {
 	position: absolute;
 	width: 534px;
@@ -138,18 +157,18 @@ input {
 	background-color: rgb(189, 189, 189, .2);
 }
 
-ul.new-portfolio input[type=button] {
+ul.new-portfolio input[type=button].create {
 	cursor: pointer;
 	font-size: 30px;
 	width: 155px;
-	height: 44px;
+	height: 50px;
 	background-color: #084179;
 	color: #E0E0E0;
 	border-radius: 15px;
 	border-style: solid white;
 	border-width: 1px;
 	border-color: white;
-	margin-right: 31%;
+	text-align: center;
 }
 
 a {text-decoration: none; color: white; background-color: rgba(0,0,0,0);}
@@ -213,11 +232,12 @@ input[type=button].time {
 	border-radius: 20px;
 	color: white;
 	width: 100px;
+	padding-left: 0.8%;
 	text-align: center;
 	font-size: 15px;
 	cursor: pointer;
 	z-index: 5;
-	top: 4%; right: 6.5%;
+	top: 5%; right: 6.5%;
 }
 
 </style>
@@ -464,7 +484,7 @@ input[type=button].time {
 			%>
  				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div><%=syms[i] %><input type="button" value="-" class="add"></li>
  			<%} %>
-				<li>New Portfolio<input type="button" value="+" class="add" onclick="addNew()" style="border-color: purple; color: purple;"></li>
+				<li>New Portfolio<input type="button" value="+" class="addNew" onclick="addNew()" style="border-color: purple; color: purple;"></li>
 			</ul>
 		</div>
 		<!-- add a new portfolio -->
@@ -472,7 +492,7 @@ input[type=button].time {
 			<ul class="new-portfolio">
 				<li style="color: white; font-size: 30px; padding-top: 50px; padding-bottom: 10px;">New Portfolio</li>
 				<li><input type="text" id="port-name" onfocus="this.value=''" value="Portfolio Name"></li></br>
-				<li><input type="button" onclick="create()" name="create" value="Create"></li>
+				<li><input type="button" class="create" onclick="create()" name="create" value="Create"></li>
 			</ul>
 		</div>
 		<div class="top" id="alert">

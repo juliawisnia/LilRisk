@@ -43,7 +43,7 @@ INSERT INTO User (username, userPassword)
            
 INSERT INTO Portfolio (userID, portfolioName)
 	VALUES (1, 'TestPortfolio'),
-		   (4, 'Julia Account');
+		   (4, 'First');
 
 INSERT INTO Positions (portfolioID, symbol, buyTime, buyPrice, amount)
 	VALUES (1, 'BTCUSDT', 'April 10 9:16:05', '5014.56', '0.358420'),
