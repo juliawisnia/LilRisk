@@ -47,7 +47,7 @@ public class Register extends HttpServlet {
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PDT?user=root&password=Secretagent101!");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=Secretagent101!");
 			cps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
 			cps.setString(1,  email);
 			rs = cps.executeQuery();
