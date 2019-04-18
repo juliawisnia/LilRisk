@@ -43,13 +43,13 @@ INSERT INTO User (username, userPassword)
 INSERT INTO Portfolio (portfolioName)
 	VALUES ('TestPortfolio');
     
-INSERT INTO Positions (symbol, dateTime, buyPrice, amount)
+INSERT INTO Positions (symbol, buyTime, buyPrice, amount)
 	VALUES ('BTCUSDT', 'April 10 9:16:05', '5014.56', '0.358420'),
 		   ('ETHUSDT', 'April 11 14:34:25', '163.75', '1.5673'),
 		   ('XRPUSDT', 'April 11 20:54:15', '0.32236', '457.2312');
            
-INSERT INTO Trades (symbol, dateTime, buyPrice, sellPrice, amount)
-	VALUES ('BTCUSDT', 'April 10 9:16:05', '5014.56', '5236.84', '0.358420'),
-		   ('ETHUSDT', 'April 11 14:34:25', '163.75', '154.35', '1.5673'),
-		   ('XRPUSDT', 'April 11 20:54:15', '0.32236', '0.37865', '457.2312');
+INSERT INTO Trades (symbol, buyTime, sellTime, buyPrice, sellPrice, amount)
+	VALUES ('BTCUSDT', 'April 10 9:16:05', 'April 11 9:16:05', '5014.56', '5236.84', '0.358420'),
+		   ('ETHUSDT', 'April 11 14:34:25', 'April 12 9:16:05', '163.75', '154.35', '1.5673'),
+		   ('XRPUSDT', 'April 11 20:54:15', 'April 12 9:16:05', '0.32236', '0.37865', '457.2312');
     
