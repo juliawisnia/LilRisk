@@ -202,11 +202,9 @@ public class UserClass {
 		String ret = "[";
 		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
 		String data[] = new String[portfolios.size()*2+1];
-		Set<String> keys = portfolios.keySet();
-		Iterator<String> iter = keys.iterator();
 		ArrayList<PortfolioClass> portNames = new ArrayList<PortfolioClass>();
-		while(iter.hasNext()) {
-			PortfolioClass tempPort = portfolios.get(iter.next());
+		for (Map.Entry<String,PortfolioClass> entry : portfolios.entrySet()) {
+			PortfolioClass tempPort = entry.getValue();
 			ports.add(tempPort.portfolioTrend(timeFrame));
 			portNames.add(tempPort);
 		}
@@ -274,10 +272,8 @@ public class UserClass {
 	public List<timeValue> getPorfolioTrends(String timeFrame) {
 		List<timeValue> ret = Collections.synchronizedList(new ArrayList<timeValue>());
 		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
-		Set<String> keys = portfolios.keySet();
-		Iterator<String> iter = keys.iterator();
-		while(iter != null) {
-			ports.add(portfolios.get(iter.next()).portfolioTrend(timeFrame));
+		for (Map.Entry<String,PortfolioClass> entry : portfolios.entrySet()) {
+			ports.add(entry.getValue().portfolioTrend(timeFrame));
 			
 		}
 		int longest = 0;
