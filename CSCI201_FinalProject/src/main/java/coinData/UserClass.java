@@ -224,6 +224,10 @@ public class UserClass {
 			percent = Math.floor(percent * 100) / 100;
 			data[(i*2)+1] = "" + percent;
 		}
+		if(ports.size() == 0) {
+			data[portfolios.size()*2] = "[]";
+			return data;
+		}
 		if(ports.get(0).size() != 0) {
 			//String date = (new Date(ports.get(0).get(0).getTime())).toString();
 			//date = date.substring(4);
