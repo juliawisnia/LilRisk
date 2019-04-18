@@ -283,7 +283,7 @@ public class UserClass {
 			}
 		}
 		for(int i = 0; i < ports.size(); i++) {
-			for(int j = 0; j < longest; i++) {
+			for(int j = 0; j < longest; j++) {
 				double total = 0;
 				long time = 0;
 				int size = longest - ports.get(i).size();
