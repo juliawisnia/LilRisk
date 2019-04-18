@@ -23,6 +23,7 @@ import com.binance.api.client.domain.market.CandlestickInterval;
 public class UserClass {
 	private Map<String, PortfolioClass> portfolios = Collections.synchronizedMap(new Hashtable<String, PortfolioClass>());
 	private String username;
+	private int userID;
 	
 	public UserClass() {
 		UserThread userThread = new UserThread();
@@ -31,10 +32,12 @@ public class UserClass {
 		Thread updater = new PriceUpdater();
 		updater.start();
 		this.username = "";
+		this.userID = -1;
 	}
 	
 	public void loadUser(int userID, String username) { 
 		this.username = username;
+		this.userID = userID;
 		this.portfolios.clear();
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -306,6 +309,24 @@ public class UserClass {
 	
 	public String getUsername() {
 		return username;
+	}
+	
+	public void addPortfolio(String portfolioName) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
+			ps = conn.prepareStatement("INSERT INTO portfolio(userID, portfolioName) VALUE(" + userID + ",\"" + portfolioName + "\"");
+			ps.executeUpdate();
+			portfolios.put(portfolioName, new PortfolioClass(portfolioName));
+		}
+		catch(SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch(ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
 	}
 }
 

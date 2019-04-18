@@ -2,9 +2,6 @@ DROP DATABASE IF EXISTS LilRisk;
 CREATE DATABASE LilRisk;
 USE LilRisk;
 
-SET @@global.time_zone = '+00:00';
-SET @@session.time_zone = '+00:00';
-
 CREATE TABLE User (
 	userID INT(11) PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
@@ -21,7 +18,7 @@ CREATE TABLE Portfolio (
 CREATE TABLE Positions (
 	portfolioID INT(11),
     symbol VARCHAR(8),
-    buyTime INT(64),
+    buyTime VARCHAR(30),
     buyPrice FLOAT(32),
     amount FLOAT(11),
     FOREIGN KEY (portfolioID) REFERENCES Portfolio(PortfolioID)
@@ -30,8 +27,8 @@ CREATE TABLE Positions (
 CREATE TABLE Trades (
 	portfolioID INT(11),
     symbol VARCHAR(8),
-    buyTime INT(64),
-    sellTime INT(64),
+    buyTime VARCHAR(30),
+    sellTime VARCHAR(30),
     buyPrice FLOAT(32),
     sellPrice FLOAT(32),
     amount FLOAT(11),
@@ -43,16 +40,16 @@ INSERT INTO User (username, userPassword)
 		   ('TestUsername2', 'TestPassword2'),
 		   ('TestUsername3', 'TestPassword3');
            
-INSERT INTO Portfolio (portfolioName)
-	VALUES ('TestPortfolio');
+INSERT INTO Portfolio (userID, portfolioName)
+	VALUES (1, 'TestPortfolio');
     
-INSERT INTO Positions (symbol, buyTime, buyPrice, amount)
-	VALUES ('BTCUSDT', '1555567862', '5014.56', '0.358420'),
-		   ('ETHUSDT', '1555567862', '163.75', '1.5673'),
-		   ('XRPUSDT', '1555567877', '0.32236', '457.2312');
+INSERT INTO Positions (portfolioID, symbol, buyTime, buyPrice, amount)
+	VALUES (1, 'BTCUSDT', 'April 10 9:16:05', '5014.56', '0.358420'),
+		   (1, 'ETHUSDT', 'April 11 14:34:25', '163.75', '1.5673'),
+		   (1, 'XRPUSDT', 'April 11 20:54:15', '0.32236', '457.2312');
            
-INSERT INTO Trades (symbol, buyTime, sellTime, buyPrice, sellPrice, amount)
-	VALUES ('BTCUSDT', '1555567862', '1555567901', '5014.56', '5236.84', '0.358420'),
-		   ('ETHUSDT', '1555567862', '1555567901', '163.75', '154.35', '1.5673'),
-		   ('XRPUSDT', '1555567877', '1555567901', '0.32236', '0.37865', '457.2312');
+INSERT INTO Trades (portfolioID, symbol, buyTime, sellTime, buyPrice, sellPrice, amount)
+	VALUES (1, 'BTCUSDT', 'April 10 9:16:05', 'April 11 9:16:05', '5014.56', '5236.84', '0.358420'),
+		   (1, 'ETHUSDT', 'April 11 14:34:25', 'April 12 9:16:05', '163.75', '154.35', '1.5673'),
+		   (1, 'XRPUSDT', 'April 11 20:54:15', 'April 12 9:16:05', '0.32236', '0.37865', '457.2312');
     
