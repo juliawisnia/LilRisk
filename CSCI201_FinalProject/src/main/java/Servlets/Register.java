@@ -36,53 +36,47 @@ public class Register extends HttpServlet {
 		
 		response.getWriter().flush();
 		
-//		response.setContentType("text/plain");
-//		HttpSession session = request.getSession();
-//		session = request.getSession();
-//		
-//		Connection conn = null;
-//		PreparedStatement ps = null;
-//		PreparedStatement cps = null;
-//		ResultSet rs = null;
-//		
-//		if (password != null && confirmPassword != null && !password.equalsIgnoreCase(confirmPassword)) {
-//			response.getWriter().write("Passwords must match.");
-//		}
-//		else {
-//			try {
-//				Class.forName("com.mysql.cj.jdbc.Driver");
-//				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
-//				cps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
-//				cps.setString(1,  username);
-//				rs = cps.executeQuery();
-//				// returned a non-empty result set
-//				if (rs.next()) {
-//					response.getWriter().write("Username is already taken.\n");
-//				} else {
-//					// we can insert their username now
-//					ps = conn.prepareStatement("INSERT INTO User VALUES(?,?)");
-//					ps.setString(1, username); ps.setString(2,  password);
-//					ps.executeUpdate();
-//					session.setAttribute("login", username);
-//					response.getWriter().write("success");
-//				}
-//				
-//			} catch (SQLException sqle) {
-//				System.out.println("sqle: " + sqle.getMessage());
-//			} catch (ClassNotFoundException cnfe) {
-//				System.out.println("cnfe: " + cnfe.getMessage());
-//			} finally {
-//				try {
-//					if (rs != null) rs.close();
-//					if (cps != null) cps.close();
-//					if (ps != null) ps.close();
-//					if (conn != null) conn.close();
-//				} catch (SQLException sqle) {
-//					System.out.println("sqle closing stuff: " + sqle.getMessage());
-//				}
-//			}
-//		}
-//		
-	}    
+		response.setContentType("text/plain");
+		HttpSession session = request.getSession();
+		session = request.getSession();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement cps = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PDT?user=root&password=root");
+			cps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
+			cps.setString(1,  email);
+			rs = cps.executeQuery();
+			// returned a non-empty result set
+			if (rs.next()) {
+				response.getWriter().write("Email is already in use.\n");
+			} else {
+				// we can insert their username now
+				ps = conn.prepareStatement("INSERT INTO User VALUES(?,?)");
+				ps.setString(1, email); ps.setString(2,  password);
+				ps.executeUpdate();
+				response.getWriter().write("success");
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally {
+			try {
+				if (rs != null) rs.close();
+				if (cps != null) cps.close();
+				if (ps != null) ps.close();
+				if (conn != null) conn.close();
+			} catch (SQLException sqle) {
+				System.out.println("sqle closing stuff: " + sqle.getMessage());
+			}
+		}
+	}
+	
 }
 
