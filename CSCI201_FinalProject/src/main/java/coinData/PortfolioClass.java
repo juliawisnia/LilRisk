@@ -107,8 +107,8 @@ public class PortfolioClass {
 	}
 	
 	
-	public void sell(Position pos, double avgSellPrice) {
-		recordTrade(pos.getName(), pos.getAvgBuy(), avgSellPrice, pos.getAmount(), System.currentTimeMillis());
+	public void sell(String pos, double avgSellPrice, double amount) {
+		//recordTrade(pos.getName(), pos.getAvgBuy(), avgSellPrice, pos.getAmount(), System.currentTimeMillis());
 	}
 	
 	
@@ -166,6 +166,22 @@ public class PortfolioClass {
 		return data;
 	}
 	
+	public String[] portfolioHistoryData() {
+		String data[] = new String[tradeHistory.size()*8];
+		for (int i = 0; i < tradeHistory.size(); i++) {
+			TradeClass temp = tradeHistory.get(i);
+			data[i*8] = temp.getCoin();
+			data[i*8+1] = "" + temp.getAvgBuyPrice();
+			data[i*8+2] = "" + temp.getAvgSellPrice();
+			data[i*8+3] = "" + (temp.getAvgSellPrice()/temp.getAvgBuyPrice());
+			data[i*8+4] = "" + ((temp.getAvgSellPrice()-temp.getAvgBuyPrice())*temp.getAmount());
+			data[i*8+5] = "" + temp.getPosition().getBuyTime();
+			data[i*8+6] = "" + temp.getTime();
+			data[i*8+7] = "" + temp.getAmount();
+		}
+		return data;
+	}
+	
 	/**
 	 * give the trend of the data for this portfolio on the given time frame
 	 * 
@@ -173,13 +189,7 @@ public class PortfolioClass {
 	 * min5, halfHour, hours, days
 	 * @return a string that can be used in java script on the front end
 	 */
-	public String trend(String timeFrame) {
-		List<Position> coinList = new Vector<Position>();
-		for (Map.Entry<String,Position> entry : coins.entrySet()) {
-			coinList.add(entry.getValue());
-		}
-		return listToString(coinList, timeFrame);
-	}
+	
 
 	public String getPieData() {
 		String ret = "";
@@ -250,34 +260,6 @@ public class PortfolioClass {
 		return ret;
 	}
 	
-	/**
-	 * 
-	 * @param coins
-	 * @param timeFrame
-	 * @return
-	 */
-	private String listToString(List<Position> coins, String timeFrame) {
-		String ret = "[";
-		int dataLength = coins.size();
-		if(dataLength != 0) {
-			ret += "[0";
-			double change = 0;
-			for(int i = 0; i < dataLength; i++) {
-				change += Double.parseDouble(coins.get(i).trendData(timeFrame).get(0).getOpen())-coins.get(i).getAvgBuy();
-			}
-			ret += "," + change + "]";
-		}
-		int coinsLength = coins.get(0).trendData(timeFrame).size();
-		for(int i = 1; i < coinsLength; i++) {
-			ret += ",[" + i;
-			double change = 0;
-			for(int j = 0; j < dataLength; j++) {
-				change += Double.parseDouble(coins.get(j).trendData(timeFrame).get(i).getOpen())-coins.get(j).getAvgBuy();
-			}
-			ret += "," + change + "]";
-		}
-		return ret + "]";
-	}
 	
 	/**
 	 * 

@@ -25,6 +25,10 @@ public class TradeClass {
 		return pos.getName();
 	}
 	
+	public Position getPosition() {
+		return pos;
+	}
+	
 	public double getAmount() {
 		return pos.getAmount();
 	}

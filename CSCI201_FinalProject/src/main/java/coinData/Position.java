@@ -147,14 +147,14 @@ public class Position {
 		List<timeValue> returnList = new ArrayList();
 		List<Candlestick> ret = coin.getDataList(timeFrame);
 		for(int i = 0; i < ret.size(); i++) {
+			timeValue temp;
 			if(ret.get(i).getOpenTime() < this.time) {
-				ret.remove(i);
-				i--;
+				temp = new timeValue(ret.get(i).getOpenTime(), 0.0);
 			}
 			else {
-				timeValue temp = new timeValue(ret.get(i).getOpenTime(), Double.parseDouble(ret.get(i).getOpen())-avgBuy);
-				returnList.add(temp);
+				temp = new timeValue(ret.get(i).getOpenTime(), Double.parseDouble(ret.get(i).getOpen())-avgBuy);
 			}
+			returnList.add(temp);
 		}
 		return returnList;
 	}
