@@ -151,11 +151,10 @@ public class PortfolioClass {
 	
 	public String[] portfolioCoinData() {
 		String data[] = new String[coins.size()*7];
-		Set<String> keys = coins.keySet();
-		Iterator<String> iter = keys.iterator();
+		
 		int i = 0;
-		while(iter.hasNext()) {
-			Position temp = coins.get(iter.next());
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			Position temp = entry.getValue();
 			data[i*7] = temp.getName();
 			data[i*7+1] = "" + temp.getAvgBuy();
 			data[i*7+2] = "" + temp.getCoin().getCurrentPrice();
@@ -175,13 +174,11 @@ public class PortfolioClass {
 	 * @return a string that can be used in java script on the front end
 	 */
 	public String trend(String timeFrame) {
-		Set<String> keys = coins.keySet();
-		Object[] keyArray = keys.toArray();
-		List<Position> coins = new Vector<Position>();
-		for(int i = 0; i < keyArray.length; i++) {
-			coins.add(this.coins.get(keyArray[i].toString()));
+		List<Position> coinList = new Vector<Position>();
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			coinList.add(entry.getValue());
 		}
-		return listToString(coins, timeFrame);
+		return listToString(coinList, timeFrame);
 	}
 
 	public String getPieData() {
@@ -195,11 +192,9 @@ public class PortfolioClass {
 	public String portfolioDataWithCoins(String timeFrame) {
 		List<timeValue> overAll = this.portfolioTrend(timeFrame);
 		List<List<Candlestick>> coinData = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
-		Set<String> keys = coins.keySet();
-		Iterator<String> iter = keys.iterator();
 		String ret = "[";
-		while(iter.hasNext()) {
-			coinData.add(coins.get(iter.next()).getCoin().getDataList(timeFrame));
+		for (Map.Entry<String,Position> entry : coins.entrySet()){
+			coinData.add(entry.getValue().getCoin().getDataList(timeFrame));
 		}
 		if(overAll.size() > 0) {
 			ret += "[0," + overAll.get(0).getValue();
@@ -228,10 +223,8 @@ public class PortfolioClass {
 	public List<timeValue> portfolioTrend(String timeFrame){
 		List<timeValue> ret = Collections.synchronizedList(new ArrayList<timeValue>());
 		List<List<timeValue>> ports = Collections.synchronizedList(new ArrayList<List<timeValue>>());
-		Set<String> keys = coins.keySet();
-		Iterator<String> iter = keys.iterator();
-		while(iter != null) {
-			ports.add(coins.get(iter.next()).timeValueData(timeFrame));
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			ports.add(entry.getValue().timeValueData(timeFrame));
 		}
 		for(int i = 0; i < tradeHistory.size(); i++) {
 			ports.add(tradeHistory.get(i).timeValueRange(timeFrame));
@@ -313,12 +306,10 @@ public class PortfolioClass {
 	}
 	
 	public double getPercentChange() {
-		Set<String> keys = coins.keySet();
-		Iterator<String> iter = keys.iterator();
 		double totalBuy = 0;
 		double totalCurrent = 0;
-		for(int i = 0; i < keys.size(); i++) {
-			Position temp = coins.get(iter.next());
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			Position temp = entry.getValue();
 			totalBuy += temp.getTotalValue();
 			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
 		}
