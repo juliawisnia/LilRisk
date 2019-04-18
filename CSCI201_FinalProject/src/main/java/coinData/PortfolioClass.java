@@ -265,4 +265,18 @@ public class PortfolioClass {
 	public double calculateBalance() {
 		return (extraMunz - spentMunz);
 	}
+	
+	public double getPercentChange() {
+		Set<String> keys = coins.keySet();
+		Iterator<String> iter = keys.iterator();
+		double totalBuy = 0;
+		double totalCurrent = 0;
+		for(int i = 0; i < keys.size(); i++) {
+			Position temp = coins.get(iter.next());
+			totalBuy += temp.getTotalValue();
+			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
+		}
+		return totalCurrent/totalBuy;
+	}
+	
 }

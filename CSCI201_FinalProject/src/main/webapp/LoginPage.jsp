@@ -75,22 +75,6 @@ ul.list input[type=button] {
 	width: 534px;
 	background-color: rgb(189, 189, 189, 0);
 }
-ul.alert {
-	list-style-type: none;
-	background-color: rgb(189, 189, 189, 0);
-	padding: 0;
-	text-align: center;
-}
-
-ul.alert li {
-	background-color: rgb(0, 0, 0, .5);
-	margin-bottom: 10px;
-	color: white;
-	padding: 10px;
-	font-size: 25px;
-	font-weight: lighter;
-	border-radius: 10px;
-}
 
 .hide {
 	display: none;  
@@ -107,7 +91,7 @@ ul.alert li {
 				url: "LoginServlet",
 				type: "POST",
 				data: {
-					username: document.getElementById('username').value,
+					email: document.getElementById('email').value,
 					password: document.getElementById('pw').value,
 				},
 				success: function(result) {
@@ -127,7 +111,7 @@ ul.alert li {
 		<div id="accnt">Sign In</div>
 		<div class="form-container">
 			<ul class="list">
-				<li><input type="text" id="username" onfocus="this.value=''" value="Email"></li></br>
+				<li><input type="email" id="email" onfocus="this.value=''" value="Email"></li></br>
 				<li><input type="text" id="pw" onfocus="this.value=''; this.type='password'" value="Password"></li></br>
 				<li><input type="button" onclick="login()" name="login" value="Login"></li>
 			</ul>

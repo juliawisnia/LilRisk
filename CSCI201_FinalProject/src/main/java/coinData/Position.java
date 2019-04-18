@@ -39,6 +39,10 @@ public class Position {
 		return coin.getName();
 	}
 	
+	public double getCurrentPrice() {
+		return coin.getCurrentPrice();
+	}
+	
 	/**
 	 * 
 	 * @param timeFrame

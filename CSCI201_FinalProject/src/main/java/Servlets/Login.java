@@ -20,12 +20,17 @@ import javax.servlet.http.HttpSession;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("here");
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String username = request.getParameter("email");
+		String password = request.getParameter("pwd");
 		
-		if (username == null) response.getWriter().write("Username must not be empty.");
-		if (password == null) response.getWriter().write("Password must not be empty.\n");
+		if (username == null || username.equalsIgnoreCase("Email") || username.equalsIgnoreCase("")) {
+			response.getWriter().write("Username must not be empty.");
+			response.getWriter().write("failure");
+		}
+		if (password == null || password.equalsIgnoreCase("Password") || password.equalsIgnoreCase("")) {
+			response.getWriter().write("Password must not be empty.");
+			response.getWriter().write("failure");
+		}
 		
 		response.setContentType("text/plain");
 		HttpSession session = request.getSession();
@@ -35,20 +40,21 @@ public class Login extends HttpServlet {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		Connection conn1 = null;
 		PreparedStatement ps1 = null;
 		ResultSet rs1 = null;
 		
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			
 			ps1 = conn.prepareStatement("SELECT * FROM User WHERE username=?");
 			ps1.setString(1,  username);
 			rs1 = ps1.executeQuery();
-			if (!rs1.next()) response.getWriter().write("Username does not exist.");
+			if (!rs1.next()) {
+				response.getWriter().write("Username does not exist.");
+				response.getWriter().write("failure");
+			}
 			
 			else {
 				ps = conn.prepareStatement("SELECT userID FROM User WHERE username=? AND userPassword=?");
@@ -58,12 +64,17 @@ public class Login extends HttpServlet {
 				int userID = 0;
 				// returned a non-empty result set
 				if (rs.next()) {
+<<<<<<< HEAD
 					rs.getInt("userID");
 					UserClass user = (UserClass)(session.getAttribute("user"));
 					user.loadUser(userID, username);
+=======
+					session.setAttribute("login", username);
+>>>>>>> f03613ca4d038eeaa508801a6cc5937b387aa53d
 					response.getWriter().write("success");
 				} else {
 					response.getWriter().write("Username and password don't match.");
+					response.getWriter().write("failure");
 				}
 			}
 		} catch (SQLException sqle) {
@@ -74,7 +85,6 @@ public class Login extends HttpServlet {
 			try {
 				if (rs1 != null) rs1.close();
 				if (ps1 != null) ps1.close();
-				if (conn1 != null) conn1.close();
 				if (rs != null) rs.close();
 				if (ps != null) ps.close();
 				if (conn != null) conn.close();
