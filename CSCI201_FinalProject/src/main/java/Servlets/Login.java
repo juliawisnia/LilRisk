@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,17 +54,18 @@ public class Login extends HttpServlet {
 			}
 			
 			else {
-				ps = conn.prepareStatement("SELECT userID FROM User WHERE username=? AND userPassword=?");
-				ps.setString(1, username);
-				ps.setString(2, password);
-				rs = ps.executeQuery();
+				Statement stmt = conn.createStatement();
+				System.out.println("username is: " + username);
+				String query = "SELECT * FROM User WHERE username='" + username.trim() + "'";
+				rs = stmt.executeQuery(query);
 				int userID = 0;
 				// returned a non-empty result set
 				if (rs.next()) {
-					rs.getInt("userID");
+					userID = rs.getInt("userID");
 					UserClass user = (UserClass)(session.getAttribute("user"));
 					user.loadUser(userID, username);
-					session.setAttribute("login", username);
+					request.setAttribute("user", user);
+					session.setAttribute("user", user);
 					response.getWriter().write("success");
 				} else {
 					response.getWriter().write("Username and password don't match.");

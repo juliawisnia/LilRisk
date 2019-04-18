@@ -173,7 +173,7 @@ input[type=button].time {
 	z-index: 5;
 	top: 4%; right: 2%;
 }
-		</style>
+</style>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
@@ -328,23 +328,7 @@ input[type=button].time {
 			    })(i);
 			}
 		}
-		function create() {
-			var portfolio = document.getElementById('port-name');
-			var amnt = document.getElementById('start-amount');
-			
- 			if (!portfolio.value || portfolio.value === "Portfolio Name") {
-				document.getElementById("no-name").className = "show";
-			} else document.getElementById("no-name").className = "hide";
- 			
-			var noName = document.getElementById("no-name").className;
-			
-			if (noName === "hide") {
-				document.getElementById("new").style.visibility = "hidden";
-				createNewPortfolio(portfolio.value);
-				document.getElementById('port-name').value = "Portfolio Name";
-			}
-		}
-		
+
  		function changeTime(element) {
 			$.ajax({
 				url: "BoldServlet",

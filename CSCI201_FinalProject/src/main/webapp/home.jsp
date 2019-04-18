@@ -193,11 +193,25 @@ ul.alert li {
 	display: none;  
 }
 
-		</style>
-		<link rel="stylesheet" type="text/css" href="home.css" />
+.time-frames {
+	position: relative;
+	margin-top: -3%;
+	margin-left: 6%;
+	border-collapse: collapse;
+}
+
+input[type=button].time {
+	cursor: pointer;
+	border: none;
+	background-color: rgba(0,0,0,0);
+	font-size: 20px;
+}
+</style>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-		<script>
+		<script type="text/javascript">
+
 		google.charts.load('current', {packages: ['corechart', 'line']});
 		google.charts.setOnLoadCallback(drawBasic);
 		function addLine(element) {
@@ -205,47 +219,111 @@ ul.alert li {
 			if (a === '+') element.value = '-';
 			else element.value = '+';
 		}
+		
 		function drawBasic() {
-	
 			var data = new google.visualization.DataTable();
-			data.addColumn('number', 'X');
-			data.addColumn('number', 'PORTFOLIO 1');
-			data.addColumn('number', 'PORTFOLIO 2');
-			data.addColumn('number', 'PORTFOLIO 3');
 			
-			data.addRows([
-				[0, 0, 0, 1],    [1, 10, 5, 2],   [2, 23, 15, 3],  [3, 17, 9, 4],   [4, 18, 10, 5],  [5, 9, 5, 6],
-				[6, 11, 3, 7],   [7, 27, 19, 8],  [8, 33, 25, 9],  [9, 40, 32, 10],  [10, 32, 24, 11], [11, 35, 27, 12],
-				[12, 30, 22, 13], [13, 40, 32, 14], [14, 42, 34, 14], [15, 47, 39, 16], [16, 44, 36, 17], [17, 48, 40, 18],
-				[18, 52, 44, 19], [19, 54, 46, 20], [20, 42, 34, 21], [21, 55, 47, 22], [22, 56, 48, 23], [23, 57, 49, 24],
-				[24, 60, 52, 25], [25, 50, 42, 26], [26, 52, 44, 27], [27, 51, 43, 28], [28, 49, 41, 29], [29, 53, 45, 30],
-				[30, 55, 47, 31], [31, 60, 52, 32], [32, 61, 53, 33], [33, 59, 51, 34], [34, 62, 54, 35], [35, 65, 57, 36],
-				[36, 62, 54, 37], [37, 58, 50, 38], [38, 55, 47, 39], [39, 61, 53, 40], [40, 64, 56, 41], [41, 65, 57, 42],
-				[42, 63, 55, 43], [43, 66, 58, 44], [44, 67, 59, 45], [45, 69, 61, 46], [46, 69, 61, 47], [47, 70, 62, 48],
-				[48, 72, 64, 49], [49, 68, 60, 50], [50, 66, 58, 51], [51, 65, 57, 52], [52, 67, 59, 53], [53, 70, 62, 54],
-				[54, 71, 63, 55], [55, 72, 64, 56], [56, 73, 65, 57], [57, 75, 67, 58], [58, 70, 62, 59], [59, 68, 60, 60],
-				[60, 64, 56, 61], [61, 60, 52, 62], [62, 65, 57, 63], [63, 67, 59, 64], [64, 68, 60, 65], [65, 69, 61, 66],
-				[66, 70, 62, 67], [67, 72, 64, 68], [68, 75, 67, 69], [69, 80, 72, 70]
-			]);
+			data.addColumn('number', 'X');
+			<%
+				String timeFrame = (String)(session.getAttribute("timeFrame"));
+				String[] syms = null;
+				if (timeFrame.equals("day")) syms = (String[])(session.getAttribute("homeDayVals"));
+				else if (timeFrame.equals("week")) syms = (String[])(session.getAttribute("homeWeekVals"));
+				else if (timeFrame.equals("month")) syms = (String[])(session.getAttribute("homeMonthVals"));
+				else if (timeFrame.equals("sixMonth")) syms = (String[])(session.getAttribute("homeSixMonthVals"));
+				else syms = (String[])(session.getAttribute("homeYearVals"));
+				
+				String sym = "";
+				for (int i = 0; i < syms.length - 1; i+=2) {
+					sym = syms[i];
+			%>
+			data.addColumn('number', '<%=sym %>');
+			<%}%>
+			
+			var vals; 
+			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
+			
+			if (timeFrame === "day") {
+				vals = <%=session.getAttribute("homeDayData")%>;
+				document.getElementById('day').style.fontWeight = 'bold';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "week") {
+				vals = <%=session.getAttribute("homeWeekData")%>;
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'bold';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "month") {
+				vals = <%=session.getAttribute("homeMonthData")%>;
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'bold';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "sixMonth") {
+				vals = <%=session.getAttribute("homeSixMonthData")%>;
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'bold';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else {
+				vals = <%=session.getAttribute("homeYearData")%>;
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'bold';
+			}
+			
+			data.addRows(vals);
 			
 			var options = {
 				series: {
-					0: { color: '#e2431e' },
-					1: { color: '#e7711b' },
-					2: { color: '#f1ca3a' },
-					3: { color: '#6f9654' },
-					4: { color: '#1c91c0' },
-					5: { color: '#43459d' },
+					0: { color: '#662A8E' },
+					1: { color: '#90208C' },
+					2: { color: '#CE0089' },
+					3: { color: '#EB0080' },
+					4: { color: '#EA0D2C' },
+					5: { color: '#F48C37' },
+					6: { color: '#FCBD3A' },
+					7: { color: '#FBD542' },
+					8: { color: '#A8CF4E' },
+					9: { color: '#53BF48' },
+					10: { color: '#06A44D' },
+					11: { color: '#0FA575' },
+					12: { color: '#23939F' },
+					13: { color: '#2499DC' },
+					14: { color: '#185AA6' },
+					15: { color: '#3D2873' },
 				},
 				hAxis: {
-					title: 'Month',
+					titleTextStyle: {
+						italic: false 
+					},
+					baselineColor: 'white',
+					titleColor: 'white',
+					textColor: 'white',
 					gridlines: {
 						color: 'transparent'
 					}
 				},
 				vAxis: {
-					title: 'Account Value',
-					/* textStyle:{color: 'white'}, */
+					titleTextStyle: {
+						italic: false 
+					},
+					baselineColor: 'white',
+					title: 'PORTFOLIO VALUE',
+					titleColor: 'white',
+					textColor: 'white',
 					gridlines: {
 						color: 'transparent'
 					}
@@ -264,9 +342,11 @@ ul.alert li {
 			    (function(i) {
 			        items[i].addEventListener('click', function(event) {
 			        	if (items[i].value === '-') {
+			        		items[i].style.color = "green"; items[i].style.borderColor = "green";
 			        		items[i].value = '+';
 			        	}
 			        	else {
+			        		items[i].style.color = "red"; items[i].style.borderColor = "red";
 			        		this.value = '-';
 			        	}
 			        	view = new google.visualization.DataView(data);
@@ -281,6 +361,21 @@ ul.alert li {
 			    })(i);
 			}
 		}
+
+ 		function changeTime(element) {
+			$.ajax({
+				url: "BoldServlet",
+				type: "POST",
+				data: {
+					timeframe: element.value
+				},
+				success: function(result) {
+					if (result === "success") {
+						location.reload(true);
+					}
+				}
+			})
+ 		}
 		function create() {
 			var portfolio = document.getElementById('port-name');
 			var amnt = document.getElementById('start-amount');
@@ -298,14 +393,8 @@ ul.alert li {
 			}
 		}
 		
-		function random_rgba() {
-		    var o = Math.round, r = Math.random, s = 255;
-		    return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s)+ ')';
-		}
-		
 		function createNewPortfolio(port) {
-			var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-			$('<li><div class="per" style="border-color: green; color: green;">0%</div><a href="PortfolioPage.jsp">' + port + '</a> <input type="button" value="+" class="add" style="border-color:' + color + '; color:' + color +  ';"></li>').prependTo('#sidebar');
+			$('<li><div class="per" style="border-color: green; color: green;">0%</div><a href="PortfolioPage.jsp">' + port + '</a> <input type="button" value="+" class="add" style="border-color: green; color: green;"></li>').prependTo('#sidebar');
 		}
 		
  		function addSign() {
@@ -323,12 +412,40 @@ ul.alert li {
 	<hr style="border: 0.5px solid white;" />
 	<body>
 		<div id="main-chart" style="height: 90%; width: 95%; margin-left: -10%; position: relative;"></div>
+		<table class="time-frames">
+			<tr>
+				<th><input type="button" id="day" class="time" onclick="changeTime(this)" value="1D"></th>
+				<th><input type="button" id="week" class="time" onclick="changeTime(this)" value="1W"></th>
+				<th><input type="button" id="month" class="time" onclick="changeTime(this)" value="1M"></th>
+				<th><input type="button" id="sixMonth" class="time" onclick="changeTime(this)" value="6M"></th>
+				<th><input type="button" id="year" class="time" onclick="changeTime(this)" value="1Y"></th>
+			</tr>
+		</table>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="sidebar" id="sidebar">
-				<li><div class="per">2.5%</div><a href="PortfolioPage.jsp">Portfolio 1 </a><input type="button" value="-" class="add" id="1"></li>
-				<li><div class="per" style="border-color: green; color: green;">3.8%</div><a href="PortfolioPage.jsp">Portfolio 2 </a><input type="button" value="-" class="add" style="border-color: green; color: green;"></li>
-				<li><div class="per" style="border-color: green; color: green;">1.8%</div><a href="PortfolioPage.jsp">Portfolio 3 </a><input type="button" value="-" class="add" style="border-color: blue; color: blue;"></li>
+			<% 
+				String[] pn = null;
+				
+				if (timeFrame.equals("day")) pn = (String[])(session.getAttribute("homePnDay"));
+				else if (timeFrame.equals("week")) pn = (String[])(session.getAttribute("homePnWeek"));
+				else if (timeFrame.equals("month")) pn = (String[])(session.getAttribute("homePnMonth"));
+				else if (timeFrame.equals("sixMonth")) pn = (String[])(session.getAttribute("homePnSixMonth"));
+				else pn = (String[])(session.getAttribute("homePnYear"));
+			
+				String color = "";
+				int cnt = 0;
+				for (int i = 0; i < syms.length - 1; i+=2) {
+					if (pn[cnt] == "n") {
+						color = "red";
+					}
+					else {
+						color = "green";
+					}
+					cnt++;
+			%>
+ 				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div><%=syms[i] %><input type="button" value="-" class="add"></li>
+ 			<%} %>
 				<li>New Portfolio<input type="button" value="+" id="add" onclick="addNew()" style="border-color: purple; color: purple;"></li>
 			</ul>
 		</div>

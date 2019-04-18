@@ -1,17 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="coinData.*" %>
+    <%@ page import="coinData.*" %>
 <%@ page session="true"%>
 <%
-	UserClass user = new UserClass();
-	session.setAttribute("user", user);
-	request.setAttribute("user", user);
-    String[] coins = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT"};
-    String[] dayVals = user.coinTrends(coins, "day");
-    String[] weekVals = user.coinTrends(coins, "week");
-    String[] monthVals = user.coinTrends(coins, "month");
-    String[] sixMonthVals = user.coinTrends(coins, "month6");
-    String[] yearVals = user.coinTrends(coins, "year");
+	UserClass user = (UserClass)(session.getAttribute("user"));
+    String[] dayVals = user.homePageData("day");
+    String[] weekVals = user.homePageData("week");
+    String[] monthVals = user.homePageData("month");
+    String[] sixMonthVals = user.homePageData("month6");
+    String[] yearVals = user.homePageData("year");
     
     String[] pnDay = new String[1000];
     String[] pnWeek = new String[1000];
@@ -40,11 +37,11 @@
     	cnt++;
     }   	
     
-    session.setAttribute("dayVals", dayVals);
-	session.setAttribute("pnDay", pnDay);
-	session.setAttribute("lenDay", dayVals.length);
+    session.setAttribute("homeDayVals", dayVals);
+	session.setAttribute("homePnDay", pnDay);
+	session.setAttribute("homeLenDay", dayVals.length);
 	
-	session.setAttribute("dayData", dayVals[dayVals.length-1]); 
+	session.setAttribute("homeDayData", dayVals[dayVals.length-1]); 
 	
 	/* WEEK */
 	
@@ -67,11 +64,11 @@
 	    	cnt++;
 	    }
 	    
-	    session.setAttribute("weekVals", weekVals);
-		session.setAttribute("pnWeek", pnWeek);
-		session.setAttribute("lenWeek", weekVals.length);
+	    session.setAttribute("homeWeekVals", weekVals);
+		session.setAttribute("weekPnDay", pnWeek);
+		session.setAttribute("homeLenWeek", weekVals.length);
 		
-		session.setAttribute("weekData", weekVals[weekVals.length-1]); 
+		session.setAttribute("homeWeekData", weekVals[weekVals.length-1]); 
 	 
 		/* MONTH */	
 		
@@ -94,11 +91,11 @@
     	cnt++;
     }
     
-    session.setAttribute("monthVals", monthVals);
-	session.setAttribute("pnMonth", pnMonth);
-	session.setAttribute("lenMonth", monthVals.length);
+    session.setAttribute("homeMonthVals", monthVals);
+	session.setAttribute("homePnMonth", pnMonth);
+	session.setAttribute("homeLenMonth", monthVals.length);
 	
-	session.setAttribute("monthData", monthVals[monthVals.length-1]);  
+	session.setAttribute("homeMonthData", monthVals[monthVals.length-1]);  
     
 	/* SIX MONTHS */
  	
@@ -121,11 +118,11 @@
     	cnt++;
     }
     
-    session.setAttribute("sixMonthVals", sixMonthVals);
-	session.setAttribute("pnSixMonth", pnSixMonth);
-	session.setAttribute("lenSixMonth", sixMonthVals.length);
+    session.setAttribute("homeSixMonthVals", sixMonthVals);
+	session.setAttribute("homePnSixMonth", pnSixMonth);
+	session.setAttribute("homeLenSixMonth", sixMonthVals.length);
 	
-	session.setAttribute("sixMonthData", sixMonthVals[sixMonthVals.length-1]);  
+	session.setAttribute("homeSixMonthData", sixMonthVals[sixMonthVals.length-1]);  
 	
 	/* YEAR */
 	
@@ -148,21 +145,21 @@
     	cnt++;
     }
     
-    session.setAttribute("yearVals", yearVals);
-	session.setAttribute("pnYear", pnYear);
-	session.setAttribute("lenYear", yearVals.length);
+    session.setAttribute("homeYearVals", yearVals);
+	session.setAttribute("homePnYear", pnYear);
+	session.setAttribute("homeLenYear", yearVals.length);
 	
-	session.setAttribute("yearData", yearVals[yearVals.length-1]); 
-	session.setAttribute("timeFrame", "day");
+	session.setAttribute("homeYearData", yearVals[yearVals.length-1]); 
+	session.setAttribute("homeTimeFrame", "day");
 	
-	String redirectURL = "UnregisteredHomePage.jsp";
+	String redirectURL = "home.jsp";
     response.sendRedirect(redirectURL);
 %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>index</title>
+		<title>load</title>
 	</head>
 	<body>
 	

@@ -96,7 +96,7 @@ ul.list input[type=button] {
 				},
 				success: function(result) {
 					if (result === "success") {
-						window.location.href = "home.jsp";
+						window.location.href = "load.jsp";
 					}
 					else {
 						alert(result);
