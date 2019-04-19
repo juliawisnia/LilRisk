@@ -239,7 +239,7 @@ public class PortfolioClass {
 	public String getPieData() {
 		String ret = "";
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
-			ret += ",[" + entry.getKey() + "," + entry.getValue().getTotalValue() + "]";
+			ret += ",['" + entry.getKey() + "'," + entry.getValue().getTotalValue() + "]";
 		}
 		return ret;
 	}

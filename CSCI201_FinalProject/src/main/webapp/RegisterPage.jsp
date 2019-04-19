@@ -121,7 +121,7 @@ ul.alert li {
 			})
 		}
 	</script>
-	<a href="UnregisteredHomePage.jsp" style="text-decoration: none"><div id="title"><i>LIL RISK</i></div></a>
+	<a href="UnregisteredHomePage.jsp" style="text-decoration: none"><div id="title"><i>LIL RISK INC.</i></div></a>
 	<hr style="border: 0.5px solid white;" />
 	<body>
 		<div id="accnt">Create Your Lil Risk Account</div>

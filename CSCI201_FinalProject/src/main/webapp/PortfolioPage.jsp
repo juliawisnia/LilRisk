@@ -373,6 +373,7 @@ input[type=number]::-webkit-inner-spin-button {
 		function drawChart() {
 			<%
 				UserClass user = (UserClass)session.getAttribute("user");
+				String port = (String)session.getAttribute("portName");
 				String timeFrame = (String)(session.getAttribute("timeFrame"));
 				String[] syms = null;				
 				if (timeFrame.equals("day")) syms = (String[])(session.getAttribute("homeDayVals"));
@@ -380,19 +381,14 @@ input[type=number]::-webkit-inner-spin-button {
 				else if (timeFrame.equals("month")) syms = (String[])(session.getAttribute("homeMonthVals"));
 				else if (timeFrame.equals("sixMonth")) syms = (String[])(session.getAttribute("homeSixMonthVals"));
 				else syms = (String[])(session.getAttribute("homeYearVals"));
+				
+				String pie = user.getPieChart(port);
 			%>
-			var data = google.visualization.arrayToDataTable([
-			['Stocks', 'Shares'],
-			['APPL', 50],
-			['GOOG', 50],
-			['FB', 50],
-			['TWTR', 50],
-			['SNAP', 50]
-		]);
+			var data = google.visualization.arrayToDataTable(<%=pie%>);
 		
 		  // Optional; add a title and set the width and height of the chart
 		  var options = {
-				title:'STOCKS IN PORTFOLIO',
+				title:'COINS IN PORTFOLIO',
 				legend: {
 					position: 'labeled',
 					textStyle: {
@@ -617,46 +613,16 @@ input[type=number]::-webkit-inner-spin-button {
 			<table class="stocks">
 				<tr>
 					<th>Symbol</th>
+					<th>Purchase Price</th>
 					<th>Last Price</th>
-					<th>Today's gains/losses</th>
+					<th>Gains/losses (%)</th>
+					<th>Gains/losses ($)</th>
 					<th>Current Value</th>
 					<th>Quantity</th>
 				</tr>
-				<tr>
-					<td>AAPL</td>
-					<td>$167.88</td>
-					<td>3.29%</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
-				<tr>
-					<td>GOOG</td>
-					<td>$1128.88</td>
-					<td>4.87%</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
-				<tr>
-					<td>FB</td>
-					<td>$182.88</td>
-					<td style="color: red;">9.87%</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
-				<tr>
-					<td>TWTR</td>
-					<td>$67.18</td>
-					<td>12.2%</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
-				<tr>
-					<td>SNAP</td>
-					<td>$13.29</td>
-					<td style="color: red;">4.87%</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
+				<%
+					String val = user.getHoldings(port);
+				%>
 				<tr>
 					<th>Total</th>
 					<th></th>
