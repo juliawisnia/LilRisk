@@ -41,7 +41,7 @@ public class PurchaseServlet extends HttpServlet {
 		try {
 			int portID = -1;
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
 			cps = conn.prepareStatement("SELECT portfolioID FROM Portfolio WHERE portfolioName=?");
 			cps.setString(1,  port);
 			rs = cps.executeQuery();

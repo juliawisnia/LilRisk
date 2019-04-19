@@ -31,12 +31,16 @@ public class NewPortfolioServlet extends HttpServlet {
 		try {
 			int userID = -1;
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
 			
-			cps = conn.prepareStatement("SELECT userID FROM User WHERE username=?");
+			cps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
 			cps.setString(1,  userName);
 			rs = cps.executeQuery();
 			// returned a non-empty result set
+			System.out.println("here1: " + rs);
+			System.out.println("uesrname: " + userName);
+			System.out.println("port: " + port);
+			
 			if (rs.next()) {
 				userID = rs.getInt("userID");
 			} 

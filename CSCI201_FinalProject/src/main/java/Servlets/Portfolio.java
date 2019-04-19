@@ -61,7 +61,7 @@ public class Portfolio extends HttpServlet {
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
 			
 			if (buyButtonDidPressed != null && buyButtonDidPressed.length() != 0) {
 				Position newPos = new Position(coinSymbol, Double.parseDouble(amount), System.currentTimeMillis());
