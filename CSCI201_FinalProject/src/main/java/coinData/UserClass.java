@@ -293,7 +293,7 @@ public class UserClass {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
-			ps = conn.prepareStatement("INSERT INTO portfolio(userID, portfolioName) VALUE(?,?)");
+			ps = conn.prepareStatement("INSERT INTO portfolio(userID, portfolioName) VALUE(?,?);");
 			ps.setInt(1, this.userID);
 			ps.setString(2, portfolioName);
 			ps.executeUpdate();
