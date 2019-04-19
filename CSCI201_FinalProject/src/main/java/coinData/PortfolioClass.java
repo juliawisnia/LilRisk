@@ -104,7 +104,7 @@ public class PortfolioClass {
 			int portfolioID;
 			PID = getPID.executeQuery();
 			while(PID.next()) {
-				
+				portfolioID = PID.getInt("portfolioID");
 			}
 			double spent;
 			if(coins.containsKey(coin)) {
@@ -116,14 +116,20 @@ public class PortfolioClass {
 				else {
 					extraMunz = extraMunz-spent;
 				}
-				ps = conn.prepareStatement("INSERT INTO ortfolio(userID, portfolioName) VALUE(?,?)");
-				
+				double curPrice = AllCoins.getCoin(coin).getCurrentPrice();
+				ps = conn.prepareStatement("INSERT Positions SET buyPrice = ?, amount = ? WHERE portfolioID = ? AND symbol = ?");
+				/*
+				ps.setFloat(1, );
+				ps.setFloat(2, x);
+				ps.setInt(3, x);
+				ps.setString(4, x);
+				*/
 			}
 			else {
 				Position temp = new Position(coin, amount, System.currentTimeMillis());
 				coins.put(coin, temp);
 				spent = temp.getAvgBuy()*amount;
-				ps = conn.prepareStatement("UPDATE  ortfolio(userID, portfolioName) VALUE(?,?)");
+				ps = conn.prepareStatement("UPDATE Positions SET  VALUE(?,?)");
 			}
 			spendMunz(spent);
 			
@@ -205,7 +211,7 @@ public class PortfolioClass {
 			data[i*7+2] = "" + temp.getCoin().getCurrentPrice();
 			data[i*7+3] = "" + temp.percentDifference();
 			data[i*7+4] = "" + temp.absoluteDifference();
-			data[i*7+5] = "" + temp.getCoin().getCurrentPrice();
+			data[i*7+5] = "" + temp.getCoin().getCurrentPrice()*temp.getAmount();
 			data[i*7+6] = "" + temp.getAmount();
 		}
 		return data;
@@ -239,7 +245,7 @@ public class PortfolioClass {
 	public String getPieData() {
 		String ret = "";
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
-			ret += ",[" + entry.getKey() + "," + entry.getValue().getTotalValue() + "]";
+			ret += ",['" + entry.getKey() + "'," + entry.getValue().getTotalValue() + "]";
 		}
 		return ret;
 	}

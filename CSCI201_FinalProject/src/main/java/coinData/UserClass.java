@@ -35,6 +35,10 @@ public class UserClass {
 		this.userID = -1;
 	}
 	
+	public String[] getPortfolioCoinData(String portfolio) {
+		return portfolios.get(portfolio).portfolioCoinData();
+	}
+	
 	public void loadUser(int userID, String username) { 
 		this.username = username;
 		this.userID = userID;
@@ -131,7 +135,7 @@ public class UserClass {
 
 	public String getPieChart(String portfolio) {
 		PortfolioClass target = portfolios.get(portfolio);
-		String ret = "[['Coins', 'Value'],";
+		String ret = "[['Coins', 'Value']";
 		ret += target.getPieData() + "]";
 		return ret;
 	}

@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS LilRisk;
-CREATE DATABASE LilRisk;
-USE LilRisk;
+DROP DATABASE IF EXISTS steelest_LilRisk;
+CREATE DATABASE steelest_LilRisk;
+USE steelest_LilRisk;
 
 CREATE TABLE User (
 	userID INT(11) PRIMARY KEY AUTO_INCREMENT,
@@ -17,21 +17,21 @@ CREATE TABLE Portfolio (
 
 CREATE TABLE Positions (
 	portfolioID INT(11),
-    symbol VARCHAR(8),
+    symbol VARCHAR(12),
     buyTime BIGINT(64),
     buyPrice FLOAT(32),
-    amount FLOAT(11),
+    amount FLOAT(32),
     FOREIGN KEY (portfolioID) REFERENCES Portfolio(PortfolioID)
 );
 
 CREATE TABLE Trades (
 	portfolioID INT(11),
-    symbol VARCHAR(8),
+    symbol VARCHAR(12),
     buyTime BIGINT(64),
     sellTime BIGINT(64),
     buyPrice FLOAT(32),
     sellPrice FLOAT(32),
-    amount FLOAT(11),
+    amount FLOAT(32),
     FOREIGN KEY (portfolioID) REFERENCES Portfolio(portfolioID)
 );
 
