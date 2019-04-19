@@ -515,7 +515,7 @@ input[type=number]::-webkit-inner-spin-button {
 	<input type="button" id="portfolioButton" value="PORTFOLIOS" onclick= "changeSideBar()">
 	<hr style="border: 0.5px solid white;" />
 	<body>
-		<div class="portfolio-name" id="curr">PORTFOLIO NAME</div>
+		<div class="portfolio-name" id="curr"><%=session.getAttribute("portName") %></div>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">

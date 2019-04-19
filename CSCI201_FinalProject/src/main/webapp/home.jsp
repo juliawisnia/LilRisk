@@ -91,7 +91,7 @@ button:focus {
 input[type=button].add {
 	position: absolute;
 	right: 15px;
-	margin-top: 1.5%;
+	margin-top: 5%;
 	width: 29px;
 	height: 29px;
 	line-height: 29px;
@@ -225,6 +225,15 @@ input[type=button].time {
 	background-color: rgba(0,0,0,0);
 	font-size: 20px;
 }
+
+input[type=button].none {
+	cursor: pointer;
+	text-transform: uppercase;
+	font-weight: lighter;
+	border: none;
+	background-color: rgba(0,0,0,0);
+}
+
 #logout {
 	position: absolute;
 	background-color: #313030;
@@ -495,7 +504,7 @@ input[type=button].time {
 					}
 					cnt++;
 			%>
- 				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div><input type="button" onclick="port(this)" value="<%=syms[i] %>"><input type="button" value="-" class="add"></li>
+ 				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div><input type="button" class="none" onclick="port(this)" value="<%=syms[i] %>"><input type="button" value="-" class="add"></li>
  			<%} %>
 				<li>New Portfolio<input type="button" value="+" class="addNew" onclick="addNew()" style="border-color: purple; color: purple;"></li>
 			</ul>
