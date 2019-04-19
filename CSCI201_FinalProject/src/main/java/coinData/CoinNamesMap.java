@@ -5,8 +5,8 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class CoinNamesMap {
-	private static Map<String, String> symbol2Names = Collections.synchronizedMap(new Hashtable<String, String>());
-	private static Map<String, String> name2Symbols = Collections.synchronizedMap(new Hashtable<String, String>());
+	private Map<String, String> symbol2Names = Collections.synchronizedMap(new Hashtable<String, String>());
+	private Map<String, String> name2Symbols = Collections.synchronizedMap(new Hashtable<String, String>());
 	
 	public CoinNamesMap() {
 		String symbols[] = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT", "NULSUSDT", "VETUSDT", "PAXUSDT", "BCHABCUSDT", "BCHSVUSDT", "LINKUSDT", "WAVESUSDT", "BTTUSDT",  "ONGUSDT", "HOTUSDT", "ZILUSDT", "ZRXUSDT", "FETUSDT", "BATUSDT", "XMRUSDT", "ZECUSDT", "IOSTUSDT", "CELRUSDT", "DASHUSDT", "NANOUSDT", "OMGUSDT"};
@@ -17,11 +17,11 @@ public class CoinNamesMap {
 		}
 	}
 	
-	public static String symbol2Name(String symbol) {
+	public String symbol2Name(String symbol) {
 		return symbol2Names.get(symbol);
 	}
 	
-	public static String name2Symbol(String symbol) {
+	public String name2Symbol(String symbol) {
 		return name2Symbols.get(symbol);
 	}
 }

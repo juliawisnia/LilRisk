@@ -26,9 +26,10 @@ public class AllCoins {
 	public static String[] allCoinsData() {
 		String ret[] = new String[coins.size()*4];
 		int i= 0;
+		CoinNamesMap cnm = new CoinNamesMap(); 
 		for (Map.Entry<String,CoinClass> entry : coins.entrySet()) {
 			ret[i*4] = entry.getValue().getName();
-			ret[i*4+1] = CoinNamesMap.symbol2Name(entry.getValue().getName());
+			ret[i*4+1] = cnm.symbol2Name(entry.getValue().getName());
 			ret[i*4+2] = "" + entry.getValue().getCurrentPrice();
 			ret[i*4+3] = "" + entry.getValue().getDayPercentChange();
 			i++;

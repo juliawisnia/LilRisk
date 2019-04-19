@@ -1,5 +1,10 @@
 package coinData;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
@@ -85,25 +90,65 @@ public class PortfolioClass {
 	 * 
 	 * @param position: coin that you want to
 	 */
-	public void buy(String coin, double amount) {
-		double spent;
-		if(coins.containsKey(coin)) {
-			spent = coins.get(coin).buyMore(amount);
-			if(extraMunz-spent < 0) {
-				extraMunz = 0;
-				spentMunz += spent-extraMunz;
+	public void buy(String coin, double amount, int userID) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement getPID = null;
+		ResultSet PID = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
+			getPID = conn.prepareStatement("SELECT * FROM Porfolio WHERE userID = ? and portfolioName = ?");
+			getPID.setInt(1, userID);
+			getPID.setString(2, this.portfolioName);
+			int portfolioID;
+			PID = getPID.executeQuery();
+			while(PID.next()) {
+				
+			}
+			double spent;
+			if(coins.containsKey(coin)) {
+				spent = coins.get(coin).buyMore(amount);
+				if(extraMunz-spent < 0) {
+					extraMunz = 0;
+					spentMunz += spent-extraMunz;
+				}
+				else {
+					extraMunz = extraMunz-spent;
+				}
+				ps = conn.prepareStatement("INSERT INTO ortfolio(userID, portfolioName) VALUE(?,?)");
+				
 			}
 			else {
-				extraMunz = extraMunz-spent;
+				Position temp = new Position(coin, amount, System.currentTimeMillis());
+				coins.put(coin, temp);
+				spent = temp.getAvgBuy()*amount;
+				ps = conn.prepareStatement("UPDATE  ortfolio(userID, portfolioName) VALUE(?,?)");
+			}
+			spendMunz(spent);
+			
+			ps.executeUpdate();
+		}
+		catch(SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch(ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally{
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
 			}
 		}
-		else {
-			Position temp = new Position(coin, amount, System.currentTimeMillis());
-			coins.put(coin, temp);
-			spent = temp.getAvgBuy()*amount;
 			
-		}
-		spendMunz(spent);
 	}
 	
 	
