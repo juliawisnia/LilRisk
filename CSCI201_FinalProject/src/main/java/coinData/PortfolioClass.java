@@ -100,14 +100,14 @@ public class PortfolioClass {
 		else {
 			Position temp = new Position(coin, amount, System.currentTimeMillis());
 			coins.put(coin, temp);
-			spent = temp.getAvgBuy();
+			spent = temp.getAvgBuy()*amount;
 			
 		}
 		spendMunz(spent);
 	}
 	
 	
-	public void sell(String pos, double avgSellPrice, double amount) {
+	public void sell(String pos, double amount) {
 		//recordTrade(pos.getName(), pos.getAvgBuy(), avgSellPrice, pos.getAmount(), System.currentTimeMillis());
 	}
 	
