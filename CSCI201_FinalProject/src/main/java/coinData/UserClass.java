@@ -111,12 +111,8 @@ public class UserClass {
 		}
 	}
 	
-	public int buy(String portfolio, String coin, double amount) {
-		return 0;
-	}
-	
-	public int sell(String portfolio, String coin, double amount) {
-		return 0;
+	public void sell(String portfolio, String coin, double amount) {
+		portfolios.get(portfolio).sell(coin, amount);
 	}
 	
 	public double getPriceByCoin(String coin) {
@@ -297,7 +293,9 @@ public class UserClass {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
-			ps = conn.prepareStatement("INSERT INTO portfolio(userID, portfolioName) VALUE(" + userID + ",\"" + portfolioName + "\"");
+			ps = conn.prepareStatement("INSERT INTO portfolio(userID, portfolioName) VALUE(?,?);");
+			ps.setInt(1, this.userID);
+			ps.setString(2, portfolioName);
 			ps.executeUpdate();
 			portfolios.put(portfolioName, new PortfolioClass(portfolioName));
 		}
@@ -306,6 +304,19 @@ public class UserClass {
 		}
 		catch(ClassNotFoundException cnfe) {
 			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally{
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
 		}
 	}
 }
