@@ -75,6 +75,23 @@ ul.PortfolioSideBar li {
 	padding: 12px;
 }
 
+ul.PortfolioSideBar input[type=button].none {
+	background-color: #313030;
+	border-bottom: 1px solid white;
+	text-transform: uppercase;
+	font-size: 30px;
+	color: white;
+	font-weight: lighter;
+	padding: 12px;
+	color: white;
+	cursor: pointer;
+	text-transform: uppercase;
+	font-weight: lighter;
+	border: none;
+	background-color: rgba(0,0,0,0);
+	padding: 0px;
+}
+
 ul.StockSideBar {
 	width: 100%;
 	list-style-type: none;
@@ -354,6 +371,13 @@ input[type=number]::-webkit-inner-spin-button {
 		function drawChart() {
 			<%
 				UserClass user = (UserClass)session.getAttribute("user");
+				String timeFrame = (String)(session.getAttribute("timeFrame"));
+				String[] syms = null;				
+				if (timeFrame.equals("day")) syms = (String[])(session.getAttribute("homeDayVals"));
+				else if (timeFrame.equals("week")) syms = (String[])(session.getAttribute("homeWeekVals"));
+				else if (timeFrame.equals("month")) syms = (String[])(session.getAttribute("homeMonthVals"));
+				else if (timeFrame.equals("sixMonth")) syms = (String[])(session.getAttribute("homeSixMonthVals"));
+				else syms = (String[])(session.getAttribute("homeYearVals"));
 			%>
 			var data = google.visualization.arrayToDataTable([
 			['Stocks', 'Shares'],
@@ -502,6 +526,20 @@ input[type=number]::-webkit-inner-spin-button {
 				}
 			})
 		}
+ 		function port(element) {
+			$.ajax({				
+				url: "SendToPort",
+				type: "POST",
+				data: {
+					name: element.value
+				},
+				success: function(result) {
+					if (result === "success") {
+						location.reload(true);
+					}
+				}
+			})
+ 		}
 		</script>
 		
 		<meta charset="UTF-8">
@@ -515,15 +553,31 @@ input[type=number]::-webkit-inner-spin-button {
 	<input type="button" id="portfolioButton" value="PORTFOLIOS" onclick= "changeSideBar()">
 	<hr style="border: 0.5px solid white;" />
 	<body>
-		<div class="portfolio-name" id="curr"><%=session.getAttribute("portName") %></div>
+		<div class="portfolio-name" id="curr"><%=(String)session.getAttribute("portName") %></div>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
-				<li><a href="PortfolioPage.jsp">Portfolio 1 </a><div class="per">2.5%</div></li>
-				<li><a href="PortfolioPage.jsp">Portfolio 2 </a><div class="per" style="border-color: green; color: green;">2.45%</div></li>
-				<li><a href="PortfolioPage.jsp">Agressive </a><div class="per" style="border-color: green; color: green;">3.54%</div></li>
-				<li><a href="PortfolioPage.jsp">Careful </a><div class="per">2.18%</div></li>
-				<li><a href="PortfolioPage.jsp">Tech </a><div class="per" style="border-color: green; color: green;">8.81%</div></li>
+			<% String[] pn = null;
+				
+				if (timeFrame.equals("day")) pn = (String[])(session.getAttribute("homePnDay"));
+				else if (timeFrame.equals("week")) pn = (String[])(session.getAttribute("homePnWeek"));
+				else if (timeFrame.equals("month")) pn = (String[])(session.getAttribute("homePnMonth"));
+				else if (timeFrame.equals("sixMonth")) pn = (String[])(session.getAttribute("homePnSixMonth"));
+				else pn = (String[])(session.getAttribute("homePnYear"));
+			
+				String color = "";
+				int cnt = 0;
+				for (int i = 0; i < syms.length - 1; i+=2) {
+					if (pn[cnt] == "n") {
+						color = "red";
+					}
+					else {
+						color = "green";
+					}
+					cnt++;
+			%>
+ 				<li><input type="button" class="none" onclick="port(this)" value="<%=syms[i] %>"><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div></li>
+ 			<%} %>
 			</ul>
 			<ul class="buy" id="buy" style="display: none;">
 				<li style="font-size: 30px;">BUY<input type="text" id="search" value="Search" onfocus="this.value=''"></li>

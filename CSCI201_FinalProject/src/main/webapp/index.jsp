@@ -6,6 +6,8 @@
 	UserClass user = new UserClass();
 	session.setAttribute("user", user);
 	request.setAttribute("user", user);
+	String[] allCoins = user.getAllCoins();
+	session.setAttribute("coins", allCoins);
     String[] coins = {"BTCUSDT", "ETHUSDT", "BNBUSDT", "NEOUSDT", "LTCUSDT", "QTUMUSDT", "ADAUSDT", "XRPUSDT", "EOSUSDT", "IOTAUSDT", "XLMUSDT", "ONTUSDT", "TRXUSDT", "ETCUSDT", "ICXUSDT"};
     String[] dayVals = user.coinTrends(coins, "day");
     String[] weekVals = user.coinTrends(coins, "week");

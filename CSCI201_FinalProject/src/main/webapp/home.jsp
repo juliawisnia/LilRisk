@@ -91,7 +91,7 @@ button:focus {
 input[type=button].add {
 	position: absolute;
 	right: 15px;
-	margin-top: 5%;
+	margin-top: 1.5%;
 	width: 29px;
 	height: 29px;
 	line-height: 29px;
@@ -232,6 +232,7 @@ input[type=button].none {
 	font-weight: lighter;
 	border: none;
 	background-color: rgba(0,0,0,0);
+	padding: 0px;
 }
 
 #logout {
@@ -453,7 +454,7 @@ input[type=button].none {
  			window.location.href = "UnregisteredHomePage.jsp";
  		}
  		function port(element) {
-			$.ajax({
+			$.ajax({				
 				url: "SendToPort",
 				type: "POST",
 				data: {
@@ -461,7 +462,7 @@ input[type=button].none {
 				},
 				success: function(result) {
 					if (result === "success") {
-						window.location.href = "loadPortfolio.jsp";
+						window.location.href = "PortfolioPage.jsp";
 					}
 				}
 			})
