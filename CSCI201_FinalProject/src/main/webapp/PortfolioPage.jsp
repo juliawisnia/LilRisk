@@ -361,6 +361,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 		</script>
 		<!-- DONUT CHART SCRIPT -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
 		// Load google charts
@@ -553,7 +554,7 @@ input[type=number]::-webkit-inner-spin-button {
 	<input type="button" id="portfolioButton" value="PORTFOLIOS" onclick= "changeSideBar()">
 	<hr style="border: 0.5px solid white;" />
 	<body>
-		<div class="portfolio-name" id="curr"><%=(String)session.getAttribute("portName") %></div>
+		<div class="portfolio-name" id="curr" style="text-transform: uppercase;"><%=(String)session.getAttribute("portName") %></div>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
@@ -589,10 +590,15 @@ input[type=number]::-webkit-inner-spin-button {
 				<%
 					String[] coins = (String[])(session.getAttribute("coins"));
 					for (int i = 0; i < coins.length; i+=4) {
-						String symbol = coins[i]; String name = coins[i+1]; String price = coins[i+2]; String per = coins[i+3];
+						String symbol = coins[i]; String name = coins[i+1]; String price = coins[i+2]; double per = Double.parseDouble(coins[i+3]);
+						String coinColor = "green";
+						if (per < 0) {
+							coinColor = "red";
+							per = per*(-1);
+						}
 				%>
 				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value="<%=symbol %>" onclick="buy(this.value)"><div class="price"><%=price %></div></li>
-				<li class="company"><%=name %> <div class="portPer"><%=per %></div></li>
+				<li class="company"><%=name %> <div class="portPer" style="border-color: <%=coinColor%>; color: <%=coinColor%>;"><%=per %></div></li>
 				<%} %>
 			</ul>
 		</div>
