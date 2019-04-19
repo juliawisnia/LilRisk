@@ -35,6 +35,10 @@ public class UserClass {
 		this.userID = -1;
 	}
 	
+	public String[] getPortfolioCoinData(String portfolio) {
+		return portfolios.get(portfolio).portfolioCoinData();
+	}
+	
 	public void loadUser(int userID, String username) { 
 		this.username = username;
 		this.userID = userID;
