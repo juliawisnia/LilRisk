@@ -467,6 +467,25 @@ input[type=button].none {
 			})
  		}
 		</script>
+
+				<!--  NEW PORTFOLIO ADDING TO DATABASE -->
+		<script>
+			function login() {
+				$.ajax({
+					url: "NewPortfolioServlet",
+					type: "POST",
+					data: {
+						username: document.getElementById('username').value,
+						portfolio: document.getElementById('port-name').value,
+					},
+					success: function(result) {
+						if (result === "success") {
+							window.location.href = "load.jsp";
+						}
+					}
+				})
+			}
+		</script>
 	</head>
 	<div id="title"><i>LIL RISK INC.</i></div>
 	<hr style="border: 0.5px solid white;" />
