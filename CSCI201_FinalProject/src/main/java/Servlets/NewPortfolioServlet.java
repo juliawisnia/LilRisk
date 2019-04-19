@@ -29,7 +29,7 @@ public class NewPortfolioServlet extends HttpServlet {
 		ResultSet rs = null;
 		
 		try {
-			int portID = -1;
+			int userID = -1;
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LilRisk?user=root&password=root");
 			
@@ -38,16 +38,16 @@ public class NewPortfolioServlet extends HttpServlet {
 			rs = cps.executeQuery();
 			// returned a non-empty result set
 			if (rs.next()) {
-				portID = rs.getInt("portfolioID");
-			} else {
-				// we can insert the portfolio now				
-				ps = conn.prepareStatement("INSERT INTO Portfolio(userID, portfolioName) VALUES(?,?)");
-				ps.setInt(1, portID);
-				ps.setString(2, port);
-	        	ps.executeUpdate();
-				
-				response.getWriter().write("success");
-			}
+				userID = rs.getInt("userID");
+			} 
+			
+			// we can insert the portfolio now				
+			ps = conn.prepareStatement("INSERT INTO Portfolio(userID, portfolioName) VALUES(?,?)");
+			ps.setInt(1, userID);
+			ps.setString(2, port);
+        	ps.executeUpdate();
+			
+			response.getWriter().write("success");
         	
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
