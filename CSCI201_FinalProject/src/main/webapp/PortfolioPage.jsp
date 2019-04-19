@@ -43,9 +43,9 @@ html,body {
 	right: 0;
 	background-color: #313030;
 	overflow-x: hidden;
-	overflow-y: auto;
 	border-left: 1px solid white;
 	padding: 100px 0px;
+	position: fixed;
 }
 ul.PortfolioSideBar {
 	/* overflow-y: auto; */
@@ -97,6 +97,7 @@ ul.StockSideBar {
 	list-style-type: none;
 	padding: 0;
 	border-bottom: white;
+	overflow-y: scroll;
 }
 
 ul.StockSideBar li {
