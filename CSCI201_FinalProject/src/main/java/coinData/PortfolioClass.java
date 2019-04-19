@@ -199,6 +199,11 @@ public class PortfolioClass {
 		return ret;
 	}
 	
+	/**
+	 * 
+	 * @param timeFrame
+	 * @return
+	 */
 	public String portfolioDataWithCoins(String timeFrame) {
 		List<timeValue> overAll = this.portfolioTrend(timeFrame);
 		List<List<Candlestick>> coinData = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
