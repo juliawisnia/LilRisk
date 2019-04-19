@@ -31,6 +31,7 @@ public class AllCoins {
 			ret[i*4+1] = CoinNamesMap.symbol2Name(entry.getValue().getName());
 			ret[i*4+2] = "" + entry.getValue().getCurrentPrice();
 			ret[i*4+3] = "" + entry.getValue().getDayPercentChange();
+			i++;
 		}
 		return ret;
 	}
