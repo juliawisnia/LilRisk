@@ -23,18 +23,20 @@ public class PurchaseServlet extends HttpServlet {
 		int amount = Integer.parseInt((String)(request.getParameter("quantity")));
 		String port = request.getParameter("portfolio");
 		long now = Instant.now().toEpochMilli();
-		double val = 0;
 		
 		response.setContentType("text/plain");
 		HttpSession session = request.getSession();
 		session = request.getSession();
+		UserClass user = (UserClass)(session.getAttribute("user"));
+		double val = user.getPriceByCoin(coin);
+		if (val == -1) {
+			response.getWriter().write(coin + " does not exist.");
+		}
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement cps = null;
-		PreparedStatement cps1 = null;
 		ResultSet rs = null;
-		ResultSet rs1 = null;
 		
 		try {
 			int portID = -1;
@@ -49,7 +51,7 @@ public class PurchaseServlet extends HttpServlet {
 			} else {
 				// we can insert the portfolio now
 				ps = conn.prepareStatement("INSERT INTO Positions(portfolioID, symbol, buyTime, buyPrice, amount) VALUES (?,?,?,?,?)");
-				ps.setLong(1,  portID); ps.setString(2,  coin); ps.setLong(3, now); ps.setLong(4, x); ps.setLong(5, amount);
+				ps.setLong(1,  portID); ps.setString(2,  coin); ps.setLong(3, now); ps.setLong(4, (long) val); ps.setLong(5, amount);
 				ps.executeUpdate();
 				
 				response.getWriter().write("success");

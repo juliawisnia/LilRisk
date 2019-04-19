@@ -443,6 +443,20 @@ input[type=button].time {
  		function logout() {
  			window.location.href = "UnregisteredHomePage.jsp";
  		}
+ 		function port(element) {
+			$.ajax({
+				url: "SendToPort",
+				type: "POST",
+				data: {
+					name: element.value
+				},
+				success: function(result) {
+					if (result === "success") {
+						window.location.href = "loadPortfolio.jsp";
+					}
+				}
+			})
+ 		}
 		</script>
 	</head>
 	<div id="title"><i>LIL RISK INC.</i></div>
@@ -481,7 +495,7 @@ input[type=button].time {
 					}
 					cnt++;
 			%>
- 				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div><%=syms[i] %><input type="button" value="-" class="add"></li>
+ 				<li><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div><input type="button" onclick="port(this)" value="<%=syms[i] %>"><input type="button" value="-" class="add"></li>
  			<%} %>
 				<li>New Portfolio<input type="button" value="+" class="addNew" onclick="addNew()" style="border-color: purple; color: purple;"></li>
 			</ul>

@@ -495,7 +495,9 @@ input[type=number]::-webkit-inner-spin-button {
 				},
 				success: function(result) {
 					if (result === "success") {
-						window.location.href = "load.jsp";
+						location.reload(true);
+					} else {
+						alert(result);
 					}
 				}
 			})
