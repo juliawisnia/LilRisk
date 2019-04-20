@@ -636,7 +636,6 @@ input[type=button].add {
 				success: function(result) {
 					if (result === "success") {
 						location.reload(true);
-						total();
 					} else {
 						alert(result);
 					}
@@ -649,21 +648,6 @@ input[type=button].add {
 				type: "POST",
 				data: {
 					name: element.value
-				},
-				success: function(result) {
-					if (result === "success") {
-						location.reload(true);
-					}
-				}
-			})
- 		}
- 		function total() {
-			$.ajax({				
-				url: "TotalServlet",
-				type: "POST",
-				data: {
-					coin: document.getElementById('search').value,
-					quantity: document.getElementById('quantity').value
 				},
 				success: function(result) {
 					if (result === "success") {
