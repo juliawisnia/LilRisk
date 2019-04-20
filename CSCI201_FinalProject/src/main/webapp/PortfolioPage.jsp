@@ -700,7 +700,7 @@ input[type=button].add, input[type=button].lr {
 							per = per*(-1);
 						}
 				%>
-				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value=<%=symbol %>" onclick="buy(this.value)"><div class="price"><%=price %></div></li>
+				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value=<%=symbol %> onclick="buy(this.value)"><div class="price"><%=price %></div></li>
 				<li class="company"><%=name %> <div class="portPer" style="border-color: <%=coinColor%>; color: <%=coinColor%>;"><%=per %></div></li>
 				<%} %>
 			</ul>
