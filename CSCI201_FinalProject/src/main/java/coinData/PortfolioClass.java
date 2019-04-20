@@ -423,17 +423,13 @@ public class PortfolioClass {
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			position.add(entry.getValue().timeValueData(timeFrame));
 		}
-		System.out.println("Number of positions: " + position.size());
 		for(int i = 0; i < tradeHistory.size(); i++) {
 			position.add(tradeHistory.get(i).timeValueRange(timeFrame));
 		}
-		System.out.println("Number of positions+trades: " + position.size());
 		int longest = 0;
-		System.out.print("Sizes of everylist: ");
 		for(int i = 0; i < position.size(); i++) {
 			if(position.get(i).size() > longest) {
 				longest = position.get(i).size();
-				System.out.print(position.get(i).size() + " ");
 			}
 		}
 		for(int j = 0; j < longest; j++) {

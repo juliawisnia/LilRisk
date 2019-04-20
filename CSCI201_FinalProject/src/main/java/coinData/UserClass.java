@@ -65,6 +65,7 @@ public class UserClass {
 				ps2.setInt(1, portfolioID);
 				rs2 = ps2.executeQuery();
 				while(rs2.next()) {
+					System.out.println("Portfolio " + portfolioID + " " + rs2.getString("symbol") + " " + rs2.getDouble("buyPrice") + " " + rs2.getLong("buyTime") + " " + rs2.getDouble("amount"));
 					temp.addPosition(new Position(rs2.getString("symbol"),rs2.getDouble("buyPrice"), rs2.getLong("buyTime"), rs2.getDouble("amount")));
 				}
 				
@@ -72,7 +73,6 @@ public class UserClass {
 				ps3.setInt(1, portfolioID);
 				rs3 = ps3.executeQuery();
 				while(rs3.next()) {
-//					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getDate("buyTime").getTime(), rs3.getDouble("amount")), rs3.getDouble("avgSell"), rs3.getDate("sellTime").getTime()));
 					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getLong("buyTime"), rs3.getDouble("amount")), rs3.getDouble("sellPrice"), rs3.getLong("sellTime")));
 				}
 				portfolios.put(portfolioName, temp);
