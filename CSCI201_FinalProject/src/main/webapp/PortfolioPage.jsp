@@ -517,6 +517,26 @@ input[type=number]::-webkit-inner-spin-button {
 				success: function(result) {
 					if (result === "success") {
 						location.reload(true);
+						total();
+					} else {
+						alert(result);
+					}
+				}
+			})
+		}
+		function sell() {
+			$.ajax({
+				url: "SellServlet",
+				type: "POST",
+				data: {
+					coin: document.getElementById('search').value,
+					quantity: document.getElementById('quantity').value,
+					portfolio: document.getElementById('curr').value
+				},
+				success: function(result) {
+					if (result === "success") {
+						location.reload(true);
+						total();
 					} else {
 						alert(result);
 					}
@@ -537,7 +557,7 @@ input[type=number]::-webkit-inner-spin-button {
 				}
 			})
  		}
- 		function total(element) {
+ 		function total() {
 			$.ajax({				
 				url: "TotalServlet",
 				type: "POST",

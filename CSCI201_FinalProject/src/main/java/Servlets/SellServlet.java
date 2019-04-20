@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import coinData.UserClass;
 
-public class PurchaseServlet extends HttpServlet {
+public class SellServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -23,6 +23,6 @@ public class PurchaseServlet extends HttpServlet {
 		long now = Instant.now().toEpochMilli();
 		UserClass currUser = (UserClass) session.getAttribute("user");
 		
-		currUser.buyCoin(port, coin, amount);
+		currUser.sell(port, coin, amount);;
 	}
 }
