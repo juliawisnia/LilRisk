@@ -353,8 +353,6 @@ input[type=button].add, input[type=button].lr {
 		<!-- SIDEBAR SCRIPT -->
 		<script> 
 			
-		
-			
 			function buy(symbol) {
 				document.getElementById('search').value = symbol;
 			}
