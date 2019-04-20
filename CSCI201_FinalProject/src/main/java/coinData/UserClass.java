@@ -139,7 +139,7 @@ public class UserClass {
 		return ret;
 	}
 	
-	public String portfolioDataWithCoins(String portfolio, String timeFrame) {
+	public String[] portfolioDataWithCoins(String portfolio, String timeFrame) {
 		return portfolios.get(portfolio).portfolioDataWithCoins(timeFrame);
 	}
 

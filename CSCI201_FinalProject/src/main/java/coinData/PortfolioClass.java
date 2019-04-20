@@ -387,12 +387,17 @@ public class PortfolioClass {
 	 * @param timeFrame
 	 * @return
 	 */
-	public String portfolioDataWithCoins(String timeFrame) {
+	public String[] portfolioDataWithCoins(String timeFrame) {
 		List<timeValue> overAll = this.portfolioTrend(timeFrame);
 		List<List<Candlestick>> coinData = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
+		String returnString[] = new String[coinData.size() +2];
+		returnString[0] = portfolioName;
 		String ret = "[";
+		int k = 1;
 		for (Map.Entry<String,Position> entry : coins.entrySet()){
+			returnString[k] = entry.getKey();
 			coinData.add(entry.getValue().getCoin().getDataList(timeFrame));
+			k++;
 		}
 		if(overAll.size() > 0) {
 			ret += "[0," + overAll.get(0).getValue();
@@ -408,7 +413,8 @@ public class PortfolioClass {
 			ret += "]";
 		}
 		ret += "]";
-		return ret;
+		returnString[returnString.length - 1] = ret;
+		return returnString;
 	}
 	
 	
