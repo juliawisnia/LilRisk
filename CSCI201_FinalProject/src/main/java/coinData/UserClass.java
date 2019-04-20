@@ -116,7 +116,7 @@ public class UserClass {
 	}
 	
 	public void sell(String portfolio, String coin, double amount) {
-		portfolios.get(portfolio).sell(coin, amount);
+		portfolios.get(portfolio).sell(coin, amount, this.userID);
 	}
 	
 	public double getPriceByCoin(String coin) {

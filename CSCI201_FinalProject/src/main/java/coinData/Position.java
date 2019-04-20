@@ -100,6 +100,10 @@ public class Position {
 		return amount;
 	}
 	
+	public void subtractAmount(double amount) {
+		this.amount = this.amount-amount;
+	}
+	
 	/**
 	 * 
 	 * @return

@@ -117,7 +117,7 @@ public class PortfolioClass {
 					extraMunz = extraMunz-spent;
 				}
 				float curPrice = (float)AllCoins.getCoin(coin).getCurrentPrice();
-				ps = conn.prepareStatement("INSERT Positions SET buyPrice = ?, amount = ? WHERE portfolioID = ? AND symbol = ?");
+				ps = conn.prepareStatement("UPDATE Positions SET buyPrice = ?, amount = ? WHERE portfolioID = ? AND symbol = ?");
 				
 				ps.setFloat(1, curPrice);
 				ps.setFloat(2, (float)amount);
@@ -134,6 +134,7 @@ public class PortfolioClass {
 				ps.setLong(3, temp.getBuyTime());
 				ps.setFloat(4, (float)temp.getAvgBuy());
 				ps.setFloat(5, (float)amount);
+				coins.put(coin, temp);
 			}
 			spendMunz(spent);
 			
@@ -147,6 +148,12 @@ public class PortfolioClass {
 		}
 		finally{
 			try {
+				if(PID != null) {
+					PID.close();
+				}
+				if(getPID != null) {
+					getPID.close();
+				}
 				if(ps != null) {
 					ps.close();
 				}
@@ -162,13 +169,35 @@ public class PortfolioClass {
 	}
 	
 	
-	public void sell(String coin, double amount) {
+	public void sell(String coin, double amount, int userID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
+		PreparedStatement getPID = null;
+		ResultSet PID = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
-			
+			getPID = conn.prepareStatement("SELECT * FROM Porfolio WHERE userID = ? and portfolioName = ?");
+			getPID.setInt(1, userID);
+			getPID.setString(2, this.portfolioName);
+			int portfolioID = -1;
+			PID = getPID.executeQuery();
+			while(PID.next()) {
+				portfolioID = PID.getInt("portfolioID");
+			}
+			Position currentPos = coins.get(coin);
+			currentPos.subtractAmount(amount);
+			Position tempPos = new Position(coin, currentPos.getAvgBuy(), currentPos.getBuyTime(), amount);
+			TradeClass temp = new TradeClass(tempPos, AllCoins.getCoin(coin).getCurrentPrice());
+			ps = conn.prepareStatement("INSERT INTO Trades(portfolioID, symbol, buyTime, sellTime, buyPrice, sellPrice, amount) VALUE(?,?,?,?,?,?,?)");
+			ps.setInt(1, portfolioID);
+			ps.setString(2, coin);
+			ps.setLong(3, tempPos.getBuyTime());
+			ps.setLong(4, temp.getTime());
+			ps.setFloat(5, (float)tempPos.getAvgBuy());
+			ps.setFloat(6, (float)temp.getAvgSellPrice());
+			ps.setFloat(7, (float)amount);
+			tradeHistory.add(temp);
 		}
 		catch(SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
@@ -189,13 +218,12 @@ public class PortfolioClass {
 				System.out.println("sqle: " + sqle.getMessage());
 			}
 		}
-		Position p = new Position(coin, coins.get(coins).getAvgBuy(), System.currentTimeMillis(), amount);
 	}
 	
 	public String[] getAllTotals() {
 		String[] ret = new String[4];
-		ret[0] = "" + Math.floor(this.getTotalGains() * 100) / 100;
-		ret[1] = "" + Math.floor(this.getPercentChange() * 100) / 100;
+		ret[0] = "" + Math.floor(this.getPercentChange() * 100) / 100;
+		ret[1] = "" + Math.floor(this.getTotalGains() * 100) / 100;
 		ret[2] = "" + Math.floor(this.getTotal() * 100) / 100;
 		ret[3] = "" + Math.floor(this.getCoinsQuantity() * 100) / 100;
 		return ret;
@@ -209,6 +237,11 @@ public class PortfolioClass {
 			totalBuy += temp.getTotalValue();
 			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
 		}
+		for (int i = 0; i < tradeHistory.size(); i++) {
+			TradeClass temp = tradeHistory.get(i);
+			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
+			totalCurrent += temp.getAmount()*temp.getAvgSellPrice();
+		}
 		return totalCurrent-totalBuy;
 	}
 	
@@ -217,6 +250,10 @@ public class PortfolioClass {
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			Position temp = entry.getValue();
 			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
+		}
+		for (int i = 0; i < tradeHistory.size(); i++) {
+			TradeClass temp = tradeHistory.get(i);
+			totalCurrent += temp.getAmount()*temp.getAvgSellPrice();
 		}
 		return totalCurrent;
 	}
@@ -422,6 +459,11 @@ public class PortfolioClass {
 			Position temp = entry.getValue();
 			totalBuy += temp.getTotalValue();
 			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
+		}
+		for (int i = 0; i < tradeHistory.size(); i++) {
+			TradeClass temp = tradeHistory.get(i);
+			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
+			totalCurrent += temp.getAmount()*temp.getAvgSellPrice();
 		}
 		return totalCurrent/totalBuy;
 	}
