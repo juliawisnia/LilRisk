@@ -507,9 +507,9 @@ input[type=number]::-webkit-inner-spin-button {
 				url: "PurchaseServlet",
 				type: "POST",
 				data: {
-					coin: document.getElementById('search'),
-					quantity: document.getElementById('quantity'),
-					portfolio: document.getElementById('curr')
+					coin: document.getElementById('search').value,
+					quantity: document.getElementById('quantity').value,
+					portfolio: document.getElementById('curr').value
 				},
 				success: function(result) {
 					if (result === "success") {
