@@ -641,6 +641,21 @@ input[type=button].add, input[type=button].lr {
 				}
 			})
  		}
+ 		function total(element) {
+			$.ajax({				
+				url: "TotalServlet",
+				type: "POST",
+				data: {
+					coin: document.getElementById('search').value,
+					quantity: document.getElementById('quantity').value
+				},
+				success: function(result) {
+					if (result === "success") {
+						location.reload(true);
+					}
+				}
+			})
+ 		}
  		function history() {
  			window.location.href = "HistoryPage.jsp";
  		}
