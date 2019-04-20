@@ -226,14 +226,16 @@ public class PortfolioClass {
 		double totalAmount = 0;
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			Position temp = entry.getValue();
-			System.out.println("Getting values for Position: " + temp.getName());
+			System.out.println("Getting values for Position: " + temp.getName() + " " + temp.getTotalValue()
+			+ " " + temp.getAmount()*temp.getCurrentPrice() + " " + temp.getAmount());
 			totalBuy += temp.getTotalValue();
 			totalValue += temp.getAmount()*temp.getCurrentPrice();
 			totalAmount += temp.getAmount();
 		}
 		for (int i = 0; i < tradeHistory.size(); i++) {
 			TradeClass temp = tradeHistory.get(i);
-			System.out.println("Getting values for Position: " + temp.getCoin());
+			System.out.println("Getting values for Trade: " + temp.getCoin() + " " + temp.getAvgBuyPrice()*temp.getAmount()
+			+ " " + temp.getAmount()*temp.getAvgSellPrice() + " " + temp.getAmount());
 			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
 			totalValue += temp.getAmount()*temp.getAvgSellPrice();
 			totalAmount += temp.getAmount();
