@@ -198,11 +198,7 @@ public class PortfolioClass {
 			tradeHistory.add(temp);
 			System.out.println("Current Position Amount: " + currentPos.getAmount());
 			if(currentPos.getAmount() <= 0) {
-<<<<<<< HEAD
-				ps1 = conn.prepareStatement("DELETE FROM Positions WHERE portfolioID = ? AND symbol = ?;");
-=======
 				ps1 = conn.prepareStatement("DELETE FROM Positions WHERE portfolioID = ? AND symbol = ?");
->>>>>>> 595084f1f8b537b1a7a9d7a4445c54643461c178
 				ps1.setInt(1, portfolioID);
 				ps1.setString(2, coin);
 				ps1.executeUpdate();
