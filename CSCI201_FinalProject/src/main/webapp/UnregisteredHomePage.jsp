@@ -344,12 +344,10 @@ input[type=button].time {
 			})
  		}
 		</script>
-		
 	</head>
 	<a href="UnregisteredHomePage.jsp" style="text-decoration: none;"><div id="title"><i>LIL RISK</i></div></a>
 	<hr style="border: 0.5px solid white;" />
 	<body>
-		
 		<!-- LOGIN/REGISTER BUTTONS -->
 		<a href="LoginPage.jsp"><input class="lr" type="button" id="loginButton" value="LOGIN"></a>
 		<a href="RegisterPage.jsp"><input class="lr" type="button" id="registerButton" value="REGISTER"></a>		

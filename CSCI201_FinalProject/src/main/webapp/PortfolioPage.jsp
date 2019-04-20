@@ -330,7 +330,7 @@ input[type=number]::-webkit-inner-spin-button {
 	width: 115px;
 	height: 33px;
 	left: 28%;
-	top: 20%;
+	top: 18%;
 }
 input[type=button].add {
 	width: 25px;
@@ -356,9 +356,6 @@ input[type=button].add {
 	<head>
 		<!-- SIDEBAR SCRIPT -->
 		<script> 
-			
-		
-			
 			function buy(symbol) {
 				document.getElementById('search').value = symbol;
 			}
@@ -605,14 +602,12 @@ input[type=button].add {
 			})
  		}
 		function purchase() {
-			priceCheck();
 			$.ajax({
 				url: "PurchaseServlet",
 				type: "POST",
 				data: {
 					coin: document.getElementById('search').value,
-					quantity: document.getElementById('quantity').value,
-					portfolio: document.getElementById('curr').value
+					quantity: document.getElementById('quantity').value
 				},
 				success: function(result) {
 					if (result === "success") {
@@ -652,21 +647,6 @@ input[type=button].add {
 				}
 			})
  		}
-		function priceCheck() {
-		  	$.ajax({				
-				url: "GetPrice",
-				type: "POST",
-				data: {
-					coin: document.getElementById("search").value,
-					q: document.getElementById("quantity").value
-				},
-				success: function(result) {
-					if (result != "no") {
-						alert("You just purchased " + q + " shares of " + coin + " for $" + result + " USD.");
-					}
-				}
-			})
-		}
 		</script>
 		
 		<meta charset="UTF-8">

@@ -196,8 +196,9 @@ public class PortfolioClass {
 			ps.setFloat(6, (float)temp.getAvgSellPrice());
 			ps.setFloat(7, (float)amount);
 			tradeHistory.add(temp);
+			System.out.println("HELLO pos amnt: " + currentPos.getAmount());
 			if(currentPos.getAmount() <= 0) {
-				ps1 = conn.prepareStatement("DELETE Positions WHERE portfolioID = ? AND symbol = ?");
+				ps1 = conn.prepareStatement("DELETE FROM Positions WHERE portfolioID = ? AND symbol = ?");
 				ps1.setInt(1, portfolioID);
 				ps1.setString(2, coin);
 				ps1.executeUpdate();
