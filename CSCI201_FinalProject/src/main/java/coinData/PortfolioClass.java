@@ -343,7 +343,7 @@ public class PortfolioClass {
 			data[i*7+3] = "" + Math.floor((int)(percent * 100)) / 100;
 			data[i*7+4] = "" + Math.floor((int)(dif * 100)) / 100;
 			data[i*7+5] = "" + Math.floor(value * 100) / 100;
-			data[i*7+6] = "" + temp.getAmount();
+			data[i*7+6] = "" + Math.floor(temp.getAmount()*100)/100;
 			i++;
 		}
 		return data;
