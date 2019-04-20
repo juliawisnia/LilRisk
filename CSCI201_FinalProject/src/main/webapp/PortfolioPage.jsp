@@ -694,6 +694,7 @@ input[type=button].add, input[type=button].lr {
 					String[] coins = (String[])(session.getAttribute("coins"));
 					for (int i = 0; i < coins.length; i+=4) {
 						String symbol = coins[i]; String name = coins[i+1]; String price = coins[i+2]; double per = Double.parseDouble(coins[i+3]);
+						System.out.println(symbol);
 						String coinColor = "green";
 						if (per < 0) {
 							coinColor = "red";
