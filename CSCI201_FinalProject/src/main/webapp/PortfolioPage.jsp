@@ -336,6 +336,9 @@ input[type=number]::-webkit-inner-spin-button {
 	<head>
 		<!-- SIDEBAR SCRIPT -->
 		<script> 
+			
+		
+			
 			function buy(symbol) {
 				document.getElementById('search').value = symbol;
 			}
@@ -534,6 +537,9 @@ input[type=number]::-webkit-inner-spin-button {
 				}
 			})
  		}
+ 		function history() {
+ 			window.location.href = "HistoryPage.jsp";
+ 		}
 		</script>
 		
 		<meta charset="UTF-8">
@@ -597,7 +603,7 @@ input[type=number]::-webkit-inner-spin-button {
 		</div>
 
  		<!-- HISTORY BUTTON -->
-		<a href="HistoryPage.jsp"><input type="button" id="historyButton" value="HISTORY"></a>
+		<a href="HistoryPage.jsp"><input type="button" id="historyButton" value="HISTORY" onclick="history()"></a>
 
 		<!-- DONUT CHART -->		
 		<div id="donutChart" ></div>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="coinData.*" %>
+<%@ page session="true"%>
 
 <!DOCTYPE html>
 <html>
@@ -74,29 +76,24 @@ ul.PortfolioSideBar li {
 	padding: 12px;
 }
 
-ul.StockSideBar {
-	width: 100%;
-	list-style-type: none;
-	padding: 0;
-	border-bottom: white;
-}
-
-ul.StockSideBar li {
-	background-color: rgba(0,0,0,0);
-	padding-left: 15px;
-	color: white;
-}
-
-ul.StockSideBar li.symbol {
-	text-transform: uppercase;
-	padding-top: 5px;
-	font-size: 30px;
-}
-ul.StockSideBar li.company {
-	font-size: 12px;
-	padding-bottom: 12px;
+ul.PortfolioSideBar input[type=button].none {
+	background-color: #313030;
 	border-bottom: 1px solid white;
+	text-transform: uppercase;
+	font-size: 30px;
+	color: white;
+	font-weight: lighter;
+	padding: 12px;
+	color: white;
+	cursor: pointer;
+	text-transform: uppercase;
+	font-weight: lighter;
+	border: none;
+	background-color: rgba(0,0,0,0);
+	padding: 0px;
 }
+
+
 #search {
 	background-color: rgba(0,0,0,0);
 	color: white;
@@ -260,6 +257,7 @@ button:focus {
 	background-color: rgba(0,0,0,0);
 	padding: 0;
 	cursor: pointer;
+	
 }</style>
 		<link rel="stylesheet" type="text/css" href="HistoryPage.css" />
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -267,6 +265,18 @@ button:focus {
 		<script type="text/javascript">
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart);
+		
+		<%
+		UserClass user = (UserClass)session.getAttribute("user");
+		String port = (String)session.getAttribute("portName");
+		String timeFrame = (String)(session.getAttribute("timeFrame"));
+		String[] syms = null;				
+		if (timeFrame.equals("day")) syms = (String[])(session.getAttribute("homeDayVals"));
+		else if (timeFrame.equals("week")) syms = (String[])(session.getAttribute("homeWeekVals"));
+		else if (timeFrame.equals("month")) syms = (String[])(session.getAttribute("homeMonthVals"));
+		else if (timeFrame.equals("sixMonth")) syms = (String[])(session.getAttribute("homeSixMonthVals"));
+		else syms = (String[])(session.getAttribute("homeYearVals"));
+		%>
 		
 		function drawChart() {
 		  var data = google.visualization.arrayToDataTable([
@@ -354,11 +364,27 @@ button:focus {
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
-				<li><a href="PortfolioPage.jsp">Portfolio 1 </a><div class="per">2.5%</div></li>
-				<li><a href="PortfolioPage.jsp">Portfolio 2 </a><div class="per" style="border-color: green; color: green;">2.45%</div></li>
-				<li><a href="PortfolioPage.jsp">Agressive </a><div class="per" style="border-color: green; color: green;">3.54%</div></li>
-				<li><a href="PortfolioPage.jsp">Careful </a><div class="per">2.18%</div></li>
-				<li><a href="PortfolioPage.jsp">Tech </a><div class="per" style="border-color: green; color: green;">8.81%</div></li>
+			<% String[] pn = null;
+				
+				if (timeFrame.equals("day")) pn = (String[])(session.getAttribute("homePnDay"));
+				else if (timeFrame.equals("week")) pn = (String[])(session.getAttribute("homePnWeek"));
+				else if (timeFrame.equals("month")) pn = (String[])(session.getAttribute("homePnMonth"));
+				else if (timeFrame.equals("sixMonth")) pn = (String[])(session.getAttribute("homePnSixMonth"));
+				else pn = (String[])(session.getAttribute("homePnYear"));
+			
+				String color = "";
+				int cnt = 0;
+				for (int i = 0; i < syms.length - 1; i+=2) {
+					if (pn[cnt] == "n") {
+						color = "red";
+					}
+					else {
+						color = "green";
+					}
+					cnt++;
+			%>
+ 				<li><input type="button" class="none" onclick="port(this)" value="<%=syms[i] %>"><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div></li>
+ 			<%} %>
 			</ul>
 		</div>		
 		<!-- MAIN GRAPH-->		
@@ -368,52 +394,70 @@ button:focus {
 			<table class="stocks">
 				<tr>
 					<th>Symbol</th>
-					<th>Purhcase Price</th>
-					<th>Price Sold</th>
-					<th>Total gain/loss</th>
+					<th>Purchase Price</th>
+					<th>Last Price</th>
+					<th>Gains/losses (%)</th>
+					<th>Gains/losses ($)</th>
+					<th>Current Value</th>
 					<th>Quantity</th>
 				</tr>
-				<tr>
-					<td>AAPL</td>
-					<td>$167.88</td>
-					<td>$102.38</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
-				<tr>
-					<td>GOOG</td>
-					<td>$1128.88</td>
-					<td>$102.38</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
-				<tr>
-					<td>FB</td>
-					<td>$182.88</td>
-					<td>$102.38</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
-				<tr>
-					<td>TWTR</td>
-					<td>$67.18</td>
-					<td>$102.38</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
-				<tr>
-					<td>SNAP</td>
-					<td>$13.29</td>
-					<td>$102.38</td>
-					<td>$1000</td>
-					<td>50</td>
-				</tr>
+				<%
+					String[] val = user.portfolioHistoryData(port);
+					for (int i = 0; i < val.length; i+=7) {
+						String sym = val[i]; 
+						String pp = "$" + val[i+1]; 
+						String lp = "$" + val[i+2]; 
+						double glp = Double.parseDouble(val[i+3]);
+						double gld = Double.parseDouble(val[i+4]); 
+						String cv = "$" + val[i+5]; 
+						String q = val[i+6];
+						String gainColor = "green";
+						if (glp < 0) {
+							gainColor = "red";
+							glp = glp*(-1);
+							gld = gld*(-1);
+						}
+						String gp = "$" + Double.toString(gld);
+						String gd = Double.toString(glp) + "%";
+				%>
+				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td><%=cv %></td><td><%=q %></td>
+				<%} %>
 				<tr>
 					<th>Total</th>
 					<th></th>
-					<th>13.46%</th>
-					<th>$5000</th>
 					<th></th>
+				<%
+					String[] totals = user.getAllTotals(port);
+					for (int i = 0; i < totals.length; i++) {
+						String vals = null;
+						double temp = 0;
+						String gainColor = "green";
+						if (i == 0){
+							if (Double.parseDouble(totals[i]) < 0) {
+								temp = Double.parseDouble(totals[i]) * (-1);
+								gainColor = "red";
+							}
+							vals = temp + "%";
+						}
+						if (i == 1){
+							if (Double.parseDouble(totals[i]) < 0){
+								temp = Double.parseDouble(totals[i]) * (-1);
+								gainColor = "red";
+							}
+							vals = "$" + temp;
+						}
+						if (i == 2) {
+							gainColor = "white";
+							vals = "$" + totals[i];
+						}
+
+						if (i == 3) {
+							vals = totals[i];
+							gainColor = "white";
+						}
+				%>
+				<th style="color: <%=gainColor%>"><%= vals %></th>
+				<%} %>
 				</tr>
 			</table>
 		</div>
