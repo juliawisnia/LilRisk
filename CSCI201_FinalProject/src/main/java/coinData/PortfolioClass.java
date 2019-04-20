@@ -101,7 +101,7 @@ public class PortfolioClass {
 			getPID = conn.prepareStatement("SELECT * FROM Porfolio WHERE userID = ? and portfolioName = ?");
 			getPID.setInt(1, userID);
 			getPID.setString(2, this.portfolioName);
-			int portfolioID;
+			int portfolioID = -1;
 			PID = getPID.executeQuery();
 			while(PID.next()) {
 				portfolioID = PID.getInt("portfolioID");
@@ -116,20 +116,24 @@ public class PortfolioClass {
 				else {
 					extraMunz = extraMunz-spent;
 				}
-				double curPrice = AllCoins.getCoin(coin).getCurrentPrice();
+				float curPrice = (float)AllCoins.getCoin(coin).getCurrentPrice();
 				ps = conn.prepareStatement("INSERT Positions SET buyPrice = ?, amount = ? WHERE portfolioID = ? AND symbol = ?");
-				/*
-				ps.setFloat(1, );
-				ps.setFloat(2, x);
-				ps.setInt(3, x);
-				ps.setString(4, x);
-				*/
+				
+				ps.setFloat(1, curPrice);
+				ps.setFloat(2, (float)amount);
+				ps.setInt(3, portfolioID);
+				ps.setString(4, coin);
 			}
 			else {
 				Position temp = new Position(coin, amount, System.currentTimeMillis());
 				coins.put(coin, temp);
 				spent = temp.getAvgBuy()*amount;
-				ps = conn.prepareStatement("UPDATE Positions SET  VALUE(?,?)");
+				ps = conn.prepareStatement("INSERT INTO Positions(portfolioID, symbol, buyTime, buyPrice, amount) VALUE(?,?,?,?,?)");
+				ps.setInt(1, portfolioID);
+				ps.setString(2, coin);
+				ps.setLong(3, temp.getBuyTime());
+				ps.setFloat(4, (float)temp.getAvgBuy());
+				ps.setFloat(5, (float)amount);
 			}
 			spendMunz(spent);
 			
@@ -158,8 +162,34 @@ public class PortfolioClass {
 	}
 	
 	
-	public void sell(String pos, double amount) {
-		//recordTrade(pos.getName(), pos.getAvgBuy(), avgSellPrice, pos.getAmount(), System.currentTimeMillis());
+	public void sell(String coin, double amount) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
+			
+		}
+		catch(SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch(ClassNotFoundException cnfe){
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		Position p = new Position(coin, coins.get(coins).getAvgBuy(), System.currentTimeMillis(), amount);
 	}
 	
 	
@@ -207,11 +237,16 @@ public class PortfolioClass {
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			Position temp = entry.getValue();
 			data[i*7] = temp.getName();
-			data[i*7+1] = "" + temp.getAvgBuy();
-			data[i*7+2] = "" + temp.getCoin().getCurrentPrice();
-			data[i*7+3] = "" + temp.percentDifference();
-			data[i*7+4] = "" + temp.absoluteDifference();
-			data[i*7+5] = "" + temp.getCoin().getCurrentPrice()*temp.getAmount();
+			double getAvgBuy = temp.getAvgBuy();
+			double curPrice = temp.getCoin().getCurrentPrice();
+			double percent = temp.percentDifference();
+			double dif = temp.absoluteDifference();
+			double value = temp.getCoin().getCurrentPrice()*temp.getAmount();
+			data[i*7+1] = "" + Math.floor(getAvgBuy * 100) / 100;
+			data[i*7+2] = "" + Math.floor(curPrice * 100) / 100;
+			data[i*7+3] = "" + Math.floor(percent * 100) / 100;
+			data[i*7+4] = "" + Math.floor(dif * 100) / 100;
+			data[i*7+5] = "" + Math.floor(value * 100) / 100;
 			data[i*7+6] = "" + temp.getAmount();
 		}
 		return data;
