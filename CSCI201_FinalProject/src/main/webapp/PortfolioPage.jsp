@@ -332,19 +332,16 @@ input[type=number]::-webkit-inner-spin-button {
 	left: 28%;
 	top: 20%;
 }
-input[type=button].add, input[type=button].lr {
-	position: absolute;
+input[type=button].add {
 	width: 29px;
 	height: 29px;
 	line-height: 29px;
 	border-radius: 50%;
 	border: 1px solid;
 	border-color: #E10808;
-	background: #313030;
 	font-size: 25px;
 	font-weight: lighter;
 	color: #E10808;
-	display: inline-block;
 	padding: 0px;
 	cursor: pointer;
 }
@@ -621,7 +618,6 @@ input[type=button].add, input[type=button].lr {
 				success: function(result) {
 					if (result === "success") {
 						location.reload(true);
-						total();
 					} else {
 						alert(result);
 					}
@@ -761,6 +757,7 @@ input[type=button].add, input[type=button].lr {
 					<th>Gains/losses ($)</th>
 					<th>Current Value</th>
 					<th>Quantity</th>
+					<th>Sell</th>
 				</tr>
 				<%
 					String[] val = user.getPortfolioCoinData(port);
@@ -781,7 +778,8 @@ input[type=button].add, input[type=button].lr {
 						String gd = "$" + Double.toString(gld);
 						String gp = Double.toString(glp) + "%";
 				%>
-				<tr><td><input type="button" value="-" class="add"><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
+				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
+				<td><input type="button" value="-" class="add"></td>
 				<%} %>
 				<tr>
 					<th>Total</th>
@@ -821,6 +819,7 @@ input[type=button].add, input[type=button].lr {
 			%>
 			<th style="color: <%=gainColor%>"><%= vals %></th>
 			<%} %>
+			<th></th>
 				</tr>
 			</table>
 		</div>

@@ -24,5 +24,7 @@ public class PurchaseServlet extends HttpServlet {
 		UserClass currUser = (UserClass) session.getAttribute("user");
 		
 		currUser.buyCoin(port, coin, amount);
+		
+		response.getWriter().write("success");
 	}
 }
