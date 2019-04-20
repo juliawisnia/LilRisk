@@ -227,8 +227,6 @@ public class PortfolioClass {
 			totalBuy += temp.getTotalValue();
 			totalValue += temp.getAmount()*temp.getCurrentPrice();
 			totalAmount += temp.getAmount();
-			System.out.println("After: " + temp.getName() + " " + totalBuy
-			+ " " + totalValue + " " + totalAmount);
 		}
 		for (int i = 0; i < tradeHistory.size(); i++) {
 			TradeClass temp = tradeHistory.get(i);
@@ -342,8 +340,8 @@ public class PortfolioClass {
 			double value = temp.getCoin().getCurrentPrice()*temp.getAmount();
 			data[i*7+1] = "" + Math.floor(getAvgBuy * 100) / 100;
 			data[i*7+2] = "" + Math.floor(curPrice * 100) / 100;
-			data[i*7+3] = "" + Math.floor(percent * 100) / 100;
-			data[i*7+4] = "" + Math.floor(dif * 100) / 100;
+			data[i*7+3] = "" + Math.floor((int)(percent * 100)) / 100;
+			data[i*7+4] = "" + Math.floor((int)(dif * 100)) / 100;
 			data[i*7+5] = "" + Math.floor(value * 100) / 100;
 			data[i*7+6] = "" + temp.getAmount();
 		}
@@ -378,7 +376,7 @@ public class PortfolioClass {
 	public String getPieData() {
 		String ret = "";
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
-			ret += ",['" + entry.getKey() + "'," + Math.floor((entry.getValue().getTotalValue()) * 100) / 100 + "]";
+			ret += ",['" + entry.getKey() + "'," + (int)entry.getValue().getTotalValue() + "]";
 		}
 		return ret;
 	}
@@ -425,13 +423,17 @@ public class PortfolioClass {
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			position.add(entry.getValue().timeValueData(timeFrame));
 		}
+		System.out.println("Number of positions: " + position.size());
 		for(int i = 0; i < tradeHistory.size(); i++) {
 			position.add(tradeHistory.get(i).timeValueRange(timeFrame));
 		}
+		System.out.println("Number of positions+trades: " + position.size());
 		int longest = 0;
+		System.out.print("Sizes of everylist: ");
 		for(int i = 0; i < position.size(); i++) {
 			if(position.get(i).size() > longest) {
 				longest = position.get(i).size();
+				System.out.print(position.get(i).size() + " ");
 			}
 		}
 		for(int j = 0; j < longest; j++) {
