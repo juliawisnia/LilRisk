@@ -196,8 +196,9 @@ public class PortfolioClass {
 			ps.setFloat(6, (float)temp.getAvgSellPrice());
 			ps.setFloat(7, (float)amount);
 			tradeHistory.add(temp);
+			System.out.println("Current Position Amount: " + currentPos.getAmount());
 			if(currentPos.getAmount() <= 0) {
-				ps1 = conn.prepareStatement("DELETE Positions WHERE portfolioID = ? AND symbol = ?");
+				ps1 = conn.prepareStatement("DELETE FROM Positions WHERE portfolioID = ? AND symbol = ?;");
 				ps1.setInt(1, portfolioID);
 				ps1.setString(2, coin);
 				ps1.executeUpdate();
@@ -365,13 +366,13 @@ public class PortfolioClass {
 		for (int i = 0; i < tradeHistory.size(); i++) {
 			TradeClass temp = tradeHistory.get(i);
 			data[i*8] = temp.getCoin();
-			data[i*8+1] = "" + temp.getAvgBuyPrice();
-			data[i*8+2] = "" + temp.getAvgSellPrice();
-			data[i*8+3] = "" + (temp.getAvgSellPrice()/temp.getAvgBuyPrice());
-			data[i*8+4] = "" + ((temp.getAvgSellPrice()-temp.getAvgBuyPrice())*temp.getAmount());
-			data[i*8+5] = "" + temp.getPosition().getBuyTime();
-			data[i*8+6] = "" + temp.getTime();
-			data[i*8+7] = "" + temp.getAmount();
+			data[i*8+1] = "" + Math.floor(temp.getAvgBuyPrice() * 100) / 100;
+			data[i*8+2] = "" + Math.floor(temp.getAvgSellPrice() * 100) / 100;
+			data[i*8+3] = "" + Math.floor((temp.getAvgSellPrice()/temp.getAvgBuyPrice()) * 100) / 100;
+			data[i*8+4] = "" + Math.floor(((temp.getAvgSellPrice()-temp.getAvgBuyPrice())*temp.getAmount()) * 100) / 100;
+			data[i*8+5] = "" + Math.floor(temp.getPosition().getBuyTime() * 100) / 100;
+			data[i*8+6] = "" + Math.floor(temp.getTime() * 100) / 100;
+			data[i*8+7] = "" + Math.floor(temp.getAmount() * 100) / 100;
 		}
 		return data;
 	}
