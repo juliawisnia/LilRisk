@@ -619,8 +619,13 @@ input[type=number]::-webkit-inner-spin-button {
 				<%
 					String[] val = user.getPortfolioCoinData(port);
 					for (int i = 0; i < val.length; i+=7) {
-						String sym = val[i]; String pp = "$" + val[i+1]; String lp = "$" + val[i+2]; double glp = Double.parseDouble(val[i+3]);
-						double gld = Double.parseDouble(val[i+4]); String cv = "$" + val[i+5]; String q = val[i+6];
+						String sym = val[i]; 
+						String pp = "$" + val[i+1]; 
+						String lp = "$" + val[i+2]; 
+						double glp = Double.parseDouble(val[i+3]);
+						double gld = Double.parseDouble(val[i+4]); 
+						String cv = "$" + val[i+5]; 
+						String q = val[i+6];
 						String gainColor = "green";
 						if (glp < 0) {
 							gainColor = "red";
@@ -636,10 +641,38 @@ input[type=number]::-webkit-inner-spin-button {
 					<th>Total</th>
 					<th></th>
 					<th></th>
-					<th>13.46%</th>
-					<th>$5000</th>
-					<th></th>
-					<th></th>
+				<%
+					String[] totals = user.getAllTotals(port);
+					for (int i = 0; i < totals.length; i++) {
+						String vals = null;
+						double temp = 0;
+						String gainColor = "green";
+						if (i == 0){
+							if (Double.parseDouble(totals[i]) < 0) {
+								temp = Double.parseDouble(totals[i]) * (-1);
+								gainColor = "red";
+							}
+							vals = temp + "%";
+						}
+						if (i == 1){
+							if (Double.parseDouble(totals[i]) < 0){
+								temp = Double.parseDouble(totals[i]) * (-1);
+								gainColor = "red";
+							}
+							vals = "$" + temp;
+						}
+						if (i == 2) {
+							gainColor = "white";
+							vals = "$" + totals[i];
+						}
+
+						if (i == 3) {
+							vals = totals[i];
+							gainColor = "white";
+						}
+				%>
+				<th style="color: <%=gainColor%>"><%= vals %></th>
+				<%} %>
 				</tr>
 			</table>
 		</div>
