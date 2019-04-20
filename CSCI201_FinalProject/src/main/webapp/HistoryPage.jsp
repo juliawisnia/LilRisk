@@ -259,7 +259,7 @@ button:focus {
 	cursor: pointer;
 	
 }</style>
-		<link rel="stylesheet" type="text/css" href="HistoryPage.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<!-- MAIN GRAPH -->
 		<script type="text/javascript">
@@ -348,12 +348,25 @@ button:focus {
 		  var chart = new google.visualization.LineChart(document.getElementById('mainGraph'));
 		  chart.draw(data, options);
 		}
+		function hist(element) {
+			$.ajax({				
+				url: "HistServlet",
+				type: "POST",
+				data: {
+					name: element.value
+				},
+				success: function(result) {
+					if (result === "success") {
+						location.reload(true);
+					}
+				}
+			})
+		}
 		</script>
 		
 		
 		<meta charset="UTF-8">
 		<title>Lil Risk</title>
-		<link rel="stylesheet" type="text/css" href="HistoryPage.css" />
 	</head>
 	<body id="body">
 		
@@ -383,7 +396,7 @@ button:focus {
 					}
 					cnt++;
 			%>
- 				<li><input type="button" class="none" onclick="port(this)" value="<%=syms[i] %>"><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div></li>
+ 				<li><input type="button" class="none" onclick="hist(this)" value="<%=syms[i] %>"><div class="per" style="border-color: <%=color%>; color: <%=color%>;"><%=syms[i+1] %></div></li>
  			<%} %>
 			</ul>
 		</div>		
@@ -415,10 +428,10 @@ button:focus {
 						String timeSold = val[i+6]; 
 						String quantity = val[i+7]; 
 						String gainColor = "green";
-						if (percentChange < 0) {
+						if (percentChange < 0 || dollarChange < 0) {
 							gainColor = "red";
-							percentChange = percentChange*(-1);
-							dollarChange = dollarChange*(-1);
+							percentChange = Math.abs(percentChange);
+							dollarChange = Math.abs(dollarChange);
 						}
 						String gd = "$" + Double.toString(dollarChange);
 						String gp = Double.toString(percentChange) + "%";

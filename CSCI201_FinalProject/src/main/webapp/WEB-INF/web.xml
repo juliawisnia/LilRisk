@@ -58,6 +58,12 @@
   	<description></description>
   	<servlet-class>Servlets.GetPrice</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>HistServlet</servlet-name>
+  	<display-name>HistServlet</display-name>
+  	<description></description>
+  	<servlet-class>Servlets.HistServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>loginServlet</servlet-name>
   	<url-pattern>/loginServlet</url-pattern>
@@ -93,5 +99,9 @@
   <servlet-mapping>
   	<servlet-name>GetPrice</servlet-name>
   	<url-pattern>/GetPrice</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>HistServlet</servlet-name>
+  	<url-pattern>/HistServlet</url-pattern>
   </servlet-mapping>
 </web-app>

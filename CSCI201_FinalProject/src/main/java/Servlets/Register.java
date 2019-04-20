@@ -75,6 +75,8 @@ public class Register extends HttpServlet {
 				
 				UserClass user = (UserClass)(session.getAttribute("user"));
 				user.loadUser(userID, username);
+				request.setAttribute("user", user);
+				session.setAttribute("user", user);
 				
 				response.getWriter().write("success");
 			}
