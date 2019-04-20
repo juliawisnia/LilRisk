@@ -360,7 +360,7 @@ button:focus {
 	<div id="title"><i><a href="home.jsp">LIL RISK INC.</a></i></div>
 	<hr style="border: 0.5px solid white;" />
 	<body>
-		<div class="portfolio-name">PORTFOLIO NAME</div>
+		<div class="portfolio-name" id="curr" style="text-transform: uppercase;"><%=(String)session.getAttribute("portName") %></div>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
@@ -395,69 +395,66 @@ button:focus {
 				<tr>
 					<th>Symbol</th>
 					<th>Purchase Price</th>
-					<th>Last Price</th>
+					<th>Sell Price</th>
 					<th>Gains/losses (%)</th>
 					<th>Gains/losses ($)</th>
-					<th>Current Value</th>
+					<th>Time Purchased</th>
+					<th>Time Sold</th>
 					<th>Quantity</th>
+					<th>Current Value</th>
 				</tr>
 				<%
 					String[] val = user.portfolioHistoryData(port);
-					for (int i = 0; i < val.length; i+=7) {
-						String sym = val[i]; 
-						String pp = "$" + val[i+1]; 
-						String lp = "$" + val[i+2]; 
-						double glp = Double.parseDouble(val[i+3]);
-						double gld = Double.parseDouble(val[i+4]); 
-						String cv = "$" + val[i+5]; 
-						String q = val[i+6];
+					for (int i = 0; i < val.length; i+=8) {
+						String symbol = val[i]; 
+						String buyPrice = "$" + val[i+1]; 
+						String sellPrice = "$" + val[i+2]; 
+						double percentChange = Double.parseDouble(val[i+3]); 
+						double dollarChange = Double.parseDouble(val[i+4]); 
+						String timeBought = val[i+5]; 
+						String timeSold = val[i+6]; 
+						String quantity = val[i+7]; 
 						String gainColor = "green";
-						if (glp < 0) {
+						if (percentChange < 0) {
 							gainColor = "red";
-							glp = glp*(-1);
-							gld = gld*(-1);
+							percentChange = percentChange*(-1);
+							dollarChange = dollarChange*(-1);
 						}
-						String gp = "$" + Double.toString(gld);
-						String gd = Double.toString(glp) + "%";
+						String gd = "$" + Double.toString(dollarChange);
+						String gp = Double.toString(percentChange) + "%";
 				%>
-				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td><%=cv %></td><td><%=q %></td>
-				<%} %>
+				<tr><td><%=symbol %></td><td><%=buyPrice %></td><td><%=sellPrice %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=timeBought %></td><td><%=timeSold %></td><td><%=quantity %></td><td></td>
+				<%} %> 
 				<tr>
 					<th>Total</th>
 					<th></th>
 					<th></th>
 				<%
-					String[] totals = user.getAllTotals(port);
-					for (int i = 0; i < totals.length; i++) {
-						String vals = null;
-						double temp = 0;
-						String gainColor = "green";
-						if (i == 0){
-							if (Double.parseDouble(totals[i]) < 0) {
-								temp = Double.parseDouble(totals[i]) * (-1);
-								gainColor = "red";
-							}
-							vals = temp + "%";
-						}
-						if (i == 1){
-							if (Double.parseDouble(totals[i]) < 0){
-								temp = Double.parseDouble(totals[i]) * (-1);
-								gainColor = "red";
-							}
-							vals = "$" + temp;
-						}
-						if (i == 2) {
-							gainColor = "white";
-							vals = "$" + totals[i];
-						}
 
-						if (i == 3) {
-							vals = totals[i];
-							gainColor = "white";
-						}
+				String[] totals = user.getAllHistoryTotals(port);
+				String gainColor = "green";
+				double tempPer = 0;
+				double tempDoll = 0;
+				
+				if (Double.parseDouble(totals[0]) < 0) {
+					tempPer = Double.parseDouble(totals[0]) * (-1);
+					tempDoll = Double.parseDouble(totals[1]) * (-1);
+					gainColor = "red";
+				}
+				String perChange = tempPer + "%";
+				String dollChange = "$" + tempDoll;
+				
+				String quanTotal = 	totals[3];
+				
+				String  totPort= "$" + totals[3];
+
 				%>
-				<th style="color: <%=gainColor%>"><%= vals %></th>
-				<%} %>
+				<th style="color: <%=gainColor%>"><%= perChange %></th>
+				<th style="color: <%=gainColor%>"><%= dollChange %></th>
+				<th></th>
+				<th></th>
+				<th style="color: white"><%= quanTotal %></th>
+				<th style="color: white"><%= totPort %></th>
 				</tr>
 			</table>
 		</div>

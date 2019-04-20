@@ -638,47 +638,49 @@ input[type=number]::-webkit-inner-spin-button {
 							glp = glp*(-1);
 							gld = gld*(-1);
 						}
-						String gp = "$" + Double.toString(gld);
-						String gd = Double.toString(glp) + "%";
+						String gd = "$" + Double.toString(gld);
+						String gp = Double.toString(glp) + "%";
 				%>
-				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td><%=cv %></td><td><%=q %></td>
+				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
 				<%} %>
 				<tr>
 					<th>Total</th>
 					<th></th>
 					<th></th>
 				<%
-					String[] totals = user.getAllTotals(port);
-					for (int i = 0; i < totals.length; i++) {
-						String vals = null;
-						double temp = 0;
-						String gainColor = "green";
-						if (i == 0){
-							if (Double.parseDouble(totals[i]) < 0) {
-								temp = Double.parseDouble(totals[i]) * (-1);
-								gainColor = "red";
-							}
-							vals = temp + "%";
+				
+				String[] totals = user.getAllTotals(port);
+				for (int i = 0; i < totals.length; i++) {
+					String vals = null;
+					double temp = 0;
+					String gainColor = "green";
+					if (i == 0){
+						if (Double.parseDouble(totals[i]) < 0) {
+							temp = Double.parseDouble(totals[i]) * (-1);
+							gainColor = "red";
 						}
-						if (i == 1){
-							if (Double.parseDouble(totals[i]) < 0){
-								temp = Double.parseDouble(totals[i]) * (-1);
-								gainColor = "red";
-							}
-							vals = "$" + temp;
+						vals = temp + "%";
+					}
+					if (i == 1){
+						if (Double.parseDouble(totals[i]) < 0){
+							temp = Double.parseDouble(totals[i]) * (-1);
+							gainColor = "red";
 						}
-						if (i == 2) {
-							gainColor = "white";
-							vals = "$" + totals[i];
-						}
+						vals = "$" + temp;
+					}
+					if (i == 2) { %>
+						<%
+						gainColor = "white";
+						vals = "$" + totals[i];
+					}
 
-						if (i == 3) {
-							vals = totals[i];
-							gainColor = "white";
-						}
-				%>
-				<th style="color: <%=gainColor%>"><%= vals %></th>
-				<%} %>
+					if (i == 3) {
+						vals = totals[i];
+						gainColor = "white";
+					}
+			%>
+			<th style="color: <%=gainColor%>"><%= vals %></th>
+			<%} %>
 				</tr>
 			</table>
 		</div>
