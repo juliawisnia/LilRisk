@@ -192,6 +192,44 @@ public class PortfolioClass {
 		Position p = new Position(coin, coins.get(coins).getAvgBuy(), System.currentTimeMillis(), amount);
 	}
 	
+	public String[] getAllTotals() {
+		String[] ret = new String[4];
+		ret[0] = "" + Math.floor(this.getTotalGains() * 100) / 100;
+		ret[1] = "" + Math.floor(this.getPercentChange() * 100) / 100;
+		ret[2] = "" + Math.floor(this.getTotal() * 100) / 100;
+		ret[3] = "" + Math.floor(this.getCoinsQuantity() * 100) / 100;
+		return ret;
+	}
+	
+	private double getTotalGains() {
+		double totalBuy = 0;
+		double totalCurrent = 0;
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			Position temp = entry.getValue();
+			totalBuy += temp.getTotalValue();
+			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
+		}
+		return totalCurrent-totalBuy;
+	}
+	
+	private double getTotal() {
+		double totalCurrent = 0;
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			Position temp = entry.getValue();
+			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
+		}
+		return totalCurrent;
+	}
+	
+	private double getCoinsQuantity() {
+		double totalCurrent = 0;
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			Position temp = entry.getValue();
+			totalCurrent += temp.getAmount();
+		}
+		return totalCurrent;
+	}
+	
 	
 	public void recordTrade(String coin, double avgBuyPrice, double avgSellPrice, double amount, long time) {
 		TradeClass executedTrade = new TradeClass(coins.get(coin), avgSellPrice);
