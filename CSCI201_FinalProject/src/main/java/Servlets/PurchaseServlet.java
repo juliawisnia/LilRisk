@@ -20,7 +20,6 @@ public class PurchaseServlet extends HttpServlet {
 		String coin = request.getParameter("coin");
 		int amount = Integer.parseInt((String)(request.getParameter("quantity")));
 		String port = (String) session.getAttribute("portName");
-		long now = Instant.now().toEpochMilli();
 		UserClass currUser = (UserClass) session.getAttribute("user");
 		
 		currUser.buyCoin(port, coin, amount);
