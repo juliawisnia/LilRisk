@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -198,11 +199,7 @@ public class PortfolioClass {
 			tradeHistory.add(temp);
 			System.out.println("Current Position Amount: " + currentPos.getAmount());
 			if(currentPos.getAmount() <= 0) {
-<<<<<<< HEAD
 				ps1 = conn.prepareStatement("DELETE FROM Positions WHERE portfolioID = ? AND symbol = ?;");
-=======
-				ps1 = conn.prepareStatement("DELETE FROM Positions WHERE portfolioID = ? AND symbol = ?");
->>>>>>> 595084f1f8b537b1a7a9d7a4445c54643461c178
 				ps1.setInt(1, portfolioID);
 				ps1.setString(2, coin);
 				ps1.executeUpdate();
@@ -237,17 +234,20 @@ public class PortfolioClass {
 		String[] ret = new String[4];
 		double totalValue = 0;
 		double totalBuy = 0;
+		double absDif = 0;
 		double totalAmount = 0;
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			Position temp = entry.getValue();
 			totalBuy += temp.getTotalValue();
 			totalValue += temp.getAmount()*temp.getCurrentPrice();
+			absDif += temp.absoluteDifference();
 			totalAmount += temp.getAmount();
 		}
 		for (int i = 0; i < tradeHistory.size(); i++) {
 			TradeClass temp = tradeHistory.get(i);
 			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
 			totalValue += temp.getAmount()*temp.getAvgSellPrice();
+			absDif += temp.absoluteDifference();
 		}
 		if(totalBuy == 0) {
 			ret[0] = "" + 0;
@@ -257,7 +257,7 @@ public class PortfolioClass {
 			return ret;
 		}
 		ret[0] = "" + Math.floor(((totalValue/totalBuy)-1.0) * 100) / 100;
-		ret[1] = "" + Math.floor((totalValue-totalBuy) * 100) / 100;
+		ret[1] = "" + Math.floor(absDif * 100) / 100;
 		ret[2] = "" + Math.floor((totalValue) * 100) / 100;
 		ret[3] = "" + Math.floor((totalAmount) * 100) / 100;
 		return ret;
@@ -268,15 +268,16 @@ public class PortfolioClass {
 		double totalValue = 0;
 		double totalBuy = 0;
 		double totalAmount = 0;
-		
+		double absDif = 0;
 		for (int i = 0; i < tradeHistory.size(); i++) {
 			TradeClass temp = tradeHistory.get(i);
 			totalAmount += temp.getAmount();
 			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
 			totalValue += temp.getAmount()*temp.getAvgSellPrice();
+			absDif += temp.absoluteDifference();
 		}
 		ret[0] = "" + Math.floor((totalValue/totalBuy) * 100) / 100;
-		ret[1] = "" + Math.floor((totalValue-totalBuy) * 100) / 100;
+		ret[1] = "" + Math.floor(absDif * 100) / 100;
 		ret[2] = "" + Math.floor((totalAmount) * 100) / 100;
 		ret[3] = "" + Math.floor((totalValue) * 100) / 100;
 		return ret;
@@ -374,8 +375,8 @@ public class PortfolioClass {
 			data[i*8+2] = "" + Math.floor(temp.getAvgSellPrice() * 100) / 100;
 			data[i*8+3] = "" + Math.floor((temp.getAvgSellPrice()/temp.getAvgBuyPrice()) * 100) / 100;
 			data[i*8+4] = "" + Math.floor(((temp.getAvgSellPrice()-temp.getAvgBuyPrice())*temp.getAmount()) * 100) / 100;
-			data[i*8+5] = "" + Math.floor(temp.getPosition().getBuyTime() * 100) / 100;
-			data[i*8+6] = "" + Math.floor(temp.getTime() * 100) / 100;
+			data[i*8+5] = "" + (new Date(temp.getPosition().getBuyTime())).toString().substring(4,18);
+			data[i*8+6] = "" + (new Date(temp.getTime())).toString().substring(4,18);
 			data[i*8+7] = "" + Math.floor(temp.getAmount() * 100) / 100;
 		}
 		return data;

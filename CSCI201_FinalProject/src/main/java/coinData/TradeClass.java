@@ -53,6 +53,9 @@ public class TradeClass {
 		this.time = time;
 	}
 	
+	public double absoluteDifference() {
+		return (this.avgSellPrice-this.pos.getAvgBuy())*this.pos.getAmount();
+	}
 	
 	public List<timeValue> timeValueRange(String timeFrame) {
 		List<timeValue> timeValueList = new ArrayList<timeValue>();
