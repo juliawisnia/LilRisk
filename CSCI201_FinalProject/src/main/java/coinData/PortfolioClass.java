@@ -169,6 +169,7 @@ public class PortfolioClass {
 	public void sell(String coin, double amount, int userID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
+		PreparedStatement ps1 = null;
 		PreparedStatement getPID = null;
 		ResultSet PID = null;
 		try {
@@ -195,6 +196,13 @@ public class PortfolioClass {
 			ps.setFloat(6, (float)temp.getAvgSellPrice());
 			ps.setFloat(7, (float)amount);
 			tradeHistory.add(temp);
+			if(currentPos.getAmount() <= 0) {
+				ps1 = conn.prepareStatement("DELETE Positions WHERE portfolioID = ? AND symbol = ?");
+				ps1.setInt(1, portfolioID);
+				ps1.setString(2, coin);
+				ps1.executeUpdate();
+				coins.remove(coin);
+			}
 		}
 		catch(SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
@@ -206,6 +214,9 @@ public class PortfolioClass {
 			try {
 				if(ps != null) {
 					ps.close();
+				}
+				if(ps1 != null) {
+					ps1.close();
 				}
 				if(conn != null) {
 					conn.close();
