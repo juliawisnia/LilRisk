@@ -139,6 +139,10 @@ public class UserClass {
 		return ret;
 	}
 	
+	public double calculateValue(String coin, double amount) {
+		return AllCoins.getCoin(coin).getCurrentPrice()*amount;
+	}
+	
 	public String[] portfolioDataWithCoins(String portfolio, String timeFrame) {
 		return portfolios.get(portfolio).portfolioDataWithCoins(timeFrame);
 	}
