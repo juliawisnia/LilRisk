@@ -423,10 +423,18 @@ input[type=button].none {
 		function create() {
 			var portfolio = document.getElementById('port-name');
 			var amnt = document.getElementById('start-amount');
+			var ok = 1;
+			
+			console.log(portfolio.value);
 			
  			if (!portfolio.value || portfolio.value === "Portfolio Name") {
 				document.getElementById("no-name").className = "show";
+				ok = -1;
 			} else document.getElementById("no-name").className = "hide";
+ 			
+			if (ok > 0) {
+				login();	
+			}
  			
 			var noName = document.getElementById("no-name").className;
 			
@@ -476,8 +484,7 @@ input[type=button].none {
 					url: "NewPortfolioServlet",
 					type: "POST",
 					data: {
-						username: document.getElementById('username').value,
-						portfolio: document.getElementById('port-name').value,
+						portfolio: document.getElementById('port-name').value
 					},
 					success: function(result) {
 						if (result === "success") {
