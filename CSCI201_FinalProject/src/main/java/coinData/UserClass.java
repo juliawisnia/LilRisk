@@ -164,6 +164,10 @@ public class UserClass {
 		return portfolios.get(portfolio).getAllTotals();
 	}
 	
+	public String[] getAllHistoryTotals(String portfolio) {
+		return portfolios.get(portfolio).getAllHistoryTotals();
+	}
+	
 	private String trend(String coins[], String timeFrame) {
 		List<List<Candlestick>> coinValues = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
 		int longest = 0;
