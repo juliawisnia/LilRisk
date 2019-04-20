@@ -345,6 +345,14 @@ input[type=button].add {
 	padding: 0px;
 	cursor: pointer;
 }
+
+.sell {
+	border: 0.5px solid white;
+	width: 50px;
+	height: 20px;
+	color: white;
+	margin-top: -1%;
+}
 </style>
 	<head>
 		<!-- SIDEBAR SCRIPT -->
@@ -371,7 +379,6 @@ input[type=button].add {
 					document.getElementById('buy').style.display = 'inline';
 				}
 			}
-
 		</script>
 		<!-- DONUT CHART SCRIPT -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -448,23 +455,23 @@ input[type=button].add {
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart);
 		
-<%-- 		function drawBasic() {
+	 		function drawBasic() {
 			var data = new google.visualization.DataTable();
 			
 			data.addColumn('number', 'X');
 			<%
 				UserClass user1 = (UserClass)(session.getAttribute("user"));
-			    
+			    String nameOfPort = (String)session.getAttribute("portName");
 				String timeFrame1 = (String)(session.getAttribute("timeFrame"));
-				String symss = null;
-				if (timeFrame.equals("day")) symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"day");
-				else if (timeFrame.equals("week")) symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"week");
-				else if (timeFrame.equals("month")) symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"month");
-				else if (timeFrame.equals("sixMonth")) symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"month6");
-				else symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"year");
+				String symss[] = null;
+				if (timeFrame1.equals("day")) symss = user1.portfolioDataWithCoins(nameOfPort,"day");
+				else if (timeFrame1.equals("week")) symss = user1.portfolioDataWithCoins(nameOfPort,"week");
+				else if (timeFrame1.equals("month")) symss = user1.portfolioDataWithCoins(nameOfPort,"month");
+				else if (timeFrame1.equals("sixMonth")) symss = user1.portfolioDataWithCoins(nameOfPort,"month6");
+				else symss = user1.portfolioDataWithCoins(nameOfPort,"year");
 				
 				String sym = "";
-				for (int i = 0; i < syms.length - 1; i+=2) {
+				for (int i = 0; i < symss.length - 2; i++) {
 					sym = symss[i];
 			%>
 			data.addColumn('number', '<%=sym %>');
@@ -474,7 +481,7 @@ input[type=button].add {
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
 			
 			if (timeFrame === "day") {
-				vals = <%=session.getAttribute("homeDayData")%>;
+				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'bold';
 				document.getElementById('week').style.fontWeight = 'normal';
 				document.getElementById('month').style.fontWeight = 'normal';
@@ -482,7 +489,7 @@ input[type=button].add {
 				document.getElementById('year').style.fontWeight = 'normal';
 			}
 			else if (timeFrame === "week") {
-				vals = <%=session.getAttribute("homeWeekData")%>;
+				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'normal';
 				document.getElementById('week').style.fontWeight = 'bold';
 				document.getElementById('month').style.fontWeight = 'normal';
@@ -490,7 +497,7 @@ input[type=button].add {
 				document.getElementById('year').style.fontWeight = 'normal';
 			}
 			else if (timeFrame === "month") {
-				vals = <%=session.getAttribute("homeMonthData")%>;
+				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'normal';
 				document.getElementById('week').style.fontWeight = 'normal';
 				document.getElementById('month').style.fontWeight = 'bold';
@@ -498,7 +505,7 @@ input[type=button].add {
 				document.getElementById('year').style.fontWeight = 'normal';
 			}
 			else if (timeFrame === "sixMonth") {
-				vals = <%=session.getAttribute("homeSixMonthData")%>;
+				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'normal';
 				document.getElementById('week').style.fontWeight = 'normal';
 				document.getElementById('month').style.fontWeight = 'normal';
@@ -506,7 +513,7 @@ input[type=button].add {
 				document.getElementById('year').style.fontWeight = 'normal';
 			}
 			else {
-				vals = <%=session.getAttribute("homeYearData")%>;
+				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'normal';
 				document.getElementById('week').style.fontWeight = 'normal';
 				document.getElementById('month').style.fontWeight = 'normal';
@@ -567,7 +574,6 @@ input[type=button].add {
 			
 			chart.draw(data, options);
 			var items = document.getElementsByClassName('add');
-
 			for(var i = 0; i < items.length; i++ ) {
 			    (function(i) {
 			        items[i].addEventListener('click', function(event) {
@@ -591,7 +597,6 @@ input[type=button].add {
 			    })(i);
 			}
 		}
-
  		function changeTime(element) {
 			$.ajax({
 				url: "BoldServlet",
@@ -605,7 +610,7 @@ input[type=button].add {
 					}
 				}
 			})
- 		} --%>
+ 		}
 		function purchase() {
 			$.ajax({
 				url: "PurchaseServlet",
@@ -709,7 +714,6 @@ input[type=button].add {
 					String[] coins = (String[])(session.getAttribute("coins"));
 					for (int i = 0; i < coins.length; i+=4) {
 						String symbol = coins[i]; String name = coins[i+1]; String price = coins[i+2]; double per = Double.parseDouble(coins[i+3]);
-						System.out.println(symbol);
 						String coinColor = "green";
 						if (per < 0) {
 							coinColor = "red";
@@ -746,7 +750,7 @@ input[type=button].add {
 				<%
 					String[] val = user.getPortfolioCoinData(port);
 					for (int i = 0; i < val.length; i+=7) {
-						String sym = val[i]; 
+						String sym1 = val[i]; 
 						String pp = "$" + val[i+1]; 
 						String lp = "$" + val[i+2]; 
 						double glp = Double.parseDouble(val[i+3]);
@@ -762,8 +766,8 @@ input[type=button].add {
 						String gd = "$" + Double.toString(gld);
 						String gp = Double.toString(glp) + "%";
 				%>
-				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
-				<td><input type="button" value="-" class="add"></td>
+				<tr><td><%=sym1 %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
+				<td><input type="number" id="quantity" min="1" class="sell"><input type="button" value="-" class="add"></td>
 				<%} %>
 				<tr>
 					<th>Total</th>
