@@ -240,7 +240,6 @@ public class PortfolioClass {
 			+ " " + temp.getAmount()*temp.getAvgSellPrice() + " " + temp.getAmount());
 			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
 			totalValue += temp.getAmount()*temp.getAvgSellPrice();
-			totalAmount += temp.getAmount();
 		}
 		/*
 		if(totalBuy == 0) {

@@ -144,6 +144,10 @@ public class UserClass {
 		return portfolios.get(portfolio).portfolioDataWithCoins(timeFrame);
 	}
 
+	public String[] portfolioHistoryData(String portfolio) {
+		return portfolios.get(portfolio).portfolioHistoryData();
+	}
+	
 	public String[] coinTrends(String coins[], String timeFrame) {
 		String values[] = new String[coins.length*2 + 1];
 		for(int i = 0; i < coins.length; i++) {
