@@ -332,22 +332,6 @@ input[type=number]::-webkit-inner-spin-button {
 	left: 28%;
 	top: 20%;
 }
-input[type=button].add, input[type=button].lr {
-	position: absolute;
-	width: 29px;
-	height: 29px;
-	line-height: 29px;
-	border-radius: 50%;
-	border: 1px solid;
-	border-color: #E10808;
-	background: #313030;
-	font-size: 25px;
-	font-weight: lighter;
-	color: #E10808;
-	display: inline-block;
-	padding: 0px;
-	cursor: pointer;
-}
 </style>
 	<head>
 		<!-- SIDEBAR SCRIPT -->
@@ -451,164 +435,76 @@ input[type=button].add, input[type=button].lr {
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart);
 		
-<%-- 		function drawBasic() {
-			var data = new google.visualization.DataTable();
-			
-			data.addColumn('number', 'X');
-			<%
-				UserClass user1 = (UserClass)(session.getAttribute("user"));
-			    
-				String timeFrame1 = (String)(session.getAttribute("timeFrame"));
-				String symss = null;
-				if (timeFrame.equals("day")) symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"day");
-				else if (timeFrame.equals("week")) symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"week");
-				else if (timeFrame.equals("month")) symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"month");
-				else if (timeFrame.equals("sixMonth")) symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"month6");
-				else symss = user.portfolioDataWithCoins((String)session.getAttribute("portName"),"year");
-				
-				String sym = "";
-				for (int i = 0; i < syms.length - 1; i+=2) {
-					sym = symss[i];
-			%>
-			data.addColumn('number', '<%=sym %>');
-			<%}%>
-			
-			var vals; 
-			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
-			
-			if (timeFrame === "day") {
-				vals = <%=session.getAttribute("homeDayData")%>;
-				document.getElementById('day').style.fontWeight = 'bold';
-				document.getElementById('week').style.fontWeight = 'normal';
-				document.getElementById('month').style.fontWeight = 'normal';
-				document.getElementById('sixMonth').style.fontWeight = 'normal';
-				document.getElementById('year').style.fontWeight = 'normal';
-			}
-			else if (timeFrame === "week") {
-				vals = <%=session.getAttribute("homeWeekData")%>;
-				document.getElementById('day').style.fontWeight = 'normal';
-				document.getElementById('week').style.fontWeight = 'bold';
-				document.getElementById('month').style.fontWeight = 'normal';
-				document.getElementById('sixMonth').style.fontWeight = 'normal';
-				document.getElementById('year').style.fontWeight = 'normal';
-			}
-			else if (timeFrame === "month") {
-				vals = <%=session.getAttribute("homeMonthData")%>;
-				document.getElementById('day').style.fontWeight = 'normal';
-				document.getElementById('week').style.fontWeight = 'normal';
-				document.getElementById('month').style.fontWeight = 'bold';
-				document.getElementById('sixMonth').style.fontWeight = 'normal';
-				document.getElementById('year').style.fontWeight = 'normal';
-			}
-			else if (timeFrame === "sixMonth") {
-				vals = <%=session.getAttribute("homeSixMonthData")%>;
-				document.getElementById('day').style.fontWeight = 'normal';
-				document.getElementById('week').style.fontWeight = 'normal';
-				document.getElementById('month').style.fontWeight = 'normal';
-				document.getElementById('sixMonth').style.fontWeight = 'bold';
-				document.getElementById('year').style.fontWeight = 'normal';
-			}
-			else {
-				vals = <%=session.getAttribute("homeYearData")%>;
-				document.getElementById('day').style.fontWeight = 'normal';
-				document.getElementById('week').style.fontWeight = 'normal';
-				document.getElementById('month').style.fontWeight = 'normal';
-				document.getElementById('sixMonth').style.fontWeight = 'normal';
-				document.getElementById('year').style.fontWeight = 'bold';
-			}
-			
-			data.addRows(vals);
-			
-			var options = {
-				series: {
-					0: { color: '#662A8E' },
-					1: { color: '#90208C' },
-					2: { color: '#CE0089' },
-					3: { color: '#EB0080' },
-					4: { color: '#EA0D2C' },
-					5: { color: '#F48C37' },
-					6: { color: '#FCBD3A' },
-					7: { color: '#FBD542' },
-					8: { color: '#A8CF4E' },
-					9: { color: '#53BF48' },
-					10: { color: '#06A44D' },
-					11: { color: '#0FA575' },
-					12: { color: '#23939F' },
-					13: { color: '#2499DC' },
-					14: { color: '#185AA6' },
-					15: { color: '#3D2873' },
-				},
-				hAxis: {
-					titleTextStyle: {
-						italic: false 
+		function drawChart() {
+		  var data = google.visualization.arrayToDataTable([
+		    ['MONTH', 'PORTFOLIO', 'APPL'],
+		    ['JAN',     1000,       246  ],
+		    ['FEB',     1170,       443  ],
+		    ['MAR',     660,        376  ],
+		    ['APR',     700,        534  ],
+		    ['MAY',     532,        122  ],
+		    ['JUN',     656,        531  ],
+		    ['JUL',     563,        321  ],
+		    ['AUG',     995,        525  ],
+		    ['SEP',     900,        426  ],
+		    ['OCT',     1035,       901  ],
+		    ['NOV',     621,        313  ],
+		    ['DEC',     732,        522  ]
+		  ]);
+		
+		  var options = {
+		    vAxis: {minValue: 0},
+		    
+		    colors:['#0077D7', '#E9005E', '#FFBA01', '#03CC6B', '#FF4343', '#C139B2', '#00B7C5'],
+		  
+		    legend: {
+				position: 'labeled',
+				textStyle: {
+					color: 'white', 
+					fontSize: 16
 					},
-					baselineColor: 'white',
-					titleColor: 'white',
-					textColor: 'white',
-					gridlines: {
-						color: 'transparent'
-					}
-				},
-				vAxis: {
-					titleTextStyle: {
-						italic: false 
-					},
-					baselineColor: 'white',
-					title: 'PORTFOLIO VALUE',
-					titleColor: 'white',
-					textColor: 'white',
-					gridlines: {
-						color: 'transparent'
-					}
-				},
-				backgroundColor: 'transparent',
-				legend: {textStyle: {color: 'white'}},
-				chartArea: {height: '80%'}
-			};
-			
-			var chart = new google.visualization.LineChart(document.getElementById('main-chart'));
-			
-			chart.draw(data, options);
-			var items = document.getElementsByClassName('add');
-
-			for(var i = 0; i < items.length; i++ ) {
-			    (function(i) {
-			        items[i].addEventListener('click', function(event) {
-			        	if (items[i].value === '-') {
-			        		items[i].style.color = "green"; items[i].style.borderColor = "green";
-			        		items[i].value = '+';
-			        	}
-			        	else {
-			        		items[i].style.color = "red"; items[i].style.borderColor = "red";
-			        		this.value = '-';
-			        	}
-			        	view = new google.visualization.DataView(data);
-		        		for (var j = 0; j < items.length; j++) {
-		        			if (items[j].value === '+') {
-		        				view.hideColumns([j+1]);
-		        			}
-		        		}
-		        		chart.draw(view, options);
-			          
-			        }, false);
-			    })(i);
-			}
+			},
+		  
+			fontSize: 20,
+	        fontName: 'Avenir Next',
+	        backgroundColor: { fill: 'transparent' },
+		  
+	        hAxis: {
+	        	baselineColor: 'white',
+	        	gridlines: {
+	        		color: 'transparent',
+	        	},
+	        	textStyle: {
+					color: 'white',
+					fontName: 'Avenir Next',
+					fontSize: 12,
+					bold: false,
+					italic: false,
+	        	},
+	        },
+	        
+	        vAxis: {
+	        	baseline: 0,
+	        	baselineColor: 'white',
+	        	gridlines: {
+	        		color: 'transparent',
+	        	},
+	        	textStyle: {
+					color: 'white',
+					fontName: 'Avenir Next',
+					fontSize: 15,
+					bold: false,
+					italic: false,
+	        	},
+	        },
+		  
+	        lineWidth: 4,
+		  
+		  };
+		
+		  var chart = new google.visualization.LineChart(document.getElementById('mainGraph'));
+		  chart.draw(data, options);
 		}
-
- 		function changeTime(element) {
-			$.ajax({
-				url: "BoldServlet",
-				type: "POST",
-				data: {
-					timeframe: element.value
-				},
-				success: function(result) {
-					if (result === "success") {
-						location.reload(true);
-					}
-				}
-			})
- 		} --%>
 		function purchase() {
 			$.ajax({
 				url: "PurchaseServlet",
@@ -709,13 +605,14 @@ input[type=button].add, input[type=button].lr {
 					String[] coins = (String[])(session.getAttribute("coins"));
 					for (int i = 0; i < coins.length; i+=4) {
 						String symbol = coins[i]; String name = coins[i+1]; String price = coins[i+2]; double per = Double.parseDouble(coins[i+3]);
+						System.out.println(symbol);
 						String coinColor = "green";
 						if (per < 0) {
 							coinColor = "red";
 							per = per*(-1);
 						}
 				%>
-				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value=<%=symbol %>" onclick="buy(this.value)"><div class="price"><%=price %></div></li>
+				<li class="symbol" style="border-top: 1px solid white;"><input type="button" class="sb" value="<%=symbol %>" onclick="buy(this.value)"><div class="price"><%=price %></div></li>
 				<li class="company"><%=name %> <div class="portPer" style="border-color: <%=coinColor%>; color: <%=coinColor%>;"><%=per %></div></li>
 				<%} %>
 			</ul>
@@ -740,7 +637,6 @@ input[type=button].add, input[type=button].lr {
 					<th>Gains/losses ($)</th>
 					<th>Current Value</th>
 					<th>Quantity</th>
-					<th>Sell</th>
 				</tr>
 				<%
 					String[] val = user.getPortfolioCoinData(port);
@@ -761,7 +657,7 @@ input[type=button].add, input[type=button].lr {
 						String gd = "$" + Double.toString(gld);
 						String gp = Double.toString(glp) + "%";
 				%>
-				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td><td><input type="button" value="-" class="add"></td>
+				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
 				<%} %>
 				<tr>
 					<th>Total</th>
