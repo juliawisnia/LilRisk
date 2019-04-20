@@ -139,6 +139,10 @@ public class UserClass {
 		ret += target.getPieData() + "]";
 		return ret;
 	}
+	
+	public String portfolioDataWithCoins(String portfolio, String timeFrame) {
+		return portfolios.get(portfolio).portfolioDataWithCoins(timeFrame);
+	}
 
 	public String[] coinTrends(String coins[], String timeFrame) {
 		String values[] = new String[coins.length*2 + 1];

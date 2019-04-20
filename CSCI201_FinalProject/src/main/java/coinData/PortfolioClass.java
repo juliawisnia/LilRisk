@@ -222,10 +222,32 @@ public class PortfolioClass {
 	
 	public String[] getAllTotals() {
 		String[] ret = new String[4];
-		ret[0] = "" + Math.floor(this.getPercentChange() * 100) / 100;
-		ret[1] = "" + Math.floor(this.getTotalGains() * 100) / 100;
-		ret[2] = "" + Math.floor(this.getTotal() * 100) / 100;
-		ret[3] = "" + Math.floor(this.getCoinsQuantity() * 100) / 100;
+		double totalValue = 0;
+		double totalBuy = 0;
+		double totalAmount = 0;
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			Position temp = entry.getValue();
+			totalBuy += temp.getTotalValue();
+			totalValue += temp.getAmount()*temp.getCurrentPrice();
+			totalAmount += temp.getAmount();
+		}
+		for (int i = 0; i < tradeHistory.size(); i++) {
+			TradeClass temp = tradeHistory.get(i);
+			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
+			totalValue += temp.getAmount()*temp.getAvgSellPrice();
+			totalAmount += temp.getAmount();
+		}
+		if(totalBuy == 0) {
+			ret[0] = "" + 0;
+			ret[1] = "" + 0;
+			ret[2] = "" + 0;
+			ret[3] = "" + 0;
+			return ret;
+		}
+		ret[0] = "" + Math.floor(((totalValue/totalBuy)-1.0) * 100) / 100;
+		ret[1] = "" + Math.floor((totalValue-totalBuy) * 100) / 100;
+		ret[2] = "" + Math.floor((totalValue) * 100) / 100;
+		ret[3] = "" + Math.floor((totalAmount) * 100) / 100;
 		return ret;
 	}
 	
@@ -267,6 +289,26 @@ public class PortfolioClass {
 		return totalCurrent;
 	}
 	
+	public double getPercentChange() {
+		double totalBuy = 0;
+		double totalCurrent = 0;
+		for (Map.Entry<String,Position> entry : coins.entrySet()) {
+			Position temp = entry.getValue();
+			totalBuy += temp.getTotalValue();
+			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
+		}
+		for (int i = 0; i < tradeHistory.size(); i++) {
+			TradeClass temp = tradeHistory.get(i);
+			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
+			totalCurrent += temp.getAmount()*temp.getAvgSellPrice();
+		}
+		if(totalBuy != 0) {
+			return (totalCurrent/totalBuy)-1.0;
+		}
+		else {
+			return 0;
+		}
+	}
 	
 	public void recordTrade(String coin, double avgBuyPrice, double avgSellPrice, double amount, long time) {
 		TradeClass executedTrade = new TradeClass(coins.get(coin), avgSellPrice);
@@ -452,20 +494,6 @@ public class PortfolioClass {
 		return (extraMunz - spentMunz);
 	}
 	
-	public double getPercentChange() {
-		double totalBuy = 0;
-		double totalCurrent = 0;
-		for (Map.Entry<String,Position> entry : coins.entrySet()) {
-			Position temp = entry.getValue();
-			totalBuy += temp.getTotalValue();
-			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
-		}
-		for (int i = 0; i < tradeHistory.size(); i++) {
-			TradeClass temp = tradeHistory.get(i);
-			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
-			totalCurrent += temp.getAmount()*temp.getAvgSellPrice();
-		}
-		return totalCurrent/totalBuy;
-	}
+	
 	
 }
