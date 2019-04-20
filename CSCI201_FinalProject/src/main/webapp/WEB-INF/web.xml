@@ -40,6 +40,12 @@
   	<description></description>
   	<servlet-class>Servlets.SendToPort</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>SendToHistory</servlet-name>
+  	<display-name>SendToHistory</display-name>
+  	<description></description>
+  	<servlet-class>Servlets.SendToHistory</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>loginServlet</servlet-name>
   	<url-pattern>/loginServlet</url-pattern>
@@ -63,5 +69,9 @@
   <servlet-mapping>
   	<servlet-name>SendToPort</servlet-name>
   	<url-pattern>/SendToPort</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SendToHistory</servlet-name>
+  	<url-pattern>/SendToHistory</url-pattern>
   </servlet-mapping>
 </web-app>
