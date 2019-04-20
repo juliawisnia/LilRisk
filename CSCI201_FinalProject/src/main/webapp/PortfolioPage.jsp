@@ -654,6 +654,23 @@ input[type=button].add {
 				}
 			})
  		}
+ 		$(document).ready(function(){
+		  $("input").change(function(){
+			  $.ajax({				
+					url: "GetPrice",
+					type: "POST",
+					data: {
+						coin: document.getElementById("search"),
+						q: document.getElementById("quantity")
+					},
+					success: function(result) {
+						if (result != "no") {
+							document.getElementById("total").value = result;
+						}
+					}
+				})
+		  });
+ 		});
 		</script>
 		
 		<meta charset="UTF-8">
@@ -666,7 +683,7 @@ input[type=button].add {
 	<input type="button" id="portfolioButton" value="PORTFOLIOS" onclick= "changeSideBar()">
 	<hr style="border: 0.5px solid white;" />
 	<body>
-		<div class="portfolio-name" id="curr" style="text-transform: uppercase;"><%=(String)session.getAttribute("portName") %></div>
+		<div class="portfolio-name" id="curr" style="text-transform: uppercase;"><%=(String)(session.getAttribute("portName")) %></div>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
