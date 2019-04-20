@@ -98,7 +98,7 @@ public class PortfolioClass {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
-			getPID = conn.prepareStatement("SELECT * FROM Porfolio WHERE userID = ? and portfolioName = ?");
+			getPID = conn.prepareStatement("SELECT * FROM Portfolio WHERE userID = ? and portfolioName = ?");
 			getPID.setInt(1, userID);
 			getPID.setString(2, this.portfolioName);
 			int portfolioID = -1;
@@ -176,7 +176,7 @@ public class PortfolioClass {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
-			getPID = conn.prepareStatement("SELECT * FROM Porfolio WHERE userID = ? and portfolioName = ?");
+			getPID = conn.prepareStatement("SELECT * FROM Portfolio WHERE userID = ? and portfolioName = ?");
 			getPID.setInt(1, userID);
 			getPID.setString(2, this.portfolioName);
 			int portfolioID = -1;
@@ -252,9 +252,13 @@ public class PortfolioClass {
 		}
 		*/
 		ret[0] = "" + Math.floor(((totalValue/totalBuy)-1.0) * 100) / 100;
+		System.out.println(Math.floor(((totalValue/totalBuy)-1.0) * 100) / 100);
 		ret[1] = "" + Math.floor((totalValue-totalBuy) * 100) / 100;
+		System.out.println(Math.floor((totalValue-totalBuy) * 100) / 100);
 		ret[2] = "" + Math.floor((totalValue) * 100) / 100;
+		System.out.println(Math.floor((totalValue) * 100) / 100);
 		ret[3] = "" + Math.floor((totalAmount) * 100) / 100;
+		System.out.println(Math.floor((totalAmount) * 100) / 100);
 		return ret;
 	}
 	
