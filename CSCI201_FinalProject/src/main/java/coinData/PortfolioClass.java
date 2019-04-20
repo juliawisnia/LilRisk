@@ -79,7 +79,6 @@ public class PortfolioClass {
 	}
 	
 	public void addPosition(Position pos) {
-		System.out.println("Average buy in add position funciton: " + pos.getAvgBuy());
 		coins.put(pos.getName(), pos);
 	}
 	
@@ -333,7 +332,6 @@ public class PortfolioClass {
 		int i = 0;
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			Position temp = entry.getValue();
-			System.out.println("this is the key used to get the coin: " + entry.getKey());
 			data[i*7] = temp.getName();
 			double getAvgBuy = temp.getAvgBuy();
 			double curPrice = temp.getCoin().getCurrentPrice();
