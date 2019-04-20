@@ -98,7 +98,7 @@ public class PortfolioClass {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
-			getPID = conn.prepareStatement("SELECT * FROM Portfolio WHERE userID = ? and portfolioName = ?");
+			getPID = conn.prepareStatement("SELECT * FROM Portfolio WHERE userID = ? AND portfolioName = ?");
 			getPID.setInt(1, userID);
 			getPID.setString(2, this.portfolioName);
 			int portfolioID = -1;
@@ -118,7 +118,6 @@ public class PortfolioClass {
 				}
 				float curPrice = (float)AllCoins.getCoin(coin).getCurrentPrice();
 				ps = conn.prepareStatement("UPDATE Positions SET buyPrice = ?, amount = ? WHERE portfolioID = ? AND symbol = ?");
-				
 				ps.setFloat(1, curPrice);
 				ps.setFloat(2, (float)amount);
 				ps.setInt(3, portfolioID);
@@ -126,7 +125,6 @@ public class PortfolioClass {
 			}
 			else {
 				Position temp = new Position(coin, amount, System.currentTimeMillis());
-				coins.put(coin, temp);
 				spent = temp.getAvgBuy()*amount;
 				ps = conn.prepareStatement("INSERT INTO Positions(portfolioID, symbol, buyTime, buyPrice, amount) VALUE(?,?,?,?,?)");
 				ps.setInt(1, portfolioID);
@@ -134,9 +132,9 @@ public class PortfolioClass {
 				ps.setLong(3, temp.getBuyTime());
 				ps.setFloat(4, (float)temp.getAvgBuy());
 				ps.setFloat(5, (float)amount);
+				coins.put(coin, temp);
 			}
 			spendMunz(spent);
-			
 			ps.executeUpdate();
 		}
 		catch(SQLException sqle) {
@@ -252,15 +250,21 @@ public class PortfolioClass {
 	}
 	
 	public String[] getAllHistoryTotals() {
-		String[] ret = getAllTotals();
+		String[] ret = new String[4];
+		double totalValue = 0;
+		double totalBuy = 0;
 		double totalAmount = 0;
 		
 		for (int i = 0; i < tradeHistory.size(); i++) {
 			TradeClass temp = tradeHistory.get(i);
 			totalAmount += temp.getAmount();
+			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
+			totalValue += temp.getAmount()*temp.getAvgSellPrice();
 		}
-		ret[2] = ret[3];
-		ret[3] = "" + Math.floor((totalAmount) * 100) / 100;
+		ret[0] = "" + Math.floor((totalValue/totalBuy) * 100) / 100;
+		ret[1] = "" + Math.floor((totalValue-totalBuy) * 100) / 100;
+		ret[2] = "" + Math.floor((totalAmount) * 100) / 100;
+		ret[3] = "" + Math.floor((totalValue) * 100) / 100;
 		return ret;
 	}
 	
