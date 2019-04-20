@@ -472,6 +472,7 @@ input[type=button].add {
 			%>
 			data.addColumn('number', '<%=sym %>');
 			<%}%>
+			
 			var vals = <%=session.getAttribute("portfolioGraphData")%>;
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
 			
@@ -604,6 +605,7 @@ input[type=button].add {
 			})
  		}
 		function purchase() {
+			priceCheck();
 			$.ajax({
 				url: "PurchaseServlet",
 				type: "POST",
@@ -650,23 +652,21 @@ input[type=button].add {
 				}
 			})
  		}
- 		$(document).ready(function(){
-		  $("input").change(function(){
-			  $.ajax({				
-					url: "GetPrice",
-					type: "POST",
-					data: {
-						coin: document.getElementById("search"),
-						q: document.getElementById("quantity")
-					},
-					success: function(result) {
-						if (result != "no") {
-							document.getElementById("total").value = result;
-						}
+		function priceCheck() {
+		  	$.ajax({				
+				url: "GetPrice",
+				type: "POST",
+				data: {
+					coin: document.getElementById("search").value,
+					q: document.getElementById("quantity").value
+				},
+				success: function(result) {
+					if (result != "no") {
+						alert("You just purchased " + q + " shares of " + coin + " for $" + result + " USD.");
 					}
-				})
-		  });
- 		});
+				}
+			})
+		}
 		</script>
 		
 		<meta charset="UTF-8">
@@ -708,7 +708,6 @@ input[type=button].add {
 			<ul class="buy" id="buy" style="display: none;">
 				<li style="font-size: 30px;">BUY<input type="text" id="search" value="Search" onfocus="this.value=''"></li>
 				<li>SHARES<input type="number" id="quantity" min="1" class="b"></li>
-				<li>TOTAL<input type="text" id="total" class="b"></li>
 				<li style="padding-bottom: 15px;"><input type="button" onclick="purchase()" id="purchase" value="purchase"></li>
 			</ul>
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
