@@ -35,6 +35,13 @@ CREATE TABLE Trades (
     FOREIGN KEY (portfolioID) REFERENCES Portfolio(portfolioID)
 );
 
+CREATE TABLE Friends(
+	userID INT(11),
+    friendID INT(11),
+    FOREIGN KEY (userID) REFERENCES User(userID),
+    FOREIGN KEY (friendID) REFERENCES User(userID)
+);
+
 INSERT INTO User (username, userPassword)
 	VALUES ('TestUsername1', 'TestPassword1'),
 		   ('TestUsername2', 'TestPassword2'),

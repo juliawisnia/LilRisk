@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
 
 import com.binance.api.client.BinanceApiClientFactory;
@@ -43,6 +44,131 @@ public class UserClass {
 	
 	public String[] getPortfolioCoinData(String portfolio) {
 		return portfolios.get(portfolio).portfolioCoinData();
+	}
+	
+	public String[] checkFriends() {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		PreparedStatement getUserID = null;
+		ResultSet UserID = null;
+		PreparedStatement repeatedPS = null;
+		ResultSet repeatedResults = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
+			getUserID = conn.prepareStatement("SELECT * FROM Friends WHERE friendID = ?");
+			getUserID.setInt(1, this.userID);
+			UserID = getUserID.executeQuery();
+			Set<Integer> fids = new TreeSet<Integer>();
+			if(UserID.next()) {
+				fids.add(UserID.getInt("userID"));
+			}
+			ps = conn.prepareStatement("SELECT * FROM Friends WHERE userID = ?");
+			ps.setInt(1, this.userID);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				fids.remove(rs.getInt("friendID"));
+			}
+			ArrayList<String> ret = new ArrayList<String>();
+			Iterator<Integer> iter = fids.iterator();
+			while(iter.hasNext()) {
+				int tempUserID = iter.next();
+				repeatedPS = conn.prepareStatement("SELECT * FROM User WHERE userID = ?");
+				repeatedPS.setInt(1, tempUserID);
+				repeatedResults = repeatedPS.executeQuery();
+				while(repeatedResults.next()) {
+					ret.add(repeatedResults.getString("username"));
+					ret.add("" + tempUserID);
+				}
+				repeatedResults.close();
+				repeatedPS.close();
+			}
+			String returnArray[] = new String[ret.size()];
+			for(int i = 0; i < ret.size(); i++) {
+				returnArray[i] = ret.get(i);
+			}
+			return returnArray;
+		}
+		catch(SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch(ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally {
+			try {
+				if(UserID != null) {
+					UserID.close();
+				}
+				if(getUserID != null) {
+					getUserID.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return null;
+	}
+	
+	public boolean addFriend(String username) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement getUserID = null;
+		ResultSet UserID = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
+			getUserID = conn.prepareStatement("SELECT * FROM User WHERE username = ?");
+			getUserID.setString(1, username);
+			UserID = getUserID.executeQuery();
+			int uid = 0;
+			if(UserID.next()) {
+				uid = UserID.getInt("userID");
+				ps = conn.prepareStatement("INSERT INTO Friends(userID, friendID) VALUE(?,?);");
+				ps.setInt(1, this.userID);
+				ps.setInt(2, uid);
+				ps.executeUpdate();
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		}
+		catch(SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch(ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally {
+			try {
+				if(UserID != null) {
+					UserID.close();
+				}
+				if(getUserID != null) {
+					getUserID.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return false;
 	}
 	
 	public void loadUser(int userID, String username) { 
