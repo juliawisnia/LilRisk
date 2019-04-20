@@ -231,6 +231,8 @@ public class PortfolioClass {
 			totalBuy += temp.getTotalValue();
 			totalValue += temp.getAmount()*temp.getCurrentPrice();
 			totalAmount += temp.getAmount();
+			System.out.println("After: " + temp.getName() + " " + totalBuy
+			+ " " + totalValue + " " + totalAmount);
 		}
 		for (int i = 0; i < tradeHistory.size(); i++) {
 			TradeClass temp = tradeHistory.get(i);
@@ -240,6 +242,7 @@ public class PortfolioClass {
 			totalValue += temp.getAmount()*temp.getAvgSellPrice();
 			totalAmount += temp.getAmount();
 		}
+		/*
 		if(totalBuy == 0) {
 			ret[0] = "" + 0;
 			ret[1] = "" + 0;
@@ -247,6 +250,7 @@ public class PortfolioClass {
 			ret[3] = "" + 0;
 			return ret;
 		}
+		*/
 		ret[0] = "" + Math.floor(((totalValue/totalBuy)-1.0) * 100) / 100;
 		ret[1] = "" + Math.floor((totalValue-totalBuy) * 100) / 100;
 		ret[2] = "" + Math.floor((totalValue) * 100) / 100;
@@ -297,13 +301,11 @@ public class PortfolioClass {
 		double totalCurrent = 0;
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
 			Position temp = entry.getValue();
-			System.out.println("Getting values for Position: " + temp.getName());
 			totalBuy += temp.getTotalValue();
 			totalCurrent += temp.getAmount()*temp.getCurrentPrice();
 		}
 		for (int i = 0; i < tradeHistory.size(); i++) {
 			TradeClass temp = tradeHistory.get(i);
-			System.out.println("Getting values for Trade: " + temp.getCoin());
 			totalBuy += temp.getAvgBuyPrice()*temp.getAmount();
 			totalCurrent += temp.getAmount()*temp.getAvgSellPrice();
 		}
@@ -402,7 +404,6 @@ public class PortfolioClass {
 	public String getPieData() {
 		String ret = "";
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
-			System.out.println("Getting pie data for: " + entry.getKey());
 			ret += ",['" + entry.getKey() + "'," + entry.getValue().getTotalValue() + "]";
 		}
 		return ret;
