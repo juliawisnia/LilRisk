@@ -150,6 +150,10 @@ public class UserClass {
 		return portfolios.get(portfolio).portfolioDataWithCoins(timeFrame);
 	}
 
+	public String[] portfolioDataWithTrades(String portfolio, String timeFrame) {
+		return portfolios.get(portfolio).portfolioDataWithTrades(timeFrame);
+	}
+	
 	public String[] portfolioHistoryData(String portfolio) {
 		return portfolios.get(portfolio).portfolioHistoryData();
 	}

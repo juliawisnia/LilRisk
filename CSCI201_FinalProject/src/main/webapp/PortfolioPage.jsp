@@ -459,24 +459,20 @@ input[type=button].add {
 			
 			data.addColumn('number', 'X');
 			<%
-				UserClass user1 = (UserClass)(session.getAttribute("user"));
-			    String nameOfPort = (String)session.getAttribute("portName");
-				String timeFrame1 = (String)(session.getAttribute("timeFrame"));
 				String symss[] = null;
-				if (timeFrame1.equals("day")) symss = user1.portfolioDataWithCoins(nameOfPort,"day");
-				else if (timeFrame1.equals("week")) symss = user1.portfolioDataWithCoins(nameOfPort,"week");
-				else if (timeFrame1.equals("month")) symss = user1.portfolioDataWithCoins(nameOfPort,"month");
-				else if (timeFrame1.equals("sixMonth")) symss = user1.portfolioDataWithCoins(nameOfPort,"month6");
-				else symss = user1.portfolioDataWithCoins(nameOfPort,"year");
-				
+				if (timeFrame.equals("day")) symss = user.portfolioDataWithCoins(port,"day");
+				else if (timeFrame.equals("week")) symss = user.portfolioDataWithCoins(port,"week");
+				else if (timeFrame.equals("month")) symss = user.portfolioDataWithCoins(port,"month");
+				else if (timeFrame.equals("sixMonth")) symss = user.portfolioDataWithCoins(port,"month6");
+				else symss = user.portfolioDataWithCoins(port,"year");
+				session.setAttribute("portfolioGraphData", symss[symss.length-1]);
 				String sym = "";
 				for (int i = 0; i < symss.length - 2; i++) {
 					sym = symss[i];
 			%>
 			data.addColumn('number', '<%=sym %>');
 			<%}%>
-			
-			var vals = <%=symss[symss.length-1]%>;
+			var vals = <%=session.getAttribute("portfolioGraphData")%>;
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
 			
 			if (timeFrame === "day") {
