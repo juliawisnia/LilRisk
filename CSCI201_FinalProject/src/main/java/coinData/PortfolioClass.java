@@ -390,7 +390,7 @@ public class PortfolioClass {
 	public String[] portfolioDataWithCoins(String timeFrame) {
 		List<timeValue> overAll = this.portfolioTrend(timeFrame);
 		List<List<Candlestick>> coinData = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
-		String returnString[] = new String[coinData.size() +2];
+		String returnString[] = new String[coins.size() +2];
 		returnString[0] = portfolioName;
 		String ret = "[";
 		int k = 1;
