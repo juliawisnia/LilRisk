@@ -401,7 +401,7 @@ public class PortfolioClass {
 	public String getPieData() {
 		String ret = "";
 		for (Map.Entry<String,Position> entry : coins.entrySet()) {
-			System.out.println(entry.getKey());
+			System.out.println("Getting pie data for: " + entry.getKey());
 			ret += ",['" + entry.getKey() + "'," + entry.getValue().getTotalValue() + "]";
 		}
 		return ret;
