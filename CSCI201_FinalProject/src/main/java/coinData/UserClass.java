@@ -140,7 +140,7 @@ public class UserClass {
 	}
 	
 	public double calculateValue(String coin, double amount) {
-		return AllCoins.getCoin(coin).getCurrentPrice()*amount;
+		return (Math.floor(AllCoins.getCoin(coin).getCurrentPrice()*100*amount)/100);
 	}
 	
 	public String[] portfolioDataWithCoins(String portfolio, String timeFrame) {
