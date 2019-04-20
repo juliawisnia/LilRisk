@@ -115,6 +115,9 @@ public class UserClass {
 	}
 	
 	public void sell(String portfolio, String coin, double amount) {
+		if(amount == -1) {
+			amount = portfolios.get(portfolio).getPosition(coin).getAmount();
+		}
 		portfolios.get(portfolio).sell(coin, amount, this.userID);
 	}
 	
@@ -147,6 +150,10 @@ public class UserClass {
 		return portfolios.get(portfolio).portfolioDataWithCoins(timeFrame);
 	}
 
+	public String[] portfolioDataWithTrades(String portfolio, String timeFrame) {
+		return portfolios.get(portfolio).portfolioDataWithTrades(timeFrame);
+	}
+	
 	public String[] portfolioHistoryData(String portfolio) {
 		return portfolios.get(portfolio).portfolioHistoryData();
 	}

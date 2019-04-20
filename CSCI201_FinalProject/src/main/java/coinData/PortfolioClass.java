@@ -417,6 +417,40 @@ public class PortfolioClass {
 		return returnString;
 	}
 	
+	public Position getPosition(String position) {
+		return coins.get(position);
+	}
+	
+	public String[] portfolioDataWithTrades(String timeFrame) {
+		List<timeValue> overAll = this.portfolioTrend(timeFrame);
+		List<List<timeValue>> coinData = Collections.synchronizedList(new ArrayList<List<timeValue>>());
+		String returnString[] = new String[tradeHistory.size() +2];
+		returnString[0] = portfolioName;
+		String ret = "[";
+		int k = 1;
+		for (int i = 0; i < tradeHistory.size(); i++){
+			returnString[k] = tradeHistory.get(i).getCoin();
+			coinData.add(tradeHistory.get(i).timeValueRange(timeFrame));
+			k++;
+		}
+		if(overAll.size() > 0) {
+			ret += "[0," + overAll.get(0).getValue();
+			for(int i = 0; i < coinData.size(); i++) {
+				ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getValue();
+			}
+		}
+		for(int j = 0; j < overAll.size(); j++) {
+			ret += ",[" + j + "," + overAll.get(j).getValue();
+			for(int i = 0; i < coinData.size(); i++) {
+				ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getValue();
+			}
+			ret += "]";
+		}
+		ret += "]";
+		returnString[returnString.length - 1] = ret;
+		return returnString;
+	}
+	
 	
 	
 	/**
