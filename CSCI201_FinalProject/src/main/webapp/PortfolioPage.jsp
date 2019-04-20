@@ -333,9 +333,9 @@ input[type=number]::-webkit-inner-spin-button {
 	top: 20%;
 }
 input[type=button].add {
-	width: 29px;
-	height: 29px;
-	line-height: 29px;
+	width: 25px;
+	height: 25px;
+	line-height: 15px;
 	border-radius: 50%;
 	border: 1px solid;
 	border-color: #E10808;
@@ -351,7 +351,6 @@ input[type=button].add {
 	width: 50px;
 	height: 20px;
 	color: white;
-	margin-top: -1%;
 }
 </style>
 	<head>
@@ -477,11 +476,10 @@ input[type=button].add {
 			data.addColumn('number', '<%=sym %>');
 			<%}%>
 			
-			var vals; 
+			var vals = <%=symss[symss.length-1]%>;
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
 			
 			if (timeFrame === "day") {
-				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'bold';
 				document.getElementById('week').style.fontWeight = 'normal';
 				document.getElementById('month').style.fontWeight = 'normal';
@@ -489,7 +487,6 @@ input[type=button].add {
 				document.getElementById('year').style.fontWeight = 'normal';
 			}
 			else if (timeFrame === "week") {
-				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'normal';
 				document.getElementById('week').style.fontWeight = 'bold';
 				document.getElementById('month').style.fontWeight = 'normal';
@@ -497,7 +494,6 @@ input[type=button].add {
 				document.getElementById('year').style.fontWeight = 'normal';
 			}
 			else if (timeFrame === "month") {
-				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'normal';
 				document.getElementById('week').style.fontWeight = 'normal';
 				document.getElementById('month').style.fontWeight = 'bold';
@@ -505,7 +501,6 @@ input[type=button].add {
 				document.getElementById('year').style.fontWeight = 'normal';
 			}
 			else if (timeFrame === "sixMonth") {
-				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'normal';
 				document.getElementById('week').style.fontWeight = 'normal';
 				document.getElementById('month').style.fontWeight = 'normal';
@@ -513,7 +508,6 @@ input[type=button].add {
 				document.getElementById('year').style.fontWeight = 'normal';
 			}
 			else {
-				vals = <%=symss[symss.length-1]%>;
 				document.getElementById('day').style.fontWeight = 'normal';
 				document.getElementById('week').style.fontWeight = 'normal';
 				document.getElementById('month').style.fontWeight = 'normal';
@@ -597,6 +591,8 @@ input[type=button].add {
 			    })(i);
 			}
 		}
+		</script>
+	 	<script>
  		function changeTime(element) {
 			$.ajax({
 				url: "BoldServlet",
@@ -623,30 +619,27 @@ input[type=button].add {
 				success: function(result) {
 					if (result === "success") {
 						location.reload(true);
-					} else {
-						alert(result);
 					}
 				}
 			})
 		}
-		function sell() {
+		function sell(cname) {
 			$.ajax({
 				url: "SellServlet",
 				type: "POST",
 				data: {
-					coin: document.getElementById('search').value,
-					quantity: document.getElementById('quantity').value,
-					portfolio: document.getElementById('curr').value
+					coin: cname
 				},
 				success: function(result) {
 					if (result === "success") {
 						location.reload(true);
-					} else {
-						alert(result);
 					}
 				}
 			})
 		}
+ 		function history() {
+ 			window.location.href = "HistoryPage.jsp";
+ 		}
  		function port(element) {
 			$.ajax({				
 				url: "SendToPort",
@@ -661,14 +654,10 @@ input[type=button].add {
 				}
 			})
  		}
- 		function history() {
- 			window.location.href = "HistoryPage.jsp";
- 		}
 		</script>
 		
 		<meta charset="UTF-8">
 		<title>Lil Risk</title>
-		<link rel="stylesheet" type="text/css" href="PortfolioPage.css" />
 	</head>
 	<body id="body">
 		
@@ -758,16 +747,16 @@ input[type=button].add {
 						String cv = "$" + val[i+5]; 
 						String q = val[i+6];
 						String gainColor = "green";
-						if (glp < 0) {
+						if (glp < 0 || gld < 0) {
 							gainColor = "red";
-							glp = glp*(-1);
-							gld = gld*(-1);
+							glp = Math.abs(glp);
+							gld = Math.abs(gld);
 						}
 						String gd = "$" + Double.toString(gld);
 						String gp = Double.toString(glp) + "%";
 				%>
 				<tr><td><%=sym1 %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
-				<td><input type="number" id="quantity" min="1" class="sell"><input type="button" value="-" class="add"></td>
+				<td><input type="button" class="add" value="-" onclick="sell('<%=sym1%>')"></td></tr>
 				<%} %>
 				<tr>
 					<th>Total</th>
