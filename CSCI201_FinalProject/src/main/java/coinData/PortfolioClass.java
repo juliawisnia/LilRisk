@@ -134,7 +134,6 @@ public class PortfolioClass {
 				ps.setLong(3, temp.getBuyTime());
 				ps.setFloat(4, (float)temp.getAvgBuy());
 				ps.setFloat(5, (float)amount);
-				coins.put(coin, temp);
 			}
 			spendMunz(spent);
 			
