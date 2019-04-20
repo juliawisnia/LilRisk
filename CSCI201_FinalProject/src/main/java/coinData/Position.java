@@ -68,7 +68,7 @@ public class Position {
 	 * @return
 	 */
 	public double percentDifference() {
-		return (avgBuy/coin.getCurrentPrice())-1;
+		return (coin.getCurrentPrice()/avgBuy)-1.0;
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class Position {
 	 * @return
 	 */
 	public double absoluteDifference() {
-		return (avgBuy-coin.getCurrentPrice())*amount;
+		return (coin.getCurrentPrice()-avgBuy)*amount;
 	}
 	
 	/**
