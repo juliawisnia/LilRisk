@@ -641,21 +641,6 @@ input[type=button].add, input[type=button].lr {
 				}
 			})
  		}
-		 		function total(element) {
-			$.ajax({				
-				url: "TotalServlet",
-				type: "POST",
-				data: {
-					coin: document.getElementById('search').value,
-					quantity: document.getElementById('quantity').value
-				},
-				success: function(result) {
-					if (result === "success") {
-						location.reload(true);
-					}
-				}
-			})
- 		}
  		function history() {
  			window.location.href = "HistoryPage.jsp";
  		}
@@ -740,6 +725,7 @@ input[type=button].add, input[type=button].lr {
 					<th>Gains/losses ($)</th>
 					<th>Current Value</th>
 					<th>Quantity</th>
+					<th>Sell</th>
 				</tr>
 				<%
 					String[] val = user.getPortfolioCoinData(port);
@@ -760,7 +746,7 @@ input[type=button].add, input[type=button].lr {
 						String gd = "$" + Double.toString(gld);
 						String gp = Double.toString(glp) + "%";
 				%>
-				<tr><td><input type="button" value="-" class="add"><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
+				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td><td><input type="button" value="-" class="add"></td>
 				<%} %>
 				<tr>
 					<th>Total</th>
