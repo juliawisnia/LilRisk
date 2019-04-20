@@ -263,10 +263,6 @@ button:focus {
 	padding: 8px;
 }
 
-.stocks td:nth-child(3) {
-	color: green;
-}
-
 .stocks th {
 	padding-top: 12px;
 	padding-bottom: 12px;
@@ -621,13 +617,28 @@ input[type=number]::-webkit-inner-spin-button {
 					<th>Quantity</th>
 				</tr>
 				<%
-					String val = user.getHoldings(port);
+					String[] val = user.getPortfolioCoinData(port);
+					for (int i = 0; i < val.length; i+=7) {
+						String sym = val[i]; String pp = "$" + val[i+1]; String lp = "$" + val[i+2]; double glp = Double.parseDouble(val[i+3]);
+						double gld = Double.parseDouble(val[i+4]); String cv = "$" + val[i+5]; String q = val[i+6];
+						String gainColor = "green";
+						if (glp < 0) {
+							gainColor = "red";
+							glp = glp*(-1);
+							gld = gld*(-1);
+						}
+						String gp = "$" + Double.toString(gld);
+						String gd = Double.toString(glp) + "%";
 				%>
+				<tr><td><%=sym %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td><%=cv %></td><td><%=q %></td>
+				<%} %>
 				<tr>
 					<th>Total</th>
 					<th></th>
+					<th></th>
 					<th>13.46%</th>
 					<th>$5000</th>
+					<th></th>
 					<th></th>
 				</tr>
 			</table>
