@@ -35,6 +35,12 @@ public class UserClass {
 		this.userID = -1;
 	}
 	
+	public void clearAll() {
+		this.username = "";
+		this.userID = -1;
+		this.portfolios.clear();
+	}
+	
 	public String[] getPortfolioCoinData(String portfolio) {
 		return portfolios.get(portfolio).portfolioCoinData();
 	}

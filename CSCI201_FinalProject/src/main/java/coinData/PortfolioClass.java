@@ -167,6 +167,7 @@ public class PortfolioClass {
 	}
 	
 	
+	
 	public void sell(String coin, double amount, int userID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
