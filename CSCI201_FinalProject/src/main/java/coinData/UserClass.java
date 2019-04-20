@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -20,6 +21,36 @@ import com.binance.api.client.BinanceApiClientFactory;
 import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.CandlestickInterval;
+
+class FriendPortfolioData{
+	private String user;
+	private String portfolioName;
+	private double percentChange;
+	private boolean myData;
+	
+	public FriendPortfolioData(String user, String portfolioName, double percentChange, boolean myData) {
+		this.user = user;
+		this.portfolioName = portfolioName;
+		this.percentChange = percentChange;
+		this.myData = myData;
+	}
+	
+	public double getPercentChange() {
+		return percentChange;
+	}
+}
+
+class SortFriendPortfolios implements Comparator<FriendPortfolioData>{
+	
+	public int compare(FriendPortfolioData a, FriendPortfolioData b) {
+		if(a.getPercentChange() > b.getPercentChange()) {
+			return 1;
+		}
+		else {
+			return -1;
+		}
+	}
+}
 
 public class UserClass {
 	private Map<String, PortfolioClass> portfolios = Collections.synchronizedMap(new Hashtable<String, PortfolioClass>());
@@ -44,6 +75,153 @@ public class UserClass {
 	
 	public String[] getPortfolioCoinData(String portfolio) {
 		return portfolios.get(portfolio).portfolioCoinData();
+	}
+	
+	public ArrayList<FriendPortfolioData> getFriendsPortfolios() {
+		ArrayList<FriendPortfolioData> ret = new ArrayList<FriendPortfolioData>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		PreparedStatement getUsernames = null;
+		ResultSet usernames = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
+			ps = conn.prepareStatement("SELECT * FROM Friends WHERE userID = ?");
+			ps.setInt(1,  this.userID);
+			rs = ps.executeQuery();
+			Set<Integer> userID = new TreeSet<Integer>();
+			while(rs.next()) {
+				userID.add(rs.getInt("friendID"));
+			}
+			ArrayList<Integer> userArray = new ArrayList<Integer>();
+			ArrayList<String> usernameArray = new ArrayList<String>();
+			Iterator<Integer> iter = userID.iterator();
+			while(iter.hasNext()) {
+				int temp = iter.next();
+				getUsernames = conn.prepareStatement("SELECT * FROM User WHERE userID = ?");
+				getUsernames.setInt(1, temp);
+				usernames = getUsernames.executeQuery();
+				if(usernames.next()) {
+					usernameArray.add(usernames.getString("username"));
+					userArray.add(temp);
+				}
+				usernames.close();
+				getUsernames.close();
+			}
+			userArray.add(this.userID);
+			usernameArray.add(this.username);
+			for(int i = 0; i < userArray.size()-1; i++) {
+				boolean isThis = (userArray.get(i) == this.userID);
+				ArrayList<PortfolioClass> ports = getPortfoliosMultiUser(userArray.get(i));
+				for(int j = 0; j < ports.size(); j++)
+					ret.add(new FriendPortfolioData(usernameArray.get(i),ports.get(j).getName(), ports.get(j).getPercentChange(), isThis));
+			}
+		}
+		catch(SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch(ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(usernames != null) {
+					usernames.close();
+				}
+				if(getUsernames != null) {
+					getUsernames.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				
+			}
+		}
+		Collections.sort(ret,new SortFriendPortfolios());
+		return ret;
+	}
+	
+	private ArrayList<PortfolioClass> getPortfoliosMultiUser(int FID){
+		ArrayList<PortfolioClass> ret = new ArrayList<PortfolioClass>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		PreparedStatement ps3 = null;
+		ResultSet rs3 = null;
+		PreparedStatement ps2 = null;
+		ResultSet rs2 = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
+			ps = conn.prepareStatement("SELECT * FROM Portfolio WHERE userID = ?");
+			ps.setInt(1, FID);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				int portfolioID = rs.getInt("portfolioID");
+				String portfolioName = rs.getString("portfolioName");
+				PortfolioClass temp = new PortfolioClass(portfolioName);
+				
+				ps2 = conn.prepareStatement("SELECT symbol, buyTime, buyPrice, amount FROM Positions WHERE portfolioID = ?");
+				ps2.setInt(1, portfolioID);
+				rs2 = ps2.executeQuery();
+				while(rs2.next()) {
+					temp.addPosition(new Position(rs2.getString("symbol"),rs2.getDouble("buyPrice"), rs2.getLong("buyTime"), rs2.getDouble("amount")));
+				}
+				
+				ps3 = conn.prepareStatement("SELECT symbol, buyTime, sellTime, buyPrice, sellPrice, amount FROM Trades WHERE portfolioID = ?");
+				ps3.setInt(1, portfolioID);
+				rs3 = ps3.executeQuery();
+				while(rs3.next()) {
+					temp.addTrade(new TradeClass(new Position(rs3.getString("symbol"),rs3.getDouble("buyPrice"), rs3.getLong("buyTime"), rs3.getDouble("amount")), rs3.getDouble("sellPrice"), rs3.getLong("sellTime")));
+				}
+				ret.add(temp);
+			}
+			
+		}
+		catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(rs2 != null) {
+					rs2.close();
+				}
+				if(ps2 != null) {
+					ps2.close();
+				}
+				if(rs3 != null) {
+					rs3.close();
+				}
+				if(ps3 != null) {
+					ps3.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				System.out.println("sqle closing stuff: " + sqle.getMessage());
+			}
+		}
+		return ret;
 	}
 	
 	public String[] checkFriends() {
@@ -119,6 +297,9 @@ public class UserClass {
 	}
 	
 	public boolean addFriend(String username) {
+		if(username.equalsIgnoreCase(this.username)) {
+			return false;
+		}
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement getUserID = null;
