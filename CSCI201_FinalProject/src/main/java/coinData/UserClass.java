@@ -290,6 +290,9 @@ public class UserClass {
 			for(int i = 0; i < ret.size(); i++) {
 				returnArray[i] = ret.get(i);
 			}
+			for(int i = 0; i< returnArray.length; i++) {
+				System.out.println("These are your friend requests: " + returnArray[i]);
+			}
 			return returnArray;
 		}
 		catch(SQLException sqle) {
