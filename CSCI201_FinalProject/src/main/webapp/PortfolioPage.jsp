@@ -451,63 +451,36 @@ input[type=button].add {
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart);
 		
-	 		function drawBasic() {
-			var data = new google.visualization.DataTable();
-			
+	 	function drawChart() {
+	 		var data = new google.visualization.DataTable();
 			data.addColumn('number', 'X');
 			<%
 				String symss[] = null;
-				if (timeFrame.equals("day")) symss = user.portfolioDataWithCoins(port,"day");
-				else if (timeFrame.equals("week")) symss = user.portfolioDataWithCoins(port,"week");
-				else if (timeFrame.equals("month")) symss = user.portfolioDataWithCoins(port,"month");
-				else if (timeFrame.equals("sixMonth")) symss = user.portfolioDataWithCoins(port,"month6");
-				else symss = user.portfolioDataWithCoins(port,"year");
+				if (timeFrame.equals("day")) {
+					symss = user.portfolioDataWithCoins(port,"day");
+				}
+				else if (timeFrame.equals("week")) {
+					symss = user.portfolioDataWithCoins(port,"week");
+				}
+				else if (timeFrame.equals("month")) {
+					symss = user.portfolioDataWithCoins(port,"month");
+				}
+				else if (timeFrame.equals("sixMonth")) {
+					symss = user.portfolioDataWithCoins(port,"month6");
+				}
+				else {
+					symss = user.portfolioDataWithCoins(port,"year");
+				}
 				session.setAttribute("portfolioGraphData", symss[symss.length-1]);
 				String sym = "";
-				for (int i = 0; i < symss.length - 2; i++) {
+				for (int i = 0; i < symss.length - 1; i++) {
 					sym = symss[i];
 			%>
-			data.addColumn('number', '<%=sym %>');
+				data.addColumn('number', "<%=sym %>");
 			<%}%>
 			
 			var vals = <%=session.getAttribute("portfolioGraphData")%>;
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
-			
-			if (timeFrame === "day") {
-				document.getElementById('day').style.fontWeight = 'bold';
-				document.getElementById('week').style.fontWeight = 'normal';
-				document.getElementById('month').style.fontWeight = 'normal';
-				document.getElementById('sixMonth').style.fontWeight = 'normal';
-				document.getElementById('year').style.fontWeight = 'normal';
-			}
-			else if (timeFrame === "week") {
-				document.getElementById('day').style.fontWeight = 'normal';
-				document.getElementById('week').style.fontWeight = 'bold';
-				document.getElementById('month').style.fontWeight = 'normal';
-				document.getElementById('sixMonth').style.fontWeight = 'normal';
-				document.getElementById('year').style.fontWeight = 'normal';
-			}
-			else if (timeFrame === "month") {
-				document.getElementById('day').style.fontWeight = 'normal';
-				document.getElementById('week').style.fontWeight = 'normal';
-				document.getElementById('month').style.fontWeight = 'bold';
-				document.getElementById('sixMonth').style.fontWeight = 'normal';
-				document.getElementById('year').style.fontWeight = 'normal';
-			}
-			else if (timeFrame === "sixMonth") {
-				document.getElementById('day').style.fontWeight = 'normal';
-				document.getElementById('week').style.fontWeight = 'normal';
-				document.getElementById('month').style.fontWeight = 'normal';
-				document.getElementById('sixMonth').style.fontWeight = 'bold';
-				document.getElementById('year').style.fontWeight = 'normal';
-			}
-			else {
-				document.getElementById('day').style.fontWeight = 'normal';
-				document.getElementById('week').style.fontWeight = 'normal';
-				document.getElementById('month').style.fontWeight = 'normal';
-				document.getElementById('sixMonth').style.fontWeight = 'normal';
-				document.getElementById('year').style.fontWeight = 'bold';
-			}
 			
 			data.addRows(vals);
 			
@@ -558,7 +531,7 @@ input[type=button].add {
 				chartArea: {height: '80%'}
 			};
 			
-			var chart = new google.visualization.LineChart(document.getElementById('main-chart'));
+			var chart = new google.visualization.LineChart(document.getElementById('mainGraph'));
 			
 			chart.draw(data, options);
 			var items = document.getElementsByClassName('add');
@@ -714,7 +687,7 @@ input[type=button].add {
 		<div id="donutChart" ></div>
 		
 		<!-- MAIN GRAPH-->		
-		<div id="mainGraph" style="position: fixed; z-index: 1;"></div>
+		<div id="mainGraph" style="position: fixed; z-index: 1; height: 35%; top: 20%;"></div>
 		
 		<div class="stocks-container">
 			<table class="stocks">
