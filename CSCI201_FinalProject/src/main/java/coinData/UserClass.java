@@ -92,11 +92,11 @@ public class UserClass {
 	public String[] getFriendsPortfoliosString() {
 		ArrayList<FriendPortfolioData> data = getFriendsPortfolios();
 		String ret[] = new String[data.size()*4];
-		for(int i = 0; i < data.size(); i++) {
-			ret[i*4] = data.get(i).getUser();
-			ret[i*4+1] = data.get(i).getPortfolioName();
-			ret[i*4+2] = "" + data.get(i).getPercentChange();
-			ret[i*4+3] = "" + data.get(i).getBool();
+		for(int i = 0; i < data.size(); i+=4) {
+			ret[i] = data.get(i).getUser();
+			ret[i+1] = data.get(i).getPortfolioName();
+			ret[i+2] = "" + data.get(i).getPercentChange();
+			ret[i+3] = "" + data.get(i).getBool();
 		}
 		return ret;
 	}
@@ -263,13 +263,15 @@ public class UserClass {
 			getUserID.setInt(1, this.userID);
 			UserID = getUserID.executeQuery();
 			Set<Integer> fids = new TreeSet<Integer>();
-			if(UserID.next()) {
+			while(UserID.next()) {
+				System.out.println(UserID.getInt("userID"));
 				fids.add(UserID.getInt("userID"));
 			}
 			ps = conn.prepareStatement("SELECT * FROM Friends WHERE userID = ?");
 			ps.setInt(1, this.userID);
 			rs = ps.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
+				System.out.println(rs.getInt("friendID"));
 				fids.remove(rs.getInt("friendID"));
 			}
 			ArrayList<String> ret = new ArrayList<String>();
@@ -289,6 +291,9 @@ public class UserClass {
 			String returnArray[] = new String[ret.size()];
 			for(int i = 0; i < ret.size(); i++) {
 				returnArray[i] = ret.get(i);
+			}
+			for(int i = 0; i< returnArray.length; i++) {
+				System.out.println("These are your friend requests: " + returnArray[i]);
 			}
 			return returnArray;
 		}
@@ -335,7 +340,7 @@ public class UserClass {
 			getUserID.setInt(1, this.userID);
 			UserID = getUserID.executeQuery();
 			Set<Integer> fids = new TreeSet<Integer>();
-			if(UserID.next()) {
+			while(UserID.next()) {
 				fids.add(UserID.getInt("friendID"));
 			}
 			ArrayList<String> ret = new ArrayList<String>();

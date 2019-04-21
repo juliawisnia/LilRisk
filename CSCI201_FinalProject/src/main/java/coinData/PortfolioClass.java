@@ -281,10 +281,10 @@ public class PortfolioClass {
 		ret[1] = "" + Math.floor(absDif * 100) / 100;
 		ret[2] = "" + Math.floor((totalAmount) * 100) / 100;
 		ret[3] = "" + Math.floor((totalValue) * 100) / 100;
-		System.out.println("Percent change: " + ret[0]);
-		System.out.println("Value change: " + ret[1]);
-		System.out.println("Amount: " + ret[2]);
-		System.out.println("Value: " + ret[3]);
+		System.out.println(ret[0]);
+		System.out.println(ret[1]);
+		System.out.println(ret[2]);
+		System.out.println(ret[3]);
 		return ret;
 	}
 	
@@ -424,7 +424,6 @@ public class PortfolioClass {
 		if(overAll.size() > 0) {
 			ret += "[0," + (int)overAll.get(0).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
-				System.out.println("portfolioDataWithCoins first loop: " + i);
 				if(coinData.get(i).size()-overAll.size() >= 0) {
 					ret += "," + (int)Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen());
 				}
