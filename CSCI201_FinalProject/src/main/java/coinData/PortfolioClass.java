@@ -422,22 +422,23 @@ public class PortfolioClass {
 			k++;
 		}
 		if(overAll.size() > 0) {
-			ret += "[0," + overAll.get(0).getValue();
+			ret += "[0," + (int)overAll.get(0).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
 				System.out.println("portfolioDataWithCoins first loop: " + i);
 				if(coinData.get(i).size()-overAll.size() >= 0) {
-					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen();
+					ret += "," + (int)Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen());
 				}
 				else {
 					ret += "," + 0;
 				}
 			}
+			ret += "]";
 		}
 		for(int j = 0; j < overAll.size(); j++) {
-			ret += ",[" + j + "," + overAll.get(j).getValue();
+			ret += ",[" + j + "," + (int)overAll.get(j).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size())+j >= 0) {
-					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen();
+					ret += "," + (int)Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen());
 				}
 				else {
 					ret += "," + 0;
@@ -467,21 +468,22 @@ public class PortfolioClass {
 			k++;
 		}
 		if(overAll.size() > 0) {
-			ret += "[0," + overAll.get(0).getValue();
+			ret += "[0," + (int)overAll.get(0).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size()) >= 0) {
-					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getValue();
+					ret += "," + (int)coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getValue();
 				}
 				else {
 					ret += "," + 0;
 				}
 			}
+			ret += "]";
 		}
 		for(int j = 0; j < overAll.size(); j++) {
-			ret += ",[" + j + "," + overAll.get(j).getValue();
+			ret += ",[" + j + "," + (int)overAll.get(j).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size())+j >=0) {
-					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getValue();
+					ret += "," + (int)coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getValue();
 				}
 				else {
 					ret += "," + 0; 
