@@ -281,6 +281,10 @@ public class PortfolioClass {
 		ret[1] = "" + Math.floor(absDif * 100) / 100;
 		ret[2] = "" + Math.floor((totalAmount) * 100) / 100;
 		ret[3] = "" + Math.floor((totalValue) * 100) / 100;
+		System.out.println(ret[0]);
+		System.out.println(ret[1]);
+		System.out.println(ret[2]);
+		System.out.println(ret[3]);
 		return ret;
 	}
 	
