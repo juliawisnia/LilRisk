@@ -337,13 +337,15 @@ input[type=button].add {
 					<th>User</th>
 					<th>Portfolio</th>
 					<th>Percent Change</th>
+					
 				</tr>
  				<%
 					String[] friendsData = user.getFriendsPortfoliosString();
-					for (int i = 0; i < friendsData.length; i+=3) {
-						String userName = friendsData[i]; 
+					for (int i = 0; i < friendsData.length; i+=4) {
+						String userName = friendsData[i];
 						String portfolio = friendsData[i+1]; 
 						double glp = Double.parseDouble(friendsData[i+2]);
+						String isYours = friendsData[i+3];
 						String gainColor = "green";
 						if (glp < 0) {
 							gainColor = "red";
@@ -351,7 +353,7 @@ input[type=button].add {
 						}
 						String gp = Double.toString(glp) + "%";
 				%>
-				<tr><td><%=userName %></td><td><%=portfolio %></td><td style="color: <%=gainColor%>;"><%=gp %></td>				
+				<tr><td><%=userName %></td><td><%=portfolio %></td><td style="color: <%=gainColor%>;"><%=gp %></td>		
 				<%} %> 
 			</table>
 		</div>
