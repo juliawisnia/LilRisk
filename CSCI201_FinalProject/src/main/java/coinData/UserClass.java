@@ -270,6 +270,7 @@ public class UserClass {
 			ps.setInt(1, this.userID);
 			rs = ps.executeQuery();
 			if(rs.next()) {
+				System.out.println(rs.getInt("friendID"));
 				fids.remove(rs.getInt("friendID"));
 			}
 			ArrayList<String> ret = new ArrayList<String>();
