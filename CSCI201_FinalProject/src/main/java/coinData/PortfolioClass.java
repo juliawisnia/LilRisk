@@ -412,7 +412,7 @@ public class PortfolioClass {
 	public String[] portfolioDataWithCoins(String timeFrame) {
 		List<timeValue> overAll = this.portfolioTrend(timeFrame);
 		List<List<Candlestick>> coinData = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
-		String returnString[] = new String[coins.size() +2];
+		String returnString[] = new String[coins.size() +1];
 		String ret = "[";
 		int k = 1;
 		for (Map.Entry<String,Position> entry : coins.entrySet()){
@@ -456,8 +456,7 @@ public class PortfolioClass {
 	public String[] portfolioDataWithTrades(String timeFrame) {
 		List<timeValue> overAll = this.portfolioTrend(timeFrame);
 		List<List<timeValue>> coinData = Collections.synchronizedList(new ArrayList<List<timeValue>>());
-		String returnString[] = new String[tradeHistory.size() +2];
-		returnString[0] = portfolioName;
+		String returnString[] = new String[tradeHistory.size() +1];
 		String ret = "[";
 		int k = 1;
 		for (int i = 0; i < tradeHistory.size(); i++){
@@ -466,7 +465,7 @@ public class PortfolioClass {
 			k++;
 		}
 		if(overAll.size() > 0) {
-			ret += "[0," + (int)overAll.get(0).getValue();
+			ret += "[0";
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size()) >= 0) {
 					ret += "," + (int)coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getValue();
@@ -478,7 +477,7 @@ public class PortfolioClass {
 			ret += "]";
 		}
 		for(int j = 0; j < overAll.size(); j++) {
-			ret += ",[" + j + "," + (int)overAll.get(j).getValue();
+			ret += ",[" + j;
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size())+j >=0) {
 					ret += "," + (int)coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getValue();

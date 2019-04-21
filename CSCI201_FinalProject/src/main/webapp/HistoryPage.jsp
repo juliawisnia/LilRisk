@@ -624,6 +624,11 @@ input[type=button].lr {
 					tempDoll = Double.parseDouble(totals[1]) * (-1);
 					gainColor = "red";
 				}
+				else {
+					tempPer = Double.parseDouble(totals[0]);
+					tempDoll = Double.parseDouble(totals[1]);
+					gainColor = "green";
+				}
 				String perChange = tempPer + "%";
 				String dollChange = "$" + tempDoll;
 				
