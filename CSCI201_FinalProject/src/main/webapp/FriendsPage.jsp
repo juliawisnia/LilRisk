@@ -316,7 +316,7 @@ input[type=button].add {
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
 			<% 
 				String[] friends = user.getFriendNames();
-				for (int i = 0; i < friends.length; i++) {
+				for (int i = 0; i < friends.length; i+=2) {
 			%>
  				<li><%=friends[i] %></li>
  			<%} %>
