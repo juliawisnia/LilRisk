@@ -425,16 +425,22 @@ public class PortfolioClass {
 			ret += "[0," + overAll.get(0).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
 				System.out.println("portfolioDataWithCoins first loop: " + i);
-				if(coinData.get(i).size()-overAll.size() > 0) {
+				if(coinData.get(i).size()-overAll.size() >= 0) {
 					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen();
+				}
+				else {
+					ret += "," + 0;
 				}
 			}
 		}
 		for(int j = 0; j < overAll.size(); j++) {
 			ret += ",[" + j + "," + overAll.get(j).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
-				if(coinData.get(i).size()-(overAll.size())+j > 0) {
+				if(coinData.get(i).size()-(overAll.size())+j >= 0) {
 					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen();
+				}
+				else {
+					ret += "," + 0;
 				}
 			}
 			ret += "]";
@@ -463,13 +469,23 @@ public class PortfolioClass {
 		if(overAll.size() > 0) {
 			ret += "[0," + overAll.get(0).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
-				ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getValue();
+				if(coinData.get(i).size()-(overAll.size()) >= 0) {
+					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getValue();
+				}
+				else {
+					ret += "," + 0;
+				}
 			}
 		}
 		for(int j = 0; j < overAll.size(); j++) {
 			ret += ",[" + j + "," + overAll.get(j).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
-				ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getValue();
+				if(coinData.get(i).size()-(overAll.size())+j >=0) {
+					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getValue();
+				}
+				else {
+					ret += "," + 0; 
+				}
 			}
 			ret += "]";
 		}

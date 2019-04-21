@@ -38,6 +38,18 @@ class FriendPortfolioData{
 	public double getPercentChange() {
 		return percentChange;
 	}
+	
+	public String getUser() {
+		return user;
+	}
+	
+	public String getPortfolioName() {
+		return portfolioName;
+	}
+	
+	public boolean getBool() {
+		return myData;
+	}
 }
 
 class SortFriendPortfolios implements Comparator<FriendPortfolioData>{
@@ -75,6 +87,18 @@ public class UserClass {
 	
 	public String[] getPortfolioCoinData(String portfolio) {
 		return portfolios.get(portfolio).portfolioCoinData();
+	}
+	
+	public String[] getFriendsPortfoliosString() {
+		ArrayList<FriendPortfolioData> data = getFriendsPortfolios();
+		String ret[] = new String[data.size()*4];
+		for(int i = 0; i < data.size(); i++) {
+			ret[i*4] = data.get(i).getUser();
+			ret[i*4+1] = data.get(i).getPortfolioName();
+			ret[i*4+2] = "" + data.get(i).getPercentChange();
+			ret[i*4+3] = "" + data.get(i).getBool();
+		}
+		return ret;
 	}
 	
 	public ArrayList<FriendPortfolioData> getFriendsPortfolios() {
