@@ -244,7 +244,21 @@ button:focus {
 	cursor: pointer;
 }
 
-input[type=button].add {
+input[type=button].accept {
+	width: 25px;
+	height: 25px;
+	line-height: 15px;
+	border-radius: 50%;
+	border: 1px solid;
+	border-color: #E10808;
+	font-size: 25px;
+	font-weight: lighter;
+	color: #E10808;
+	padding: 0px;
+	cursor: pointer;
+}
+
+input[type=button].decline {
 	width: 25px;
 	height: 25px;
 	line-height: 15px;
@@ -282,23 +296,17 @@ input[type=button].add {
 					document.getElementById('buy').style.display = 'inline';
 				}
 			}
+			
+			function addFriend(friend) {
+				user.addFriend(friend);
+				
+			}
+			
+			function deleteFriend() {
+				
+			}
 		</script>
-		<script>
- 		function port(element) {
-			$.ajax({				
-				url: "SendToPort",
-				type: "POST",
-				data: {
-					name: element.value
-				},
-				success: function(result) {
-					if (result === "success") {
-						location.reload(true);
-					}
-				}
-			})
- 		}
-		</script>
+
 		
 		<meta charset="UTF-8">
 		<title>Lil Risk</title>
@@ -326,7 +334,7 @@ input[type=button].add {
 				String[] requests = user.checkFriends();
 				for (int i = 0; i < requests.length; i++) {
 			%>
- 				<li ><input type="button" class="accept" value="+"><%=requests[i] %><input type="button" class="decline" value="-"></li>
+ 				<li ><input type="button" class="accept" value="+" onclick="addFriend(<%=requests[i] %>)"><%=requests[i] %><input type="button" class="decline" value="-" onclick="deleteFriend()"></li>
  			<%} %>
 			</ul>
 		</div>
