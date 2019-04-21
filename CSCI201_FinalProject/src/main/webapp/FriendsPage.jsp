@@ -339,26 +339,19 @@ input[type=button].add {
 					<th>Percent Change</th>
 				</tr>
  				<%
-					String[] friendsData = user.getFriendsPortfolios();
-					for (int i = 0; i < friendsData.length(); i++) {
-						String sym1 = val[i]; 
-						String pp = "$" + val[i+1]; 
-						String lp = "$" + val[i+2]; 
-						double glp = Double.parseDouble(val[i+3]);
-						double gld = Double.parseDouble(val[i+4]); 
-						String cv = "$" + val[i+5]; 
-						String q = val[i+6];
+					String[] friendsData = user.getFriendsPortfoliosString();
+					for (int i = 0; i < friendsData.length; i+=3) {
+						String userName = friendsData[i]; 
+						String portfolio = friendsData[i+1]; 
+						double glp = Double.parseDouble(friendsData[i+2]);
 						String gainColor = "green";
-						if (glp < 0 || gld < 0) {
+						if (glp < 0) {
 							gainColor = "red";
 							glp = Math.abs(glp);
-							gld = Math.abs(gld);
 						}
-						String gd = "$" + Double.toString(gld);
 						String gp = Double.toString(glp) + "%";
 				%>
-				<tr><td><%=sym1 %></td><td><%=pp %></td><td><%=lp %></td><td style="color: <%=gainColor%>;"><%=gp %></td><td style="color: <%=gainColor%>;"><%=gd %></td><td><%=cv %></td><td><%=q %></td>
-				<td><input type="button" class="add" value="-" onclick="sell('<%=sym1%>')"></td></tr>
+				<tr><td><%=userName %></td><td><%=portfolio %></td><td style="color: <%=gainColor%>;"><%=gp %></td>				
 				<%} %> 
 			</table>
 		</div>
