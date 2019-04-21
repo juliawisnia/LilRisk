@@ -534,29 +534,11 @@ input[type=button].add {
 			var chart = new google.visualization.LineChart(document.getElementById('mainGraph'));
 			
 			chart.draw(data, options);
-			var items = document.getElementsByClassName('add');
-			for(var i = 0; i < items.length; i++ ) {
-			    (function(i) {
-			        items[i].addEventListener('click', function(event) {
-			        	if (items[i].value === '-') {
-			        		items[i].style.color = "green"; items[i].style.borderColor = "green";
-			        		items[i].value = '+';
-			        	}
-			        	else {
-			        		items[i].style.color = "red"; items[i].style.borderColor = "red";
-			        		this.value = '-';
-			        	}
-			        	view = new google.visualization.DataView(data);
-		        		for (var j = 0; j < items.length; j++) {
-		        			if (items[j].value === '+') {
-		        				view.hideColumns([j+1]);
-		        			}
-		        		}
-		        		chart.draw(view, options);
-			          
-			        }, false);
-			    })(i);
-			}
+/* 			google.visualization.events.addListener(chart, 'select', selectHandler);
+			
+			function selectHandler(e) {
+				
+			} */
 		}
 		</script>
 	 	<script>
@@ -748,8 +730,7 @@ input[type=button].add {
 						}
 						vals = "$" + temp;
 					}
-					if (i == 2) { %>
-						<%
+					if (i == 2) { 
 						gainColor = "white";
 						vals = "$" + totals[i];
 					}

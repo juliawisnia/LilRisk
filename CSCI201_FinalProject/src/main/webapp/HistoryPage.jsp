@@ -257,7 +257,54 @@ button:focus {
 	background-color: rgba(0,0,0,0);
 	padding: 0;
 	cursor: pointer;
-	
+}
+input[type=button].lr {
+	position: absolute;
+	right: 15px;
+	margin-top: 1.5%;
+	width: 29px;
+	height: 29px;
+	line-height: 29px;
+	border-radius: 50%;
+	border: 1px solid;
+	border-color: #E10808;
+	background: #313030;
+	font-size: 25px;
+	font-weight: lighter;
+	color: #E10808;
+	display: inline-block;
+	padding: 0px;
+	cursor: pointer;
+}
+
+#logout {
+	position: absolute;
+	background-color: #313030;
+	border: 1px solid white;
+	border-radius: 20px;
+	color: white;
+ 	padding-right: 91px;
+	padding-left: 20px; 
+	text-align: center;
+	font-size: 15px;
+	cursor: pointer;
+	z-index: 5;
+	top: 4%; right: 9.5%;
+}
+
+#friends {
+	position: absolute;
+	background-color: #313030;
+	border: 1px solid white;
+	color: white;
+	border-radius: 60px;
+ 	padding-right: 80px;
+	padding-left: 20px; 
+	text-align: center;
+	font-size: 15px;
+	cursor: pointer;
+	z-index: 5;
+	top: 4%; right: 2.5%;
 }
 </style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -363,6 +410,12 @@ button:focus {
 				}
 			})
 		}
+ 		function logout() {
+ 			window.location.href = "UnregisteredHomePage.jsp";
+ 		}
+ 		function friends() {
+ 			window.location.href = "FriendsPage.jsp";
+ 		}
 		</script>
 		
 		
@@ -484,6 +537,8 @@ button:focus {
 		<title>Lil Risk</title>
 	</head>
 	<body id="body">
+		<input class="lr" type="button" id="logout" value="SIGN OUT" onclick="logout()">
+		<input class="lr" type="button" id="friends" value="FRIENDS" onclick="friends()">
 		
 	<div id="title"><i><a href="home.jsp">LIL RISK INC.</a></i></div>
 	<hr style="border: 0.5px solid white;" />

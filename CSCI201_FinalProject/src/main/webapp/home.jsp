@@ -235,35 +235,53 @@ input[type=button].none {
 	padding: 0px;
 }
 
+input[type=button].lr {
+	position: absolute;
+	right: 15px;
+	margin-top: 1.5%;
+	width: 29px;
+	height: 29px;
+	line-height: 29px;
+	border-radius: 50%;
+	border: 1px solid;
+	border-color: #E10808;
+	background: #313030;
+	font-size: 25px;
+	font-weight: lighter;
+	color: #E10808;
+	display: inline-block;
+	padding: 0px;
+	cursor: pointer;
+}
+
 #logout {
 	position: absolute;
 	background-color: #313030;
 	border: 1px solid white;
 	border-radius: 20px;
 	color: white;
-	width: 100px;
-	padding-left: 0.8%;
+ 	padding-right: 91px;
+	padding-left: 20px; 
 	text-align: center;
 	font-size: 15px;
 	cursor: pointer;
 	z-index: 5;
-	top: 5%; right: 6.5%;
+	top: 4%; right: 9.5%;
 }
 
 #friends {
 	position: absolute;
 	background-color: #313030;
 	border: 1px solid white;
-	border-radius: 20px;
 	color: white;
-	width: 100px;
-	padding-left: 0.8%;
+	border-radius: 60px;
+ 	padding-right: 80px;
+	padding-left: 20px; 
 	text-align: center;
 	font-size: 15px;
 	cursor: pointer;
 	z-index: 5;
-	top: 5%; 
-	right: 4.5%;
+	top: 4%; right: 2.5%;
 }
 
 </style>
