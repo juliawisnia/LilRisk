@@ -296,6 +296,72 @@ public class UserClass {
 		return null;
 	}
 	
+	public String[] getFriendNames() {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		PreparedStatement getUserID = null;
+		ResultSet UserID = null;
+		PreparedStatement repeatedPS = null;
+		ResultSet repeatedResults = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://50.87.144.88:3306/steelest_LilRisk?useTimezone=true&serverTimezone=PST&user=steelest_liluser&password=lilpassword");
+			getUserID = conn.prepareStatement("SELECT * FROM Friends WHERE userID = ?");
+			getUserID.setInt(1, this.userID);
+			UserID = getUserID.executeQuery();
+			Set<Integer> fids = new TreeSet<Integer>();
+			if(UserID.next()) {
+				fids.add(UserID.getInt("userID"));
+			}
+			ArrayList<String> ret = new ArrayList<String>();
+			Iterator<Integer> iter = fids.iterator();
+			while(iter.hasNext()) {
+				int tempUserID = iter.next();
+				repeatedPS = conn.prepareStatement("SELECT * FROM User WHERE userID = ?");
+				repeatedPS.setInt(1, tempUserID);
+				repeatedResults = repeatedPS.executeQuery();
+				while(repeatedResults.next()) {
+					ret.add(repeatedResults.getString("username"));
+					ret.add("" + tempUserID);
+				}
+				repeatedResults.close();
+				repeatedPS.close();
+			}
+			String returnArray[] = new String[ret.size()];
+			for(int i = 0; i < ret.size(); i++) {
+				returnArray[i] = ret.get(i);
+			}
+			return returnArray;
+		}
+		catch(SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		}
+		catch(ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}
+		finally {
+			try {
+				if(UserID != null) {
+					UserID.close();
+				}
+				if(getUserID != null) {
+					getUserID.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			}
+			catch(SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return null;
+	}
+	
 	public boolean addFriend(String username) {
 		if(username.equalsIgnoreCase(this.username)) {
 			return false;
