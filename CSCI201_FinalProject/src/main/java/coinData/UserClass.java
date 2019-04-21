@@ -92,11 +92,11 @@ public class UserClass {
 	public String[] getFriendsPortfoliosString() {
 		ArrayList<FriendPortfolioData> data = getFriendsPortfolios();
 		String ret[] = new String[data.size()*4];
-		for(int i = 0; i < data.size(); i++) {
-			ret[i*4] = data.get(i).getUser();
-			ret[i*4+1] = data.get(i).getPortfolioName();
-			ret[i*4+2] = "" + data.get(i).getPercentChange();
-			ret[i*4+3] = "" + data.get(i).getBool();
+		for(int i = 0; i < data.size(); i+=4) {
+			ret[i] = data.get(i).getUser();
+			ret[i+1] = data.get(i).getPortfolioName();
+			ret[i+2] = "" + data.get(i).getPercentChange();
+			ret[i+3] = "" + data.get(i).getBool();
 		}
 		return ret;
 	}
