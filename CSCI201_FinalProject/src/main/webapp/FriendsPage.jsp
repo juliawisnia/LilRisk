@@ -238,6 +238,25 @@ button:focus {
 	cursor: pointer;
 }
 
+input[type=button].add {
+	position: absolute;
+	right: 15px;
+	margin-top: 1.5%;
+	width: 29px;
+	height: 29px;
+	line-height: 29px;
+	border-radius: 50%;
+	border: 1px solid;
+	border-color: #E10808;
+	background: #313030;
+	font-size: 25px;
+	font-weight: lighter;
+	color: #E10808;
+	display: inline-block;
+	padding: 0px;
+	cursor: pointer;
+}
+/* 
 input[type=button].accept {
 	width: 25px;
 	height: 25px;
@@ -264,7 +283,7 @@ input[type=button].decline {
 	color: red;
 	padding: 0px;
 	cursor: pointer;
-}
+} */
 
 </style>
 	<head>
@@ -322,7 +341,9 @@ input[type=button].decline {
 			%>
  				<li><%=friends[i] %></li>
  			<%} %>
+ 			
 			</ul>
+			
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
 			<% 
 				String[] requests = user.checkFriends();
@@ -330,7 +351,7 @@ input[type=button].decline {
 				for (int i = 0; i < requests.length; i+=2) {
 					System.out.println("Hi");
 			%>
- 				<li ><input type="button" class="accept" value="+" onclick="addFriend(<%=requests[i] %>)"><%=requests[i] %><input type="button" class="decline" value="-" onclick="deleteFriend()"></li>
+ 				<li ><input type="button" class="add" value="+" onclick="addFriend('<%=requests[i] %>')"><%=requests[i] %><input type="button" class="add" value="-" onclick="deleteFriend()"></li>
  			<%} %>
 			</ul>
 		</div>
