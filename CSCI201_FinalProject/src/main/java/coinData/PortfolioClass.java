@@ -413,7 +413,6 @@ public class PortfolioClass {
 		List<timeValue> overAll = this.portfolioTrend(timeFrame);
 		List<List<Candlestick>> coinData = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
 		String returnString[] = new String[coins.size() +2];
-		returnString[0] = portfolioName;
 		String ret = "[";
 		int k = 1;
 		for (Map.Entry<String,Position> entry : coins.entrySet()){
@@ -422,7 +421,7 @@ public class PortfolioClass {
 			k++;
 		}
 		if(overAll.size() > 0) {
-			ret += "[0," + (int)overAll.get(0).getValue();
+			ret += "[0";
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-overAll.size() >= 0) {
 					ret += "," + (int)Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen());
@@ -434,7 +433,7 @@ public class PortfolioClass {
 			ret += "]";
 		}
 		for(int j = 0; j < overAll.size(); j++) {
-			ret += ",[" + j + "," + (int)overAll.get(j).getValue();
+			ret += ",[" + j;
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size())+j >= 0) {
 					ret += "," + (int)Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen());
