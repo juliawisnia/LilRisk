@@ -263,14 +263,14 @@ public class UserClass {
 			getUserID.setInt(1, this.userID);
 			UserID = getUserID.executeQuery();
 			Set<Integer> fids = new TreeSet<Integer>();
-			if(UserID.next()) {
+			while(UserID.next()) {
 				System.out.println(UserID.getInt("userID"));
 				fids.add(UserID.getInt("userID"));
 			}
 			ps = conn.prepareStatement("SELECT * FROM Friends WHERE userID = ?");
 			ps.setInt(1, this.userID);
 			rs = ps.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				System.out.println(rs.getInt("friendID"));
 				fids.remove(rs.getInt("friendID"));
 			}
