@@ -366,6 +366,120 @@ button:focus {
 		</script>
 		
 		
+		<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+		
+	 	function drawChart() {
+	 		var data = new google.visualization.DataTable();
+			data.addColumn('number', 'X');
+			<%
+				String symss[] = null;
+				if (timeFrame.equals("day")) {
+					symss = user.portfolioDataWithTrades(port,"day");
+				}
+				else if (timeFrame.equals("week")) {
+					symss = user.portfolioDataWithTrades(port,"week");
+				}
+				else if (timeFrame.equals("month")) {
+					symss = user.portfolioDataWithTrades(port,"month");
+				}
+				else if (timeFrame.equals("sixMonth")) {
+					symss = user.portfolioDataWithTrades(port,"month6");
+				}
+				else {
+					symss = user.portfolioDataWithTrades(port,"year");
+				}
+				session.setAttribute("portfolioGraphData", symss[symss.length-1]);
+				String sym = "";
+				for (int i = 0; i < symss.length - 1; i++) {
+					sym = symss[i];
+			%>
+				data.addColumn('number', "<%=sym %>");
+			<%}%>
+			
+			var vals = <%=session.getAttribute("portfolioGraphData")%>;
+			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
+			
+			data.addRows(vals);
+			
+			var options = {
+				series: {
+					0: { color: '#662A8E' },
+					1: { color: '#90208C' },
+					2: { color: '#CE0089' },
+					3: { color: '#EB0080' },
+					4: { color: '#EA0D2C' },
+					5: { color: '#F48C37' },
+					6: { color: '#FCBD3A' },
+					7: { color: '#FBD542' },
+					8: { color: '#A8CF4E' },
+					9: { color: '#53BF48' },
+					10: { color: '#06A44D' },
+					11: { color: '#0FA575' },
+					12: { color: '#23939F' },
+					13: { color: '#2499DC' },
+					14: { color: '#185AA6' },
+					15: { color: '#3D2873' },
+				},
+				hAxis: {
+					titleTextStyle: {
+						italic: false 
+					},
+					baselineColor: 'white',
+					titleColor: 'white',
+					textColor: 'white',
+					gridlines: {
+						color: 'transparent'
+					}
+				},
+				vAxis: {
+					titleTextStyle: {
+						italic: false 
+					},
+					baselineColor: 'white',
+					title: 'PORTFOLIO VALUE',
+					titleColor: 'white',
+					textColor: 'white',
+					gridlines: {
+						color: 'transparent'
+					}
+				},
+				backgroundColor: 'transparent',
+				legend: {textStyle: {color: 'white'}},
+				chartArea: {height: '80%'}
+			};
+			
+			var chart = new google.visualization.LineChart(document.getElementById('mainGraph'));
+			
+			chart.draw(data, options);
+			var items = document.getElementsByClassName('add');
+			for(var i = 0; i < items.length; i++ ) {
+			    (function(i) {
+			        items[i].addEventListener('click', function(event) {
+			        	if (items[i].value === '-') {
+			        		items[i].style.color = "green"; items[i].style.borderColor = "green";
+			        		items[i].value = '+';
+			        	}
+			        	else {
+			        		items[i].style.color = "red"; items[i].style.borderColor = "red";
+			        		this.value = '-';
+			        	}
+			        	view = new google.visualization.DataView(data);
+		        		for (var j = 0; j < items.length; j++) {
+		        			if (items[j].value === '+') {
+		        				view.hideColumns([j+1]);
+		        			}
+		        		}
+		        		chart.draw(view, options);
+			          
+			        }, false);
+			    })(i);
+			}
+		}
+		</script>
+		
+		
 		<meta charset="UTF-8">
 		<title>Lil Risk</title>
 	</head>
