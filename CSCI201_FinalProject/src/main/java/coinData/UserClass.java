@@ -336,7 +336,7 @@ public class UserClass {
 			UserID = getUserID.executeQuery();
 			Set<Integer> fids = new TreeSet<Integer>();
 			if(UserID.next()) {
-				fids.add(UserID.getInt("userID"));
+				fids.add(UserID.getInt("friendID"));
 			}
 			ArrayList<String> ret = new ArrayList<String>();
 			Iterator<Integer> iter = fids.iterator();

@@ -244,7 +244,21 @@ button:focus {
 	cursor: pointer;
 }
 
-input[type=button].add {
+input[type=button].accept {
+	width: 25px;
+	height: 25px;
+	line-height: 15px;
+	border-radius: 50%;
+	border: 1px solid;
+	border-color: #E10808;
+	font-size: 25px;
+	font-weight: lighter;
+	color: #E10808;
+	padding: 0px;
+	cursor: pointer;
+}
+
+input[type=button].decline {
 	width: 25px;
 	height: 25px;
 	line-height: 15px;
@@ -282,23 +296,17 @@ input[type=button].add {
 					document.getElementById('buy').style.display = 'inline';
 				}
 			}
+			
+			function addFriend(friend) {
+				user.addFriend(friend);
+				
+			}
+			
+			function deleteFriend() {
+				
+			}
 		</script>
-		<script>
- 		function port(element) {
-			$.ajax({				
-				url: "SendToPort",
-				type: "POST",
-				data: {
-					name: element.value
-				},
-				success: function(result) {
-					if (result === "success") {
-						location.reload(true);
-					}
-				}
-			})
- 		}
-		</script>
+
 		
 		<meta charset="UTF-8">
 		<title>Lil Risk</title>
@@ -316,7 +324,7 @@ input[type=button].add {
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
 			<% 
 				String[] friends = user.getFriendNames();
-				for (int i = 0; i < friends.length; i++) {
+				for (int i = 0; i < friends.length; i+=2) {
 			%>
  				<li><%=friends[i] %></li>
  			<%} %>
@@ -326,7 +334,7 @@ input[type=button].add {
 				String[] requests = user.checkFriends();
 				for (int i = 0; i < requests.length; i++) {
 			%>
- 				<li ><input type="button" class="accept" value="+"><%=requests[i] %><input type="button" class="decline" value="-"></li>
+ 				<li ><input type="button" class="accept" value="+" onclick="addFriend(<%=requests[i] %>)"><%=requests[i] %><input type="button" class="decline" value="-" onclick="deleteFriend()"></li>
  			<%} %>
 			</ul>
 		</div>
@@ -337,13 +345,15 @@ input[type=button].add {
 					<th>User</th>
 					<th>Portfolio</th>
 					<th>Percent Change</th>
+					
 				</tr>
  				<%
 					String[] friendsData = user.getFriendsPortfoliosString();
-					for (int i = 0; i < friendsData.length; i+=3) {
-						String userName = friendsData[i]; 
+					for (int i = 0; i < friendsData.length; i+=4) {
+						String userName = friendsData[i];
 						String portfolio = friendsData[i+1]; 
 						double glp = Double.parseDouble(friendsData[i+2]);
+						String isYours = friendsData[i+3];
 						String gainColor = "green";
 						if (glp < 0) {
 							gainColor = "red";
@@ -351,7 +361,7 @@ input[type=button].add {
 						}
 						String gp = Double.toString(glp) + "%";
 				%>
-				<tr><td><%=userName %></td><td><%=portfolio %></td><td style="color: <%=gainColor%>;"><%=gp %></td>				
+				<tr><td><%=userName %></td><td><%=portfolio %></td><td style="color: <%=gainColor%>;"><%=gp %></td>		
 				<%} %> 
 			</table>
 		</div>

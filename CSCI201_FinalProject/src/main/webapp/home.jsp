@@ -250,6 +250,22 @@ input[type=button].none {
 	top: 5%; right: 6.5%;
 }
 
+#friends {
+	position: absolute;
+	background-color: #313030;
+	border: 1px solid white;
+	border-radius: 20px;
+	color: white;
+	width: 100px;
+	padding-left: 0.8%;
+	text-align: center;
+	font-size: 15px;
+	cursor: pointer;
+	z-index: 5;
+	top: 5%; 
+	right: 4.5%;
+}
+
 </style>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -461,6 +477,9 @@ input[type=button].none {
  		function logout() {
  			window.location.href = "UnregisteredHomePage.jsp";
  		}
+ 		function friends() {
+ 			window.location.href = "FriendsPage.jsp";
+ 		}
  		function port(element) {
 			$.ajax({				
 				url: "SendToPort",
@@ -499,6 +518,7 @@ input[type=button].none {
 	<hr style="border: 0.5px solid white;" />
 	<body>
 		<input class="lr" type="button" id="logout" value="SIGN OUT" onclick="logout()">
+		<input class="lr" type="button" id="friends" value="FRIENDS" onclick="friends()">
 		<div id="main-chart" style="height: 85%; width: 98%; margin-left: -10%; position: relative;"></div>
 		<table class="time-frames">
 			<tr>
