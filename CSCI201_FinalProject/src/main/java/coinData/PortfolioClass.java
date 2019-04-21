@@ -425,13 +425,17 @@ public class PortfolioClass {
 			ret += "[0," + overAll.get(0).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
 				System.out.println("portfolioDataWithCoins first loop: " + i);
-				ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen();
+				if(coinData.get(i).size()-overAll.size() > 0) {
+					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen();
+				}
 			}
 		}
 		for(int j = 0; j < overAll.size(); j++) {
 			ret += ",[" + j + "," + overAll.get(j).getValue();
 			for(int i = 0; i < coinData.size(); i++) {
-				ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen();
+				if(coinData.get(i).size()-(overAll.size())+j > 0) {
+					ret += "," + coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen();
+				}
 			}
 			ret += "]";
 		}
