@@ -414,7 +414,7 @@ public class PortfolioClass {
 		List<List<Candlestick>> coinData = Collections.synchronizedList(new ArrayList<List<Candlestick>>());
 		String returnString[] = new String[coins.size() +1];
 		String ret = "[";
-		int k = 1;
+		int k = 0;
 		for (Map.Entry<String,Position> entry : coins.entrySet()){
 			returnString[k] = entry.getKey();
 			coinData.add(entry.getValue().getCoin().getDataList(timeFrame));
@@ -458,7 +458,7 @@ public class PortfolioClass {
 		List<List<timeValue>> coinData = Collections.synchronizedList(new ArrayList<List<timeValue>>());
 		String returnString[] = new String[tradeHistory.size() +1];
 		String ret = "[";
-		int k = 1;
+		int k = 0;
 		for (int i = 0; i < tradeHistory.size(); i++){
 			returnString[k] = tradeHistory.get(i).getCoin();
 			coinData.add(tradeHistory.get(i).timeValueRange(timeFrame));
