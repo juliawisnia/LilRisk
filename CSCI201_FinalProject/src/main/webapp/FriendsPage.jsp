@@ -98,6 +98,10 @@ ul.StockSideBar {
 	padding: 0;
 	border-bottom: white;
 	overflow-y: scroll;
+	color: white;
+	font-weight: lighter;
+	text-transform: uppercase;
+	font-size: 30px;
 }
 
 ul.StockSideBar li {
@@ -106,16 +110,6 @@ ul.StockSideBar li {
 	color: white;
 }
 
-ul.StockSideBar li.symbol {
-	text-transform: uppercase;
-	padding-top: 5px;
-	font-size: 30px;
-}
-ul.StockSideBar li.company {
-	font-size: 12px;
-	padding-bottom: 12px;
-	border-bottom: 1px solid white;
-}
 
 a {text-decoration: none; color: white; background-color: rgba(0,0,0,0);}
 
@@ -250,10 +244,10 @@ input[type=button].accept {
 	line-height: 15px;
 	border-radius: 50%;
 	border: 1px solid;
-	border-color: #E10808;
+	border-color: green;
 	font-size: 25px;
 	font-weight: lighter;
-	color: #E10808;
+	color: green;
 	padding: 0px;
 	cursor: pointer;
 }
@@ -264,10 +258,10 @@ input[type=button].decline {
 	line-height: 15px;
 	border-radius: 50%;
 	border: 1px solid;
-	border-color: #E10808;
+	border-color: red;
 	font-size: 25px;
 	font-weight: lighter;
-	color: #E10808;
+	color: red;
 	padding: 0px;
 	cursor: pointer;
 }
@@ -332,7 +326,9 @@ input[type=button].decline {
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
 			<% 
 				String[] requests = user.checkFriends();
-				for (int i = 0; i < requests.length; i++) {
+				System.out.println("Hello");
+				for (int i = 0; i < requests.length; i+=2) {
+					System.out.println("Hi");
 			%>
  				<li ><input type="button" class="accept" value="+" onclick="addFriend(<%=requests[i] %>)"><%=requests[i] %><input type="button" class="decline" value="-" onclick="deleteFriend()"></li>
  			<%} %>
