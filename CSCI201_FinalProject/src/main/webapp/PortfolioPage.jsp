@@ -721,12 +721,18 @@ input[type=button].add {
 							temp = Double.parseDouble(totals[i]) * (-1);
 							gainColor = "red";
 						}
+						else {
+							temp = Double.parseDouble(totals[i]);
+						}
 						vals = temp + "%";
 					}
 					if (i == 1){
 						if (Double.parseDouble(totals[i]) < 0){
 							temp = Double.parseDouble(totals[i]) * (-1);
 							gainColor = "red";
+						}
+						else {
+							temp = Double.parseDouble(totals[i]);
 						}
 						vals = "$" + temp;
 					}
