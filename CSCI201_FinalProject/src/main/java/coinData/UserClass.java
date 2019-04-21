@@ -264,6 +264,7 @@ public class UserClass {
 			UserID = getUserID.executeQuery();
 			Set<Integer> fids = new TreeSet<Integer>();
 			if(UserID.next()) {
+				System.out.println(UserID.getInt("userID"));
 				fids.add(UserID.getInt("userID"));
 			}
 			ps = conn.prepareStatement("SELECT * FROM Friends WHERE userID = ?");
