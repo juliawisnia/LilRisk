@@ -412,6 +412,7 @@ input[type=button].decline {
  				<%
 					String[] friendsData = user.getFriendsPortfoliosString();
 					for (int i = 0; i < friendsData.length; i+=4) {
+						if (friendsData[i] == null || friendsData[i+1] == null || friendsData[i+2] == null) continue;
 						String userName = friendsData[i];
 						String portfolio = friendsData[i+1];
 						double glp = Double.parseDouble(friendsData[i+2]);
