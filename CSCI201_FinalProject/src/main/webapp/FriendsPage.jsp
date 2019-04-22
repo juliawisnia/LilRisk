@@ -335,8 +335,6 @@ input[type=button].decline {
 					},
 					success: function(result) {
 						if (result === "success") {
-							var friend = document.getElementById(friend);
-							friend.parentNode.removeChild(friend);
 							location.reload(true);
 						} else {
 							alert(result);
