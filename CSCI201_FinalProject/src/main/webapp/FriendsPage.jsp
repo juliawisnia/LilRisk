@@ -303,8 +303,8 @@ input[type=button].decline {
 				UserClass user = (UserClass)session.getAttribute("user");
 		%>
 		<!-- SIDEBAR SCRIPT -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script> 
-
 			function changeSideBar() {
 				if (document.getElementById('PortfolioSideBar').style.display === 'none') {
 					document.getElementById('stocksButton').style.backgroundColor = '#313030';
@@ -335,7 +335,7 @@ input[type=button].decline {
 					url: "FindFriend",
 					type: "POST",
 					data: {
-						friend: document.getElementById('search').value,
+						friend: document.getElementById('find').value,
 					},
 					success: function(result) {
 						if (result === "success") {
