@@ -264,14 +264,12 @@ public class UserClass {
 			UserID = getUserID.executeQuery();
 			Set<Integer> fids = new TreeSet<Integer>();
 			while(UserID.next()) {
-				System.out.println(UserID.getInt("userID"));
 				fids.add(UserID.getInt("userID"));
 			}
 			ps = conn.prepareStatement("SELECT * FROM Friends WHERE userID = ?");
 			ps.setInt(1, this.userID);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getInt("friendID"));
 				fids.remove(rs.getInt("friendID"));
 			}
 			ArrayList<String> ret = new ArrayList<String>();
@@ -291,9 +289,6 @@ public class UserClass {
 			String returnArray[] = new String[ret.size()];
 			for(int i = 0; i < ret.size(); i++) {
 				returnArray[i] = ret.get(i);
-			}
-			for(int i = 0; i< returnArray.length; i++) {
-				System.out.println("These are your friend requests: " + returnArray[i]);
 			}
 			return returnArray;
 		}
