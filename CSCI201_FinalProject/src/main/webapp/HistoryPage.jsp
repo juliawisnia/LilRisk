@@ -606,7 +606,7 @@ input[type=button].time {
 	<div id="title"><i><a href="home.jsp">LIL RISK INC.</a></i></div>
 	<hr style="border: 0.5px solid white;" />
 	<body>
-		<div class="portfolio-name" id="curr" style="text-transform: uppercase;"><%=(String)session.getAttribute("portName") %></div>
+		<a href="PortfolioPage.jsp"><div class="portfolio-name" id="curr" style="text-transform: uppercase;"><%=(String)session.getAttribute("portName") %></div></a>
 		<div class="form-container">
 			<hr style="border: 0.5px solid white; margin-top: 12px;" />
 			<ul class="PortfolioSideBar" id="PortfolioSideBar">
