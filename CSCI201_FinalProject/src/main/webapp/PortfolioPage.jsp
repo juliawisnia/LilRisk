@@ -352,6 +352,22 @@ input[type=button].add {
 	height: 20px;
 	color: white;
 }
+
+.time-frames {
+	position: absolute;
+	top: 58%;
+	left: 7%;
+	border-collapse: collapse;
+	z-index: 5;
+}
+input[type=button].time {
+	cursor: pointer;
+	border: none;
+	background-color: rgba(0,0,0,0);
+	font-size: 20px;
+	color: white;
+}
+
 </style>
 	<head>
 		<!-- SIDEBAR SCRIPT -->
@@ -482,6 +498,42 @@ input[type=button].add {
 			var vals = <%=session.getAttribute("portfolioGraphData")%>;
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
 			
+			if (timeFrame === "day") {
+				document.getElementById('day').style.fontWeight = 'bold';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "week") {
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'bold';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "month") {
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'bold';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "sixMonth") {
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'bold';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else {
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'bold';
+			}
+			
 			data.addRows(vals);
 			
 			var options = {
@@ -534,11 +586,6 @@ input[type=button].add {
 			var chart = new google.visualization.LineChart(document.getElementById('mainGraph'));
 			
 			chart.draw(data, options);
-/* 			google.visualization.events.addListener(chart, 'select', selectHandler);
-			
-			function selectHandler(e) {
-				
-			} */
 		}
 		</script>
 	 	<script>
@@ -602,6 +649,20 @@ input[type=button].add {
 				}
 			})
  		}
+ 		function changeTime(element) {
+			$.ajax({
+				url: "BoldServlet",
+				type: "POST",
+				data: {
+					timeframe: element.value
+				},
+				success: function(result) {
+					if (result === "success") {
+						location.reload(true);
+					}
+				}
+			})
+ 		}
 		</script>
 		
 		<meta charset="UTF-8">
@@ -643,7 +704,7 @@ input[type=button].add {
 			<ul class="buy" id="buy" style="display: none;">
 				<li style="font-size: 30px;">BUY<input type="text" id="search" value="Search" onfocus="this.value=''"></li>
 				<li>SHARES<input type="number" id="quantity" min="1" class="b"></li>
-				<li style="padding-bottom: 15px;"><input type="button" onclick="purchase()" id="purchase" value="purchase"></li>
+				<li style="padding-bottom: 15px;"><input type="button" onclick="purchase()" id="purchase" value="purchase" style="margin-top: 4%;"></li>
 			</ul>
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
 				<%
@@ -664,7 +725,15 @@ input[type=button].add {
 
  		<!-- HISTORY BUTTON -->
 		<a href="HistoryPage.jsp"><input type="button" id="historyButton" value="HISTORY" onclick="history()"></a>
-
+		<table class="time-frames">
+			<tr>
+				<th><input type="button" id="day" class="time" onclick="changeTime(this)" value="1D"></th>
+				<th><input type="button" id="week" class="time" onclick="changeTime(this)" value="1W"></th>
+				<th><input type="button" id="month" class="time" onclick="changeTime(this)" value="1M"></th>
+				<th><input type="button" id="sixMonth" class="time" onclick="changeTime(this)" value="6M"></th>
+				<th><input type="button" id="year" class="time" onclick="changeTime(this)" value="1Y"></th>
+			</tr>
+		</table>
 		<!-- DONUT CHART -->		
 		<div id="donutChart" ></div>
 		

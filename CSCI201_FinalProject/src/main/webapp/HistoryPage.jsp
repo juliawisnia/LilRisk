@@ -224,7 +224,7 @@ button:focus {
 	max-height: 400px;
 	overflow-y: scroll;
 	margin-left: 5%;
-	margin-top: 30%;
+	margin-top: 32%;
 }
 
 .stocks {
@@ -305,6 +305,20 @@ input[type=button].lr {
 	cursor: pointer;
 	z-index: 5;
 	top: 4%; right: 2.5%;
+}
+.time-frames {
+	position: absolute;
+	top: 63%;
+	left: 7%;
+	border-collapse: collapse;
+	z-index: 5;
+}
+input[type=button].time {
+	cursor: pointer;
+	border: none;
+	background-color: rgba(0,0,0,0);
+	font-size: 20px;
+	color: white;
 }
 </style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -453,6 +467,41 @@ input[type=button].lr {
 			
 			var vals = <%=session.getAttribute("portfolioGraphData")%>;
 			var timeFrame = "<%= session.getAttribute("timeFrame")%>";
+			if (timeFrame === "day") {
+				document.getElementById('day').style.fontWeight = 'bold';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "week") {
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'bold';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "month") {
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'bold';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else if (timeFrame === "sixMonth") {
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'bold';
+				document.getElementById('year').style.fontWeight = 'normal';
+			}
+			else {
+				document.getElementById('day').style.fontWeight = 'normal';
+				document.getElementById('week').style.fontWeight = 'normal';
+				document.getElementById('month').style.fontWeight = 'normal';
+				document.getElementById('sixMonth').style.fontWeight = 'normal';
+				document.getElementById('year').style.fontWeight = 'bold';
+			}
 			
 			data.addRows(vals);
 			
@@ -530,6 +579,20 @@ input[type=button].lr {
 			    })(i);
 			}
 		}
+ 		function changeTime(element) {
+			$.ajax({
+				url: "BoldServlet",
+				type: "POST",
+				data: {
+					timeframe: element.value
+				},
+				success: function(result) {
+					if (result === "success") {
+						location.reload(true);
+					}
+				}
+			})
+ 		}
 		</script>
 		
 		
@@ -632,7 +695,7 @@ input[type=button].lr {
 				String perChange = tempPer + "%";
 				String dollChange = "$" + tempDoll;
 				
-				String quanTotal = 	totals[3];
+				String quanTotal = 	totals[2];
 				
 				String  totPort= "$" + totals[3];
 
@@ -645,6 +708,15 @@ input[type=button].lr {
 				<th style="color: white"><%= totPort %></th>
 				</tr>
 			</table>
+			<table class="time-frames">
+			<tr>
+				<th><input type="button" id="day" class="time" onclick="changeTime(this)" value="1D"></th>
+				<th><input type="button" id="week" class="time" onclick="changeTime(this)" value="1W"></th>
+				<th><input type="button" id="month" class="time" onclick="changeTime(this)" value="1M"></th>
+				<th><input type="button" id="sixMonth" class="time" onclick="changeTime(this)" value="6M"></th>
+				<th><input type="button" id="year" class="time" onclick="changeTime(this)" value="1Y"></th>
+			</tr>
+		</table>
 		</div>
 	</body>
 </html>
