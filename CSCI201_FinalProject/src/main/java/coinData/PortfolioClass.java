@@ -198,7 +198,6 @@ public class PortfolioClass {
 			ps.setFloat(6, (float)temp.getAvgSellPrice());
 			ps.setFloat(7, (float)amount);
 			tradeHistory.add(temp);
-			System.out.println("Current Position Amount: " + currentPos.getAmount());
 			if(currentPos.getAmount() <= 0) {
 				ps1 = conn.prepareStatement("DELETE FROM Positions WHERE portfolioID = ? AND symbol = ?;");
 				ps1.setInt(1, portfolioID);
@@ -281,10 +280,6 @@ public class PortfolioClass {
 		ret[1] = "" + Math.floor(absDif * 100) / 100;
 		ret[2] = "" + Math.floor((totalAmount) * 100) / 100;
 		ret[3] = "" + Math.floor((totalValue) * 100) / 100;
-		System.out.println(portfolioName + " change percent " + ret[0]);
-		System.out.println(portfolioName + " change value " + ret[1]);
-		System.out.println(portfolioName + " amount " + ret[2]);
-		System.out.println(portfolioName + " value " + ret[3]);
 		return ret;
 	}
 	
