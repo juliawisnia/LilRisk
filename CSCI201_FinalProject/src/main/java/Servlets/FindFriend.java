@@ -20,8 +20,8 @@ public class FindFriend extends HttpServlet {
 		
 		UserClass user = (UserClass)session.getAttribute("user");
 		String friend = request.getParameter("friend");
-		user.addFriend(friend);
-
-		response.getWriter().write("success");
+		boolean ok = user.addFriend(friend);
+		if (ok) response.getWriter().write("success");
+		else response.getWriter().write("The user " + friend + " does not exist.");
 	}
 }

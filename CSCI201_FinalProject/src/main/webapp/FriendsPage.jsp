@@ -108,6 +108,8 @@ ul.StockSideBar li {
 	background-color: rgba(0,0,0,0);
 	padding-left: 15px;
 	color: white;
+	padding-bottom: 12px;
+	border-bottom: 1px solid white;
 }
 
 
@@ -169,14 +171,14 @@ a {text-decoration: none; color: white; background-color: rgba(0,0,0,0);}
 #search {
 	z-index: 4; 
 	position: absolute;
-	left: 145px;
+	left: 90px;
 	background-color: rgba(0,0,0,0);
 	color: white;
 	font-size: 25px;
 	width: 15%;
 	padding-left: 5px;
 	line-height: 40px;
-	top: 330px;
+	top: 215px;
 	font-weight: lighter;
 	font-size: italics;
 }
@@ -193,8 +195,8 @@ a {text-decoration: none; color: white; background-color: rgba(0,0,0,0);}
 	cursor: pointer;
 	width: 115px;
 	height: 33px;
-	left: 600px;
-	top: 335px;
+	left: 400px;
+	top: 220px;
 }
 
 .portPer {
@@ -270,6 +272,7 @@ button:focus {
 }
 
 input[type=button].accept {
+	background-color: #313030;
 	width: 25px;
 	height: 25px;
 	line-height: 15px;
@@ -281,9 +284,11 @@ input[type=button].accept {
 	color: green;
 	padding: 0px;
 	cursor: pointer;
+	margin-left: 10px;
 }
 
 input[type=button].decline {
+	background-color: #313030;
 	width: 25px;
 	height: 25px;
 	line-height: 15px;
@@ -295,6 +300,7 @@ input[type=button].decline {
 	color: red;
 	padding: 0px;
 	cursor: pointer;
+	margin-left: 10px;
 }
 
 </style>
@@ -311,20 +317,32 @@ input[type=button].decline {
 					document.getElementById('portfolioButton').style.backgroundColor = '#7d7d7d';
 					document.getElementById('PortfolioSideBar').style.display = 'inline';
 					document.getElementById('StockSideBar').style.display = 'none';
-					document.getElementById('buy').style.display = 'none';
 				}
 				else {
 					document.getElementById('stocksButton').style.backgroundColor = '#7d7d7d';
 					document.getElementById('portfolioButton').style.backgroundColor = '#313030';
 					document.getElementById('PortfolioSideBar').style.display = 'none';
 					document.getElementById('StockSideBar').style.display = 'inline';
-					document.getElementById('buy').style.display = 'inline';
 				}
 			}
 			
 			function addFriend(friend) {
-				user.addFriend(friend);
-				
+				$.ajax({
+					url: "FindFriend",
+					type: "POST",
+					data: {
+						friend: friend
+					},
+					success: function(result) {
+						if (result === "success") {
+							var friend = document.getElementById(friend);
+							friend.parentNode.removeChild(friend);
+							location.reload(true);
+						} else {
+							alert(result);
+						}
+					}
+				})
 			}
 			
 			function deleteFriend() {
@@ -335,12 +353,13 @@ input[type=button].decline {
 					url: "FindFriend",
 					type: "POST",
 					data: {
-						friend: document.getElementById('find').value,
+						friend: document.getElementById('search').value
 					},
 					success: function(result) {
 						if (result === "success") {
-							location.reload(true);
 							alert("You have successfully sent a friend request!");
+						} else {
+							alert(result);
 						}
 					}
 				})
@@ -354,8 +373,8 @@ input[type=button].decline {
 	<body id="body">
 		
 	<div id="title"><i><a href="home.jsp">LIL RISK INC.</a></i></div>
-	<li><input type="text" id="search" value="FIND FRIENDS" onfocus="this.value=''"></li>
-	<li style="padding-bottom: 15px"><input type="button" id="find" value="Request" onclick="findFriends()"></li>
+	<input type="text" id="search" value="FIND FRIENDS" onfocus="this.value=''">
+	<input type="button" id="find" value="Request" onclick="findFriends()">
 	
 	<input type="button" id="stocksButton" value="REQUESTS" onclick= "changeSideBar()">
 	<input type="button" id="portfolioButton" value="FRIENDS" onclick= "changeSideBar()">
@@ -375,11 +394,9 @@ input[type=button].decline {
 			<ul class="StockSideBar" id="StockSideBar" style="display: none;">
 			<% 
 				String[] requests = user.checkFriends();
-				System.out.println("Hello");
 				for (int i = 0; i < requests.length; i+=2) {
-					System.out.println("Hi");
 			%>
- 				<li ><input type="button" class="accept" value="+" onclick="addFriend(<%=requests[i] %>)"><%=requests[i] %><input type="button" class="decline" value="-" onclick="deleteFriend()"></li>
+ 				<li id=<%=requests[i] %>><%=requests[i] %><input type="button" class="accept" value="+" onclick="addFriend('<%=requests[i] %>')"><input type="button" class="decline" value="-" onclick="deleteFriend()"></li>
  			<%} %>
 			</ul>
 		</div>
@@ -396,7 +413,7 @@ input[type=button].decline {
 					String[] friendsData = user.getFriendsPortfoliosString();
 					for (int i = 0; i < friendsData.length; i+=4) {
 						String userName = friendsData[i];
-						String portfolio = friendsData[i+1]; 
+						String portfolio = friendsData[i+1];
 						double glp = Double.parseDouble(friendsData[i+2]);
 						String isYours = friendsData[i+3];
 						String gainColor = "green";
