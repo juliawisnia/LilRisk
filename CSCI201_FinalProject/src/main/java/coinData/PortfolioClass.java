@@ -419,7 +419,7 @@ public class PortfolioClass {
 			ret += "[0";
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-overAll.size() >= 0) {
-					ret += "," + (int)Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen());
+					ret += "," + twoDecimals(Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getOpen()));
 				}
 				else {
 					ret += "," + 0;
@@ -431,7 +431,7 @@ public class PortfolioClass {
 			ret += ",[" + j;
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size())+j >= 0) {
-					ret += "," + (int)Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen());
+					ret += "," + twoDecimals(Double.parseDouble(coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getOpen()));
 				}
 				else {
 					ret += "," + 0;
@@ -442,6 +442,10 @@ public class PortfolioClass {
 		ret += "]";
 		returnString[returnString.length - 1] = ret;
 		return returnString;
+	}
+	
+	private double twoDecimals(double value) {
+		return Math.floor(value*100)/100;
 	}
 	
 	public Position getPosition(String position) {
@@ -463,7 +467,7 @@ public class PortfolioClass {
 			ret += "[0";
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size()) >= 0) {
-					ret += "," + (int)coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getValue();
+					ret += "," + twoDecimals(coinData.get(i).get(coinData.get(i).size()-(overAll.size())).getValue());
 				}
 				else {
 					ret += "," + 0;
@@ -475,7 +479,7 @@ public class PortfolioClass {
 			ret += ",[" + j;
 			for(int i = 0; i < coinData.size(); i++) {
 				if(coinData.get(i).size()-(overAll.size())+j >=0) {
-					ret += "," + (int)coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getValue();
+					ret += "," + twoDecimals(coinData.get(i).get(coinData.get(i).size()-(overAll.size())+j).getValue());
 				}
 				else {
 					ret += "," + 0; 

@@ -679,7 +679,7 @@ public class UserClass {
 			ret += "[0";
 			for(int i = 0; i < ports.size(); i++) {
 				if(ports.get(i).size()-longest == 0) {
-					ret += "," + (int) ports.get(i).get(0).getValue();
+					ret += "," + twoDecimals(ports.get(i).get(0).getValue());
 				}
 				else {
 					ret += "," + 0;
@@ -698,7 +698,7 @@ public class UserClass {
 			for(int i = 0; i < ports.size(); i++) {
 				int size = longest-ports.get(i).size();
 				if(j >= size) {
-					ret += "," + (int) ports.get(i).get(j-size).getValue();
+					ret += "," + twoDecimals(ports.get(i).get(j-size).getValue());
 				}
 				else {
 					ret += "," + 0;
@@ -709,6 +709,10 @@ public class UserClass {
 		ret += "]";
 		data[portfolios.size()*2] = ret;
 		return data;
+	}
+	
+	private double twoDecimals(double value) {
+		return Math.floor(value*100)/100;
 	}
 	
 	
