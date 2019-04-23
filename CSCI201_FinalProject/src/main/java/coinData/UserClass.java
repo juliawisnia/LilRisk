@@ -126,7 +126,7 @@ public class UserClass {
 				getUsernames = conn.prepareStatement("SELECT * FROM User WHERE userID = ?");
 				getUsernames.setInt(1, temp);
 				usernames = getUsernames.executeQuery();
-				if(usernames.next()) {
+				while(usernames.next()) {
 					usernameArray.add(usernames.getString("username"));
 					userArray.add(temp);
 				}
