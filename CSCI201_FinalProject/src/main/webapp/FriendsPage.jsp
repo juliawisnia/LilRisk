@@ -233,7 +233,7 @@ button:focus {
 
 
 .friends-container {
-	max-height: 400px;
+	max-height: 600px;
 	overflow-y: scroll;
 	margin-left: 5%;
 	margin-top: 10%;
@@ -409,12 +409,8 @@ input[type=button].decline {
 				</tr>
  				<%
 					String[] friendsData = user.getFriendsPortfoliosString();
-					for (int i = 0; i < friendsData.length; i++) {
-						if (friendsData[i] == null) {
-							System.out.println("null"); continue;
-						}
-/* 						System.out.println(friendsData[i]);
-						/* /* String userName = friendsData[i];
+					for (int i = 0; i < friendsData.length; i+=4) {
+						String userName = friendsData[i];
 						String portfolio = friendsData[i+1];
 						double glp = Double.parseDouble(friendsData[i+2]);
 						String isYours = friendsData[i+3];
@@ -424,9 +420,8 @@ input[type=button].decline {
 							glp = Math.abs(glp);
 						}
 						String gp = Double.toString(glp) + "%"; 
-					} */
 				%>
-<%-- 				<tr><td><%=userName %></td><td><%=portfolio %></td><td style="color: <%=gainColor%>;"><%=gp %></td>	--%>	
+ 				<tr><td><%=userName %></td><td><%=portfolio %></td><td style="color: <%=gainColor%>;"><%=gp %></td></tr>
 				<%} %>  
 			</table>
 		</div>
